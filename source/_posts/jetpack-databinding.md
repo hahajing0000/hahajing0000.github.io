@@ -24,7 +24,9 @@ Jetpack 组件是库的集合，这些库是为协同工作而构建的，不过
 
 
 ****
-## Databinding
+# Databinding
+
+## 概念解释
 
 参考链接：https://developer.android.google.cn/topic/libraries/data-binding/
 
@@ -47,10 +49,12 @@ textView.setText(User.getUserName());
 带来的好处是其维护起来更简单、方便。还可以提高应用性能，并且有助于防止内存泄漏以及避免空指针异常。
 ****
 ###一个小Demo演示Databinding使用过程
-第一步 在工程build.gradle文件中开启databinding，如:
+####第一步 开启databinding
+在工程build.gradle文件中开启databinding，如:
 <img src="jetpack-databinding/2019-07-02-19-58-28.png" />
 ****
-第二步 新建实体bean类，如：
+#### 第二步 新建实体bean类\业务实体类
+新建实体bean类，如：
 ```java
 package com.baweigame.databindingapplication;
 
@@ -157,7 +161,8 @@ set方法上手动调用notifyPropertyChanged通知数据更新，注意：参�
     }
 ```
 ****
-第三步 新建layout布局并设置绑定关系
+#### 第三步 新建布局文件 
+新建layout布局并设置绑定关系
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -228,6 +233,7 @@ variable还有另一种写法如：
 ```java
 @{String.valueOf(Student.age)}
 ```
+##### 表达式
 即可以嵌入表达式，可以在表达式语言中使用以下运算符和关键字：
 
 1. 基本运算 + - / * %
@@ -270,7 +276,8 @@ public ObservableField<String> name=new ObservableField<>();
     }
 ```
 ****
-最后就是MainActivity中的setContentView处理，我们之前设置内容视图方法都是使用setContentView，在Databinding中我们需要如下设置方法：
+#### 最后 设置Activity content
+就是MainActivity中的setContentView处理，我们之前设置内容视图方法都是使用setContentView，在Databinding中我们需要如下设置方法：
 ```java
  ActivityMainBinding dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 //        studentBean.name.set("小明");
