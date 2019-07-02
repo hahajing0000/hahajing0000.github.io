@@ -5,6 +5,9 @@ tags: [Jetpack,Databinding]
 categories: Jetpack
 toc: true
 ---
+jetpack databinding
+**数据绑定库**是一种支持库，借助该库，您可以使用声明性格式（而非程序化地）将布局中的界面组件绑定到应用中的数据源。
+<!-- more -->
 
 jetpack官网地址：https://developer.android.google.cn/jetpack/
 

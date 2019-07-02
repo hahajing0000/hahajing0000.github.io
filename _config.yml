@@ -82,3 +82,6 @@ deploy:
   repository: git@github.com:hahajing0000/hahajing0000.github.io.git
   branch: master
 
+leancloud: 
+   app_id: 0KlAt3xallRhjOJMctQ9qURr-gzGzoHsz
+   app_key: hcMgWwpE6UOBDnHaEUV9wPcs
