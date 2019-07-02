@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://hahajing0000.github.io/"/>
-  <updated>2019-07-02T04:08:37.528Z</updated>
+  <updated>2019-07-02T05:08:30.565Z</updated>
   <id>http://hahajing0000.github.io/</id>
   
   <author>
@@ -17,22 +17,24 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Jetpack系列之LiveData</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-livedata/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/jetpack-livedata/</id>
+    <title>Android 组件化开发</title>
+    <link href="http://hahajing0000.github.io/2019/07/02/Componentization/"/>
+    <id>http://hahajing0000.github.io/2019/07/02/Componentization/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:37.528Z</updated>
+    <updated>2019-07-02T05:08:30.565Z</updated>
     
     <summary type="html">
     
     </summary>
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/categories/Jetpack/"/>
+      <category term="架构" scheme="http://hahajing0000.github.io/categories/%E6%9E%B6%E6%9E%84/"/>
     
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
+      <category term="Android" scheme="http://hahajing0000.github.io/tags/Android/"/>
     
-      <category term="LiveData" scheme="http://hahajing0000.github.io/tags/LiveData/"/>
+      <category term="组件化" scheme="http://hahajing0000.github.io/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+    
+      <category term="架构" scheme="http://hahajing0000.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
     
   </entry>
   
@@ -57,11 +59,11 @@
   </entry>
   
   <entry>
-    <title>Jetpack系列之Room</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-room/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/jetpack-room/</id>
+    <title>Jetpack系列之LiveData</title>
+    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-livedata/"/>
+    <id>http://hahajing0000.github.io/2019/07/02/jetpack-livedata/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:26.492Z</updated>
+    <updated>2019-07-02T04:08:37.528Z</updated>
     
     <summary type="html">
     
@@ -72,7 +74,7 @@
     
       <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
     
-      <category term="Room" scheme="http://hahajing0000.github.io/tags/Room/"/>
+      <category term="LiveData" scheme="http://hahajing0000.github.io/tags/LiveData/"/>
     
   </entry>
   
@@ -97,24 +99,22 @@
   </entry>
   
   <entry>
-    <title>Android 组件化开发</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/Componentization/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/Componentization/</id>
+    <title>Jetpack系列之Room</title>
+    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-room/"/>
+    <id>http://hahajing0000.github.io/2019/07/02/jetpack-room/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T05:08:30.565Z</updated>
+    <updated>2019-07-02T04:08:26.492Z</updated>
     
     <summary type="html">
     
     </summary>
     
-      <category term="架构" scheme="http://hahajing0000.github.io/categories/%E6%9E%B6%E6%9E%84/"/>
+      <category term="Jetpack" scheme="http://hahajing0000.github.io/categories/Jetpack/"/>
     
     
-      <category term="架构" scheme="http://hahajing0000.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
+      <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
     
-      <category term="Android" scheme="http://hahajing0000.github.io/tags/Android/"/>
-    
-      <category term="组件化" scheme="http://hahajing0000.github.io/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+      <category term="Room" scheme="http://hahajing0000.github.io/tags/Room/"/>
     
   </entry>
   

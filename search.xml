@@ -4,25 +4,27 @@
   
     
     <entry>
-      <title>Jetpack系列之LiveData</title>
-      <link href="/2019/07/02/jetpack-livedata/"/>
-      <url>/2019/07/02/jetpack-livedata/</url>
+      <title>Android 组件化开发</title>
+      <link href="/2019/07/02/Componentization/"/>
+      <url>/2019/07/02/Componentization/</url>
       
         <content type="html"><![CDATA[]]></content>
       
       
       <categories>
           
-          <category> Jetpack </category>
+          <category> 架构 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Jetpack </tag>
+            <tag> Android </tag>
             
-            <tag> LiveData </tag>
+            <tag> 组件化 </tag>
+            
+            <tag> 架构 </tag>
             
         </tags>
       
@@ -58,9 +60,9 @@
     
     
     <entry>
-      <title>Jetpack系列之Room</title>
-      <link href="/2019/07/02/jetpack-room/"/>
-      <url>/2019/07/02/jetpack-room/</url>
+      <title>Jetpack系列之LiveData</title>
+      <link href="/2019/07/02/jetpack-livedata/"/>
+      <url>/2019/07/02/jetpack-livedata/</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -76,7 +78,7 @@
             
             <tag> Jetpack </tag>
             
-            <tag> Room </tag>
+            <tag> LiveData </tag>
             
         </tags>
       
@@ -112,27 +114,25 @@
     
     
     <entry>
-      <title>Android 组件化开发</title>
-      <link href="/2019/07/02/Componentization/"/>
-      <url>/2019/07/02/Componentization/</url>
+      <title>Jetpack系列之Room</title>
+      <link href="/2019/07/02/jetpack-room/"/>
+      <url>/2019/07/02/jetpack-room/</url>
       
         <content type="html"><![CDATA[]]></content>
       
       
       <categories>
           
-          <category> 架构 </category>
+          <category> Jetpack </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 架构 </tag>
+            <tag> Jetpack </tag>
             
-            <tag> Android </tag>
-            
-            <tag> 组件化 </tag>
+            <tag> Room </tag>
             
         </tags>
       
