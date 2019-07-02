@@ -39,11 +39,11 @@
   </entry>
   
   <entry>
-    <title>Jetpack系列之LiveData</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-livedata/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/jetpack-livedata/</id>
+    <title>Jetpack系列之Room</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-room/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-room/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:37.528Z</updated>
+    <updated>2019-07-02T04:08:26.492Z</updated>
     
     <summary type="html">
     
@@ -54,7 +54,7 @@
     
       <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="LiveData" scheme="http://www.zydeveloper.com/tags/LiveData/"/>
+      <category term="Room" scheme="http://www.zydeveloper.com/tags/Room/"/>
     
   </entry>
   
@@ -99,11 +99,11 @@
   </entry>
   
   <entry>
-    <title>Jetpack系列之Room</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-room/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/jetpack-room/</id>
+    <title>Jetpack系列之LiveData</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-livedata/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-livedata/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:26.492Z</updated>
+    <updated>2019-07-02T04:08:37.528Z</updated>
     
     <summary type="html">
     
@@ -114,7 +114,7 @@
     
       <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="Room" scheme="http://www.zydeveloper.com/tags/Room/"/>
+      <category term="LiveData" scheme="http://www.zydeveloper.com/tags/LiveData/"/>
     
   </entry>
   

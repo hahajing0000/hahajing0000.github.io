@@ -33,9 +33,9 @@
     
     
     <entry>
-      <title>Jetpack系列之LiveData</title>
-      <link href="/2019/07/02/jetpack-livedata/"/>
-      <url>/2019/07/02/jetpack-livedata/</url>
+      <title>Jetpack系列之Room</title>
+      <link href="/2019/07/02/jetpack-room/"/>
+      <url>/2019/07/02/jetpack-room/</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -51,7 +51,7 @@
             
             <tag> Jetpack </tag>
             
-            <tag> LiveData </tag>
+            <tag> Room </tag>
             
         </tags>
       
@@ -114,9 +114,9 @@
     
     
     <entry>
-      <title>Jetpack系列之Room</title>
-      <link href="/2019/07/02/jetpack-room/"/>
-      <url>/2019/07/02/jetpack-room/</url>
+      <title>Jetpack系列之LiveData</title>
+      <link href="/2019/07/02/jetpack-livedata/"/>
+      <url>/2019/07/02/jetpack-livedata/</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -132,7 +132,7 @@
             
             <tag> Jetpack </tag>
             
-            <tag> Room </tag>
+            <tag> LiveData </tag>
             
         </tags>
       
