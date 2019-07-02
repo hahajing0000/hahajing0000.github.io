@@ -4,25 +4,27 @@
   
     
     <entry>
-      <title>Jetpack系列之Lifecycles</title>
-      <link href="/2019/07/02/jetpack-lifecycles/"/>
-      <url>/2019/07/02/jetpack-lifecycles/</url>
+      <title>Android 组件化开发</title>
+      <link href="/2019/07/02/Componentization/"/>
+      <url>/2019/07/02/Componentization/</url>
       
         <content type="html"><![CDATA[]]></content>
       
       
       <categories>
           
-          <category> Jetpack </category>
+          <category> 架构 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Jetpack </tag>
+            <tag> Android </tag>
             
-            <tag> Lifecycles </tag>
+            <tag> 组件化 </tag>
+            
+            <tag> 架构 </tag>
             
         </tags>
       
@@ -58,6 +60,33 @@
     
     
     <entry>
+      <title>Jetpack系列之Lifecycles</title>
+      <link href="/2019/07/02/jetpack-lifecycles/"/>
+      <url>/2019/07/02/jetpack-lifecycles/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> Jetpack </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Jetpack </tag>
+            
+            <tag> Lifecycles </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Jetpack系列之Room</title>
       <link href="/2019/07/02/jetpack-room/"/>
       <url>/2019/07/02/jetpack-room/</url>
@@ -77,35 +106,6 @@
             <tag> Jetpack </tag>
             
             <tag> Room </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Android 组件化开发</title>
-      <link href="/2019/07/02/Componentization/"/>
-      <url>/2019/07/02/Componentization/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> 架构 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Android </tag>
-            
-            <tag> 组件化 </tag>
-            
-            <tag> 架构 </tag>
             
         </tags>
       
