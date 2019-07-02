@@ -48,8 +48,8 @@ textView.setText(User.getUserName());
 我们发现Databinding方式并没有使用java代码就实现了控件查找并设置Text属性值。
 带来的好处是其维护起来更简单、方便。还可以提高应用性能，并且有助于防止内存泄漏以及避免空指针异常。
 ****
-###一个小Demo演示Databinding使用过程
-####第一步 开启databinding
+### Demo演示Databinding使用过程
+#### 第一步 开启databinding
 在工程build.gradle文件中开启databinding，如:
 <img src="jetpack-databinding/2019-07-02-19-58-28.png" />
 ****
