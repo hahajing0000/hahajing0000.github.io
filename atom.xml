@@ -59,6 +59,26 @@
   </entry>
   
   <entry>
+    <title>Jetpack系列之LiveData</title>
+    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-livedata/"/>
+    <id>http://hahajing0000.github.io/2019/07/02/jetpack-livedata/</id>
+    <published>2019-07-01T16:00:00.000Z</published>
+    <updated>2019-07-02T04:08:37.528Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Jetpack" scheme="http://hahajing0000.github.io/categories/Jetpack/"/>
+    
+    
+      <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
+    
+      <category term="LiveData" scheme="http://hahajing0000.github.io/tags/LiveData/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Jetpack系列之Lifecycles</title>
     <link href="http://hahajing0000.github.io/2019/07/02/jetpack-lifecycles/"/>
     <id>http://hahajing0000.github.io/2019/07/02/jetpack-lifecycles/</id>
@@ -95,26 +115,6 @@
       <category term="架构" scheme="http://hahajing0000.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
     
       <category term="Mvvm" scheme="http://hahajing0000.github.io/tags/Mvvm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jetpack系列之LiveData</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-livedata/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/jetpack-livedata/</id>
-    <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:37.528Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/categories/Jetpack/"/>
-    
-    
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
-    
-      <category term="LiveData" scheme="http://hahajing0000.github.io/tags/LiveData/"/>
     
   </entry>
   
