@@ -5,7 +5,6 @@ tags: [Jetpack,Databinding]
 categories: Jetpack
 toc: true
 ---
-# Jetpack系列之 Databinding
 
 jetpack官网地址：https://developer.android.google.cn/jetpack/
 
