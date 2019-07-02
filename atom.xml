@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://hahajing0000.github.io/"/>
+  <link href="http://www.zydeveloper.com/"/>
   <updated>2019-07-02T05:08:30.565Z</updated>
-  <id>http://hahajing0000.github.io/</id>
+  <id>http://www.zydeveloper.com/</id>
   
   <author>
     <name>Zhangyue</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Android 组件化开发</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/Componentization/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/Componentization/</id>
+    <link href="http://www.zydeveloper.com/2019/07/02/Componentization/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/Componentization/</id>
     <published>2019-07-01T16:00:00.000Z</published>
     <updated>2019-07-02T05:08:30.565Z</updated>
     
@@ -27,21 +27,21 @@
     
     </summary>
     
-      <category term="架构" scheme="http://hahajing0000.github.io/categories/%E6%9E%B6%E6%9E%84/"/>
+      <category term="架构" scheme="http://www.zydeveloper.com/categories/%E6%9E%B6%E6%9E%84/"/>
     
     
-      <category term="Android" scheme="http://hahajing0000.github.io/tags/Android/"/>
+      <category term="Android" scheme="http://www.zydeveloper.com/tags/Android/"/>
     
-      <category term="组件化" scheme="http://hahajing0000.github.io/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+      <category term="组件化" scheme="http://www.zydeveloper.com/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
     
-      <category term="架构" scheme="http://hahajing0000.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
+      <category term="架构" scheme="http://www.zydeveloper.com/tags/%E6%9E%B6%E6%9E%84/"/>
     
   </entry>
   
   <entry>
     <title>Jetpack系列之Lifecycles</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-lifecycles/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/jetpack-lifecycles/</id>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/</id>
     <published>2019-07-01T16:00:00.000Z</published>
     <updated>2019-07-02T04:08:44.788Z</updated>
     
@@ -49,19 +49,19 @@
     
     </summary>
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/categories/Jetpack/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/categories/Jetpack/"/>
     
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="Lifecycles" scheme="http://hahajing0000.github.io/tags/Lifecycles/"/>
+      <category term="Lifecycles" scheme="http://www.zydeveloper.com/tags/Lifecycles/"/>
     
   </entry>
   
   <entry>
     <title>Jetpack系列之LiveData</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-livedata/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/jetpack-livedata/</id>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-livedata/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-livedata/</id>
     <published>2019-07-01T16:00:00.000Z</published>
     <updated>2019-07-02T04:08:37.528Z</updated>
     
@@ -69,19 +69,19 @@
     
     </summary>
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/categories/Jetpack/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/categories/Jetpack/"/>
     
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="LiveData" scheme="http://hahajing0000.github.io/tags/LiveData/"/>
+      <category term="LiveData" scheme="http://www.zydeveloper.com/tags/LiveData/"/>
     
   </entry>
   
   <entry>
     <title>Mvvm架构</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/mvvm/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/mvvm/</id>
+    <link href="http://www.zydeveloper.com/2019/07/02/mvvm/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/mvvm/</id>
     <published>2019-07-01T16:00:00.000Z</published>
     <updated>2019-07-02T05:05:14.461Z</updated>
     
@@ -89,19 +89,19 @@
     
     </summary>
     
-      <category term="架构" scheme="http://hahajing0000.github.io/categories/%E6%9E%B6%E6%9E%84/"/>
+      <category term="架构" scheme="http://www.zydeveloper.com/categories/%E6%9E%B6%E6%9E%84/"/>
     
     
-      <category term="架构" scheme="http://hahajing0000.github.io/tags/%E6%9E%B6%E6%9E%84/"/>
+      <category term="架构" scheme="http://www.zydeveloper.com/tags/%E6%9E%B6%E6%9E%84/"/>
     
-      <category term="Mvvm" scheme="http://hahajing0000.github.io/tags/Mvvm/"/>
+      <category term="Mvvm" scheme="http://www.zydeveloper.com/tags/Mvvm/"/>
     
   </entry>
   
   <entry>
     <title>Jetpack系列之Room</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-room/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/jetpack-room/</id>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-room/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-room/</id>
     <published>2019-07-01T16:00:00.000Z</published>
     <updated>2019-07-02T04:08:26.492Z</updated>
     
@@ -109,19 +109,19 @@
     
     </summary>
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/categories/Jetpack/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/categories/Jetpack/"/>
     
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="Room" scheme="http://hahajing0000.github.io/tags/Room/"/>
+      <category term="Room" scheme="http://www.zydeveloper.com/tags/Room/"/>
     
   </entry>
   
   <entry>
     <title>Jetpack系列之Databinding</title>
-    <link href="http://hahajing0000.github.io/2019/07/02/jetpack-databinding/"/>
-    <id>http://hahajing0000.github.io/2019/07/02/jetpack-databinding/</id>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-databinding/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-databinding/</id>
     <published>2019-07-01T16:00:00.000Z</published>
     <updated>2019-07-02T14:33:35.645Z</updated>
     
@@ -133,12 +133,12 @@
     
     </summary>
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/categories/Jetpack/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/categories/Jetpack/"/>
     
     
-      <category term="Jetpack" scheme="http://hahajing0000.github.io/tags/Jetpack/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="Databinding" scheme="http://hahajing0000.github.io/tags/Databinding/"/>
+      <category term="Databinding" scheme="http://www.zydeveloper.com/tags/Databinding/"/>
     
   </entry>
   
