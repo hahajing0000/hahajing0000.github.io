@@ -39,26 +39,6 @@
   </entry>
   
   <entry>
-    <title>Jetpack系列之Lifecycles</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/</id>
-    <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:44.788Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Jetpack" scheme="http://www.zydeveloper.com/categories/Jetpack/"/>
-    
-    
-      <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
-    
-      <category term="Lifecycles" scheme="http://www.zydeveloper.com/tags/Lifecycles/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Jetpack系列之LiveData</title>
     <link href="http://www.zydeveloper.com/2019/07/02/jetpack-livedata/"/>
     <id>http://www.zydeveloper.com/2019/07/02/jetpack-livedata/</id>
@@ -75,6 +55,26 @@
       <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
       <category term="LiveData" scheme="http://www.zydeveloper.com/tags/LiveData/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jetpack系列之Lifecycles</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/</id>
+    <published>2019-07-01T16:00:00.000Z</published>
+    <updated>2019-07-02T04:08:44.788Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/categories/Jetpack/"/>
+    
+    
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
+    
+      <category term="Lifecycles" scheme="http://www.zydeveloper.com/tags/Lifecycles/"/>
     
   </entry>
   

@@ -33,33 +33,6 @@
     
     
     <entry>
-      <title>Jetpack系列之Lifecycles</title>
-      <link href="/2019/07/02/jetpack-lifecycles/"/>
-      <url>/2019/07/02/jetpack-lifecycles/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> Jetpack </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Jetpack </tag>
-            
-            <tag> Lifecycles </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Jetpack系列之LiveData</title>
       <link href="/2019/07/02/jetpack-livedata/"/>
       <url>/2019/07/02/jetpack-livedata/</url>
@@ -79,6 +52,33 @@
             <tag> Jetpack </tag>
             
             <tag> LiveData </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Jetpack系列之Lifecycles</title>
+      <link href="/2019/07/02/jetpack-lifecycles/"/>
+      <url>/2019/07/02/jetpack-lifecycles/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> Jetpack </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Jetpack </tag>
+            
+            <tag> Lifecycles </tag>
             
         </tags>
       
