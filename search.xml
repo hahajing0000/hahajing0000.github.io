@@ -33,33 +33,6 @@
     
     
     <entry>
-      <title>Jetpack系列之Room</title>
-      <link href="/2019/07/02/jetpack-room/"/>
-      <url>/2019/07/02/jetpack-room/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> Jetpack </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Jetpack </tag>
-            
-            <tag> Room </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Jetpack系列之Lifecycles</title>
       <link href="/2019/07/02/jetpack-lifecycles/"/>
       <url>/2019/07/02/jetpack-lifecycles/</url>
@@ -87,25 +60,25 @@
     
     
     <entry>
-      <title>Mvvm架构</title>
-      <link href="/2019/07/02/mvvm/"/>
-      <url>/2019/07/02/mvvm/</url>
+      <title>Jetpack系列之Room</title>
+      <link href="/2019/07/02/jetpack-room/"/>
+      <url>/2019/07/02/jetpack-room/</url>
       
         <content type="html"><![CDATA[]]></content>
       
       
       <categories>
           
-          <category> 架构 </category>
+          <category> Jetpack </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 架构 </tag>
+            <tag> Jetpack </tag>
             
-            <tag> Mvvm </tag>
+            <tag> Room </tag>
             
         </tags>
       
@@ -133,6 +106,33 @@
             <tag> Jetpack </tag>
             
             <tag> LiveData </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mvvm架构</title>
+      <link href="/2019/07/02/mvvm/"/>
+      <url>/2019/07/02/mvvm/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 架构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 架构 </tag>
+            
+            <tag> Mvvm </tag>
             
         </tags>
       
