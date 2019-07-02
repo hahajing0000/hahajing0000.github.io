@@ -17,3 +17,8 @@ jetpack官网地址：https://developer.android.google.cn/jetpack/
 
 **Jetpack** 包含与平台 API 解除捆绑的 androidx.* 软件包库。这意味着，它可以提供向后兼容性，且比 Android 平台的更新频率更高，以此确保您始终可以获取最新且最好的 Jetpack 组件版本。
 {% asset_img jetpack-databinding/2019-07-02-09-51-59.png %}
+
+Jetpack 组件是ku的集合，这些库是为协同工作而构建的，不过也可以单独采用，同时利用 Kotlin 语言功能帮助您提高工作效率。可全部使用，也可混合搭配！
+
+{% asset_img jetpack-databinding/2019-07-02-10-29-17.png %}
+{% asset_img jetpack-databinding/2019-07-02-10-30-02.png %}
