@@ -298,5 +298,11 @@ ActivityMainBinding即自动生成的绑定类，我们看这个类生成的类�
 ```java
   MyStudent dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 ```
+如果是**Fragment、Listview、Recyclerview** 使用则，需要使用inflate()绑定类或者DataBindingUtil类方法：
+```java
+ListItemBinding binding = ListItemBinding.inflate(layoutInflater, viewGroup, false);
+或者
+ListItemBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, viewGroup, false);
+```
 ****
 如上即通过一个小Demo演示了DataBinding的具体使用方式。
