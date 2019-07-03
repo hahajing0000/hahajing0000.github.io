@@ -473,6 +473,9 @@
 <p>ActivityMainBinding即自动生成的绑定类，我们看这个类生成的类名是我们的layout名+Binding组成，即生成规则=layout名+Binding<br>当然你也可以自定义类名，方法如：<br><img src="/2019/07/02/jetpack-databinding/2019-07-02-21-27-13.png"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyStudent dataBinding = DataBindingUtil.setContentView(<span class="keyword">this</span>, R.layout.activity_main);</span><br></pre></td></tr></table></figure>
 
+<p>如果是<strong>Fragment、Listview、Recyclerview</strong> 使用则，需要使用inflate()绑定类或者DataBindingUtil类方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ListItemBinding binding = ListItemBinding.inflate(layoutInflater, viewGroup, <span class="keyword">false</span>);</span><br><span class="line">或者</span><br><span class="line">ListItemBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, viewGroup, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p>如上即通过一个小Demo演示了DataBinding的具体使用方式。</p>
 
@@ -486,10 +489,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-02T22:33:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-03T14:06:46+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>last updated at Jul 2, 2019</p>
+    <p>last updated at Jul 3, 2019</p>
   </a>
 </div>
 
