@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.zydeveloper.com/"/>
-  <updated>2019-07-02T04:08:37.528Z</updated>
+  <updated>2019-07-03T07:22:30.278Z</updated>
   <id>http://www.zydeveloper.com/</id>
   
   <author>
@@ -15,6 +15,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android 组件化开发</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/Componentization/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/Componentization/</id>
+    <published>2019-07-01T16:00:00.000Z</published>
+    <updated>2019-07-03T07:22:30.278Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>什么是组件化？</strong></p><p>组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。<br>组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。</p><p>————百度百科</p><a id="more"></a><p>本人对于组件化的理解为是一种架构思想，与传统项目（一般指模块化）相比各个业务组件相互隔离，使各个组件可以单独运行单独测试，使用“壳工程”将其组装到一起。这样带来的好处是业务模块单独开发维护降低耦合性，使项目可测试性及可维护性提升。</p><img src="/2019/07/02/Componentization/2019-07-03-15-15-40.png"><p><em>（该图片来源于互联网）</em></p><p>上图很形象的描述了组件化各层级的结构。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;什么是组件化？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。&lt;br&gt;组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。&lt;/p&gt;
+&lt;p&gt;————百度百科&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="架构" scheme="http://www.zydeveloper.com/categories/%E6%9E%B6%E6%9E%84/"/>
+    
+    
+      <category term="Android" scheme="http://www.zydeveloper.com/tags/Android/"/>
+    
+      <category term="组件化" scheme="http://www.zydeveloper.com/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+    
+      <category term="架构" scheme="http://www.zydeveloper.com/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mvvm架构</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/mvvm/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/mvvm/</id>
+    <published>2019-07-01T16:00:00.000Z</published>
+    <updated>2019-07-02T05:05:14.461Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="架构" scheme="http://www.zydeveloper.com/categories/%E6%9E%B6%E6%9E%84/"/>
+    
+    
+      <category term="架构" scheme="http://www.zydeveloper.com/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+      <category term="Mvvm" scheme="http://www.zydeveloper.com/tags/Mvvm/"/>
+    
+  </entry>
   
   <entry>
     <title>Jetpack系列之LiveData</title>
@@ -33,58 +81,6 @@
       <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
       <category term="LiveData" scheme="http://www.zydeveloper.com/tags/LiveData/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android 组件化开发</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/Componentization/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/Componentization/</id>
-    <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-03T07:18:42.578Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>什么是组件化？</strong></p><p>组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。<br>组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。</p><p>————百度百科</p><p>本人对于组件化的理解为是一种架构思想，与传统项目（一般指模块化）相比各个业务组件相互隔离，使各个组件可以单独运行单独测试，使用“壳工程”将其组装到一起。这样带来的好处是业务模块单独开发维护降低耦合性，使项目可测试性及可维护性提升。</p><img src="/2019/07/02/Componentization/2019-07-03-15-15-40.png"><p><em>（该图片来源于互联网）</em></p><p>上图很形象的描述了组件化各层级的结构。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;什么是组件化？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。&lt;br&gt;组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。&lt;/p&gt;
-&lt;p&gt;————百度百科&lt;/p&gt;
-&lt;p&gt;
-      
-    
-    </summary>
-    
-      <category term="架构" scheme="http://www.zydeveloper.com/categories/%E6%9E%B6%E6%9E%84/"/>
-    
-    
-      <category term="Android" scheme="http://www.zydeveloper.com/tags/Android/"/>
-    
-      <category term="组件化" scheme="http://www.zydeveloper.com/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
-    
-      <category term="架构" scheme="http://www.zydeveloper.com/tags/%E6%9E%B6%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jetpack系列之Lifecycles</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/</id>
-    <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:44.788Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Jetpack" scheme="http://www.zydeveloper.com/categories/Jetpack/"/>
-    
-    
-      <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
-    
-      <category term="Lifecycles" scheme="http://www.zydeveloper.com/tags/Lifecycles/"/>
     
   </entry>
   
@@ -109,22 +105,22 @@
   </entry>
   
   <entry>
-    <title>Mvvm架构</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/mvvm/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/mvvm/</id>
+    <title>Jetpack系列之Lifecycles</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T05:05:14.461Z</updated>
+    <updated>2019-07-02T04:08:44.788Z</updated>
     
     <summary type="html">
     
     </summary>
     
-      <category term="架构" scheme="http://www.zydeveloper.com/categories/%E6%9E%B6%E6%9E%84/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/categories/Jetpack/"/>
     
     
-      <category term="架构" scheme="http://www.zydeveloper.com/tags/%E6%9E%B6%E6%9E%84/"/>
+      <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="Mvvm" scheme="http://www.zydeveloper.com/tags/Mvvm/"/>
+      <category term="Lifecycles" scheme="http://www.zydeveloper.com/tags/Lifecycles/"/>
     
   </entry>
   
