@@ -33,33 +33,6 @@
     
     
     <entry>
-      <title>Jetpack系列之LiveData</title>
-      <link href="/2019/07/02/jetpack-livedata/"/>
-      <url>/2019/07/02/jetpack-livedata/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> Jetpack </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Jetpack </tag>
-            
-            <tag> LiveData </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Jetpack系列之Room</title>
       <link href="/2019/07/02/jetpack-room/"/>
       <url>/2019/07/02/jetpack-room/</url>
@@ -79,6 +52,33 @@
             <tag> Jetpack </tag>
             
             <tag> Room </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Jetpack系列之LiveData</title>
+      <link href="/2019/07/02/jetpack-livedata/"/>
+      <url>/2019/07/02/jetpack-livedata/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> Jetpack </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Jetpack </tag>
+            
+            <tag> LiveData </tag>
             
         </tags>
       
@@ -118,7 +118,7 @@
       <link href="/2019/07/02/mvvm/"/>
       <url>/2019/07/02/mvvm/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<a id="more"></a><p>Mvvm架构与Mvp架构相同的是同样分为三层，并且对应层的职责功能相同：</p><p>Model层——主要负责提供数据。Model层提供数据如：网络数据及本地数据库中提取的数据，及数据结构如实体bean类。</p><p>ViewModel层——同Mvp中P层，主要负责业务逻辑的处理。通过使用官方的Databinding组件进行View层的数据更新等。ViewModel层中不包含任何View层api，使用双向绑定对View层控件进行数据更新，同样不需要View层的引用。</p><p>View层——负责界面的显示，View层只管负责UI展示不涉及任何业务逻辑，持有ViewModel层的引用。</p><p>Mvvm与Mvp的最大区别在于ViewModel层中不持有View层的引用，这样可以解耦View层，即View层的修改不会影响ViewModel层，同样使代码可测试性增强。也同样给项目团队协作提供可能，这样负责UI开发的人员和负责开发业务功能的人员可以专心关注自己的工作。</p><p>Mvvm带来的好处还有减少了很多代码，比如：findViewById 和 操作UI的代码。</p><p><strong>举个栗子：</strong></p>]]></content>
       
       
       <categories>
