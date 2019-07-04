@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.zydeveloper.com/"/>
-  <updated>2019-07-03T07:22:30.278Z</updated>
+  <updated>2019-07-03T07:26:35.065Z</updated>
   <id>http://www.zydeveloper.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://www.zydeveloper.com/2019/07/02/Componentization/"/>
     <id>http://www.zydeveloper.com/2019/07/02/Componentization/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-03T07:22:30.278Z</updated>
+    <updated>2019-07-03T07:26:35.065Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>什么是组件化？</strong></p><p>组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。<br>组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。</p><p>————百度百科</p><a id="more"></a><p>本人对于组件化的理解为是一种架构思想，与传统项目（一般指模块化）相比各个业务组件相互隔离，使各个组件可以单独运行单独测试，使用“壳工程”将其组装到一起。这样带来的好处是业务模块单独开发维护降低耦合性，使项目可测试性及可维护性提升。</p><img src="/2019/07/02/Componentization/2019-07-03-15-15-40.png"><p><em>（该图片来源于互联网）</em></p><p>上图很形象的描述了组件化各层级的结构。</p>]]></content>
+    <content type="html"><![CDATA[<p><strong>什么是组件化？</strong></p><p>组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。<br>组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。</p><p>————百度百科</p><a id="more"></a><p>本人对于组件化的理解为是一种架构思想，与传统项目（一般指模块化）相比各个业务组件相互隔离，使各个组件可以单独运行单独测试，使用“壳工程”将其组装到一起。这样带来的好处是业务模块单独开发维护降低耦合性，使项目可测试性及可维护性提升。</p><img src="/2019/07/02/Componentization/2019-07-03-15-15-40.png"><p><em>（该图片来源于互联网）</em></p><p>上图很形象的描述了组件化各层级的结构。</p><p><strong>下面我们通过一个Demo来具体演示一下组件化该如何搭建？</strong></p>]]></content>
     
     <summary type="html">
     
@@ -45,33 +45,18 @@
   </entry>
   
   <entry>
-    <title>Mvvm架构</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/mvvm/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/mvvm/</id>
+    <title>Jetpack系列之Lifecycles</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T05:05:14.461Z</updated>
+    <updated>2019-07-04T00:28:38.290Z</updated>
+    
+    <content type="html"><![CDATA[<p>Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.</p><p>A common pattern is to implement the actions of the dependent components in the lifecycle methods of activities and fragments. However, this pattern leads to a poor organization of the code and to the proliferation of errors. By using lifecycle-aware components, you can move the code of dependent components out of the lifecycle methods and into the components themselves.</p><a id="more"></a><p>生命周期感知组件执行操作，以响应另一个组件生命周期状态的更改，例如Activity和Fragment。这些组件可以帮助您生成更有组织、更容易维护的轻量级代码。</p><p>一个常见的模式是在Activity和Fragment的生命周期方法中实现依赖组件的操作。但是，这种模式会导致代码错误的增加。通过使用生命周期感知组件，您可以将依赖组件的代码从生命周期方法转移到组件本身。</p><p>参考链接：<a href="https://developer.android.google.cn/topic/libraries/architecture/lifecycle" target="_blank" rel="noopener">https://developer.android.google.cn/topic/libraries/architecture/lifecycle</a></p>]]></content>
     
     <summary type="html">
     
-    </summary>
-    
-      <category term="架构" scheme="http://www.zydeveloper.com/categories/%E6%9E%B6%E6%9E%84/"/>
-    
-    
-      <category term="架构" scheme="http://www.zydeveloper.com/tags/%E6%9E%B6%E6%9E%84/"/>
-    
-      <category term="Mvvm" scheme="http://www.zydeveloper.com/tags/Mvvm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jetpack系列之LiveData</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-livedata/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/jetpack-livedata/</id>
-    <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:37.528Z</updated>
-    
-    <summary type="html">
+      &lt;p&gt;Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.&lt;/p&gt;
+&lt;p&gt;A common pattern is to implement the actions of the dependent components in the lifecycle methods of activities and fragments. However, this pattern leads to a poor organization of the code and to the proliferation of errors. By using lifecycle-aware components, you can move the code of dependent components out of the lifecycle methods and into the components themselves.&lt;/p&gt;
     
     </summary>
     
@@ -80,7 +65,7 @@
     
       <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="LiveData" scheme="http://www.zydeveloper.com/tags/LiveData/"/>
+      <category term="Lifecycles" scheme="http://www.zydeveloper.com/tags/Lifecycles/"/>
     
   </entry>
   
@@ -105,11 +90,11 @@
   </entry>
   
   <entry>
-    <title>Jetpack系列之Lifecycles</title>
-    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/"/>
-    <id>http://www.zydeveloper.com/2019/07/02/jetpack-lifecycles/</id>
+    <title>Jetpack系列之LiveData</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/jetpack-livedata/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/jetpack-livedata/</id>
     <published>2019-07-01T16:00:00.000Z</published>
-    <updated>2019-07-02T04:08:44.788Z</updated>
+    <updated>2019-07-02T04:08:37.528Z</updated>
     
     <summary type="html">
     
@@ -120,7 +105,27 @@
     
       <category term="Jetpack" scheme="http://www.zydeveloper.com/tags/Jetpack/"/>
     
-      <category term="Lifecycles" scheme="http://www.zydeveloper.com/tags/Lifecycles/"/>
+      <category term="LiveData" scheme="http://www.zydeveloper.com/tags/LiveData/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mvvm架构</title>
+    <link href="http://www.zydeveloper.com/2019/07/02/mvvm/"/>
+    <id>http://www.zydeveloper.com/2019/07/02/mvvm/</id>
+    <published>2019-07-01T16:00:00.000Z</published>
+    <updated>2019-07-02T05:05:14.461Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="架构" scheme="http://www.zydeveloper.com/categories/%E6%9E%B6%E6%9E%84/"/>
+    
+    
+      <category term="架构" scheme="http://www.zydeveloper.com/tags/%E6%9E%B6%E6%9E%84/"/>
+    
+      <category term="Mvvm" scheme="http://www.zydeveloper.com/tags/Mvvm/"/>
     
   </entry>
   
