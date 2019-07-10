@@ -174,7 +174,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="Search" />
+						<input type="text" class="input u-search-input" placeholder="搜索" />
 						<i class="icon fas fa-search fa-fw"></i>
 					</form>
 				</div>
@@ -409,9 +409,24 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(<span class="keyword">this</span>).get(MyViewModel.class).loadPersonData();</span><br></pre></td></tr></table></figure>
 
 <p>这样就实现了Fragment间的数据共享。</p>
+<hr>
 <p>ViewModelProviders 类提供了4个方法 of() 创建新的 ViewModelProvider 对象。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(Fragment)</span><br><span class="line">ViewModelProviders.of(FragmentActivity)</span><br><span class="line">ViewModelProviders.of(Fragment, Factory)</span><br><span class="line">ViewModelProviders.of(FragmentActivity, Factory)</span><br></pre></td></tr></table></figure>
 
+<p>我们发现方法中出现了一个Factory参数</p>
+<p>Factory 接口定义创建 ViewModel 的接口 create()。<br>public interface Factory {<br>    <t extends viewmodel> T create(@NonNull Class<t> modelClass);<br>}</t></t></p>
+<p>Android内置了2个 Factory 实现类，分别是：</p>
+<p>AndroidViewModelFactory 实现类，可以创建 ViewModel 和 AndroidViewModel 子类对象。<br>NewInstanceFactory 类，只可以创建 ViewModel 子类对象。</p>
+<p><strong>假设有种场景我们需要向ViewModel实现子类中传递参数该如何处理呢？</strong></p>
+<p>实现如上需求，如：</p>
+<p>原ViewModel实现类中加入有参构造如：<br><img src="/2019/07/09/jetpack-viewmodel/2019-07-10-10-12-43.png"></p>
+<p>我们可以使用新建Factory之类来进行参数传递，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.databindingjavademoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.ViewModel;</span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.ViewModelProvider;</span><br><span class="line"><span class="keyword">import</span> android.support.annotation.NonNull;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFactory</span> <span class="keyword">extends</span> <span class="title">ViewModelProvider</span>.<span class="title">NewInstanceFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String params;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyFactory</span><span class="params">(String _params)</span></span>&#123;</span><br><span class="line">        params=_params;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T extends ViewModel&gt; <span class="function">T <span class="title">create</span><span class="params">(@NonNull Class&lt;T&gt; modelClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (T) <span class="keyword">new</span> MyViewModel(params);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在activity中使用将原有代码修改为如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(<span class="keyword">this</span>,<span class="keyword">new</span> MyFactory(<span class="string">"我是参数"</span>)).get(MyViewModel.class).getPersonLiveData().observe(<span class="keyword">this</span>, <span class="keyword">new</span> Observer&lt;PersonBean&gt;() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable PersonBean personBean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>我们发现在of中加入了我们的自定义工厂子类并传递了参数。</p>
 
         </div>
         
@@ -423,10 +438,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-10T09:44:55+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-10T10:16:18+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>last updated at Jul 10, 2019</p>
+    <p>最后更新于 Jul 10, 2019</p>
   </a>
 </div>
 
@@ -499,18 +514,18 @@
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
-                            <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2019/07/02/jetpack-room/" rel="prev" title="Jetpack系列之Room">
+                                <a href="/2019/07/02/Componentization/" rel="prev" title="Android 组件化开发">
                                     
-                                        Jetpack系列之Room
+                                        Android 组件化开发
                                     
                                 </a>
                             </h4>
                             
                                 
                                 <h6 class="tags">
-                                    <a class="tag" href="/tags/Jetpack/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Jetpack</a> <a class="tag" href="/tags/Room/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Room</a>
+                                    <a class="tag" href="/tags/Android/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android</a> <a class="tag" href="/tags/组件化/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>组件化</a> <a class="tag" href="/tags/架构/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>架构</a>
                                 </h6>
                             
                         </span>
@@ -529,7 +544,7 @@
 
   <article class="post white-box comments">
     <section class="article typo">
-      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;Comments</h4>
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论</h4>
       
       
       
@@ -724,7 +739,7 @@
   <section class='widget category'>
     
 <header class='material'>
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
   
     <a class="rightBtn"
     
@@ -759,7 +774,7 @@
   <section class='widget tagcloud'>
     
 <header class='material'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Hot Tags</div>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
   
     <a class="rightBtn"
     
@@ -874,19 +889,19 @@
     </div>
   
   <br>
-  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
 </div>
   <div>
-    Use
+    本站使用
     <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
-    as theme
+    作为主题
     
-      , 
-      total visits
+      ，
+      总访问量为
       <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
-      times
+      次
     
-    . 
+    。
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
@@ -1022,15 +1037,15 @@
 <!-- 复制 -->
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
-  let COPY_SUCCESS = "Copied";
-  let COPY_FAILURE = "Copy failed";
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
   /*页面载入完成后，创建复制按钮*/
   !function (e, t, a) {
     /* code */
     var initCopyCode = function(){
       var copyHtml = '';
       copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-      copyHtml += '  <i class="fa fa-copy"></i><span>Copy</span>';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
       copyHtml += '</button>';
       $(".highlight .code pre").before(copyHtml);
       var clipboard = new ClipboardJS('.btn-copy', {
