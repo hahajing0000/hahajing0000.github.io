@@ -26,4 +26,146 @@ ViewModel对象的作用域是在获取ViewModel时传递给ViewModelProvider的
 参考：https://developer.android.google.cn/topic/libraries/architecture/viewmodel
 
 ---
-一个Demo来演示ViewModel使用
+##基本使用
+
+首先导依赖：
+implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+ViewModel类
+```java
+package com.baweigame.databindingjavademoapplication;
+
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+
+public class MyViewModel extends ViewModel {
+    private MutableLiveData<PersonBean> personLiveData=new MutableLiveData<>();
+
+    public MutableLiveData<PersonBean> getPersonLiveData() {
+        return personLiveData;
+    }
+
+    public void setPersonLiveData(MutableLiveData<PersonBean> personLiveData) {
+        this.personLiveData = personLiveData;
+    }
+
+    public void loadPersonData(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                personLiveData.postValue(new PersonBean("小明",20,"北京市海淀区"));
+            }
+        }).start();
+    }
+}
+
+```
+
+Activity中使用
+
+```java
+ViewModelProviders.of(this).get(MyViewModel.class).getPersonLiveData().observe(this, new Observer<PersonBean>() {
+            @Override
+            public void onChanged(@Nullable PersonBean personBean) {
+
+            }
+        });
+
+```
+然后，可在Activity中观察数据变化。
+
+Fragment中共享数据
+
+由于ViewModel的生命周期一直在内存中存在知道被销毁，所以可以在Fragment间传递数据，如：
+有两个Fragment
+
+Fragment1：
+```java
+        ViewModelProviders.of(getActivity()).get(MyViewModel.class).getPersonLiveData().observe(this, new Observer<PersonBean>() {
+            @Override
+            public void onChanged(@Nullable PersonBean personBean) {
+
+            }
+        });
+```
+
+Fragment2:
+```java
+   ViewModelProviders.of(getActivity()).get(MyViewModel.class).getPersonLiveData().observe(this, new Observer<PersonBean>() {
+            @Override
+            public void onChanged(@Nullable PersonBean personBean) {
+
+            }
+        });
+```
+
+Activity中更新数据：
+
+```java
+ViewModelProviders.of(this).get(MyViewModel.class).loadPersonData();
+```
+
+这样就实现了Fragment间的数据共享。
+
+---
+
+ViewModelProviders 类提供了4个方法 of() 创建新的 ViewModelProvider 对象。
+
+```java
+ViewModelProviders.of(Fragment)
+ViewModelProviders.of(FragmentActivity)
+ViewModelProviders.of(Fragment, Factory)
+ViewModelProviders.of(FragmentActivity, Factory)
+```
+我们发现方法中出现了一个Factory参数
+
+Factory 接口定义创建 ViewModel 的接口 create()。
+public interface Factory {
+    <T extends ViewModel> T create(@NonNull Class<T> modelClass);
+}
+
+Android内置了2个 Factory 实现类，分别是：
+
+AndroidViewModelFactory 实现类，可以创建 ViewModel 和 AndroidViewModel 子类对象。
+NewInstanceFactory 类，只可以创建 ViewModel 子类对象。
+
+**假设有种场景我们需要向ViewModel实现子类中传递参数该如何处理呢？**
+
+实现如上需求，如：
+
+原ViewModel实现类中加入有参构造如：
+<img src="jetpack-viewmodel/2019-07-10-10-12-43.png" />
+
+我们可以使用新建Factory之类来进行参数传递，如：
+```java
+package com.baweigame.databindingjavademoapplication;
+
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.support.annotation.NonNull;
+
+public class MyFactory extends ViewModelProvider.NewInstanceFactory {
+    private String params;
+    public MyFactory(String _params){
+        params=_params;
+    }
+
+    @NonNull
+    @Override
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+        return (T) new MyViewModel(params);
+    }
+}
+
+```
+然后在activity中使用将原有代码修改为如：
+```java
+ ViewModelProviders.of(this,new MyFactory("我是参数")).get(MyViewModel.class).getPersonLiveData().observe(this, new Observer<PersonBean>() {
+            @Override
+            public void onChanged(@Nullable PersonBean personBean) {
+
+            }
+        });
+```
+我们发现在of中加入了我们的自定义工厂子类并传递了参数。
+
