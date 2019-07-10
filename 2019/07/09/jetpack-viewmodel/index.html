@@ -388,7 +388,30 @@
 
 <p>参考：<a href="https://developer.android.google.cn/topic/libraries/architecture/viewmodel" target="_blank" rel="noopener">https://developer.android.google.cn/topic/libraries/architecture/viewmodel</a></p>
 <hr>
-<p>一个Demo来演示ViewModel使用</p>
+<p>##基本使用</p>
+<p>首先导依赖：<br>implementation ‘android.arch.lifecycle:extensions:1.1.1’</p>
+<p>ViewModel类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.databindingjavademoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.MutableLiveData;</span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.ViewModel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MutableLiveData&lt;PersonBean&gt; personLiveData=<span class="keyword">new</span> MutableLiveData&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MutableLiveData&lt;PersonBean&gt; <span class="title">getPersonLiveData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> personLiveData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPersonLiveData</span><span class="params">(MutableLiveData&lt;PersonBean&gt; personLiveData)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.personLiveData = personLiveData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadPersonData</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                personLiveData.postValue(<span class="keyword">new</span> PersonBean(<span class="string">"小明"</span>,<span class="number">20</span>,<span class="string">"北京市海淀区"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Activity中使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(<span class="keyword">this</span>).get(MyViewModel.class).getPersonLiveData().observe(<span class="keyword">this</span>, <span class="keyword">new</span> Observer&lt;PersonBean&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable PersonBean personBean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>然后，可在Activity中观察数据变化。</p>
+<p>Fragment中共享数据</p>
+<p>由于ViewModel的生命周期一直在内存中存在知道被销毁，所以可以在Fragment间传递数据，如：<br>有两个Fragment</p>
+<p>Fragment1：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(getActivity()).get(MyViewModel.class).getPersonLiveData().observe(<span class="keyword">this</span>, <span class="keyword">new</span> Observer&lt;PersonBean&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable PersonBean personBean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Fragment2:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(getActivity()).get(MyViewModel.class).getPersonLiveData().observe(<span class="keyword">this</span>, <span class="keyword">new</span> Observer&lt;PersonBean&gt;() &#123;</span><br><span class="line">         <span class="meta">@Override</span></span><br><span class="line">         <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable PersonBean personBean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Activity中更新数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(<span class="keyword">this</span>).get(MyViewModel.class).loadPersonData();</span><br></pre></td></tr></table></figure>
+
+<p>这样就实现了Fragment间的数据共享。</p>
+<p>ViewModelProviders 类提供了4个方法 of() 创建新的 ViewModelProvider 对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(Fragment)</span><br><span class="line">ViewModelProviders.of(FragmentActivity)</span><br><span class="line">ViewModelProviders.of(Fragment, Factory)</span><br><span class="line">ViewModelProviders.of(FragmentActivity, Factory)</span><br></pre></td></tr></table></figure>
+
 
         </div>
         
@@ -400,10 +423,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-09T19:31:20+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-10T09:44:55+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>last updated at Jul 9, 2019</p>
+    <p>last updated at Jul 10, 2019</p>
   </a>
 </div>
 
@@ -478,16 +501,16 @@
                         <span class="art-item-right" aria-hidden="true">
                             <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2019/07/02/Componentization/" rel="prev" title="Android 组件化开发">
+                                <a href="/2019/07/02/jetpack-room/" rel="prev" title="Jetpack系列之Room">
                                     
-                                        Android 组件化开发
+                                        Jetpack系列之Room
                                     
                                 </a>
                             </h4>
                             
                                 
                                 <h6 class="tags">
-                                    <a class="tag" href="/tags/Android/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android</a> <a class="tag" href="/tags/组件化/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>组件化</a> <a class="tag" href="/tags/架构/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>架构</a>
+                                    <a class="tag" href="/tags/Jetpack/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Jetpack</a> <a class="tag" href="/tags/Room/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Room</a>
                                 </h6>
                             
                         </span>
