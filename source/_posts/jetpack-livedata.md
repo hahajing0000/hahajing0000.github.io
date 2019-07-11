@@ -193,3 +193,31 @@ activity代码修改为
 运行程序我们发现两个观察者都弹出了吐丝。
 
 ---
+在将LiveData对象发送给观察者之前，您可能希望更改存储在LiveData对象中的值，或者您可能需要根据另一个LiveData实例的值返回另一个LiveData实例。
+
+官方给我们提供两种方法：
+
+**Transformations.map()**
+
+Demo:
+```java
+LiveData<User> userLiveData = ...;
+LiveData<String> userName = Transformations.map(userLiveData, user -> {
+    user.name + " " + user.lastName
+});
+```
+
+**Transformations.switchMap()**
+
+与map()类似，将函数应用于存储在LiveData对象中的值，并将结果解包并向下分派。传递给switchMap()的函数必须返回LiveData对象
+
+Demo:
+
+```java
+private LiveData<User> getUser(String id) {
+  ...;
+}
+
+LiveData<String> userId = ...;
+LiveData<User> user = Transformations.switchMap(userId, id -> getUser(id) );
+```
