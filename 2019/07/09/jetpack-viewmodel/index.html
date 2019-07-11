@@ -388,8 +388,7 @@
 
 <p>参考：<a href="https://developer.android.google.cn/topic/libraries/architecture/viewmodel" target="_blank" rel="noopener">https://developer.android.google.cn/topic/libraries/architecture/viewmodel</a></p>
 <hr>
-<p>##基本使用</p>
-<p>首先导依赖：<br>implementation ‘android.arch.lifecycle:extensions:1.1.1’</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>首先导依赖：<br>implementation ‘android.arch.lifecycle:extensions:1.1.1’</p>
 <p>ViewModel类</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.databindingjavademoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.MutableLiveData;</span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.ViewModel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MutableLiveData&lt;PersonBean&gt; personLiveData=<span class="keyword">new</span> MutableLiveData&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MutableLiveData&lt;PersonBean&gt; <span class="title">getPersonLiveData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> personLiveData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPersonLiveData</span><span class="params">(MutableLiveData&lt;PersonBean&gt; personLiveData)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.personLiveData = personLiveData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadPersonData</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                personLiveData.postValue(<span class="keyword">new</span> PersonBean(<span class="string">"小明"</span>,<span class="number">20</span>,<span class="string">"北京市海淀区"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -438,10 +437,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-10T10:16:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-11T14:44:41+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>last updated at Jul 10, 2019</p>
+    <p>last updated at Jul 11, 2019</p>
   </a>
 </div>
 
@@ -659,6 +658,20 @@
           
           
             
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;TOC</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本使用"><span class="toc-text">基本使用</span></a></li></ol>
+    </div>
+  </section>
+
 
           
         
