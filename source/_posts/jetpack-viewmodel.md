@@ -26,7 +26,7 @@ ViewModel对象的作用域是在获取ViewModel时传递给ViewModelProvider的
 参考：https://developer.android.google.cn/topic/libraries/architecture/viewmodel
 
 ---
-##基本使用
+## 基本使用
 
 首先导依赖：
 implementation 'android.arch.lifecycle:extensions:1.1.1'
