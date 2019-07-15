@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Category: 架构 | 哈哈镜的技术博客</title>
+  <title>Android 进程保活（一）写在前面 | 哈哈镜的技术博客</title>
   
   
 
@@ -46,7 +46,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover  half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>哈哈镜的技术博客</h1>
@@ -278,29 +278,12 @@
 
   <div class="l_body">
     <div class='body-wrapper'>
-      
-<div class='l_main'>
+      <div class='l_main'>
   
-    
-      
-  <section class="post-list">
-    
-      
-        
-          
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
+
   
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -309,11 +292,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2019/07/10/MVP/">
-      MVP架构
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2019/07/15/processlive1/">
+        Android 进程保活（一）写在前面
+      </a>
+    </h1>
+  
 
 
       
@@ -339,7 +324,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-10</p>
+    <p>2019-07-15</p>
   </a>
 </div>
 
@@ -349,9 +334,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/架构/' rel="nofollow">
+    <a href='/categories/Android进程保活/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>架构</p>
+      <p>Android进程保活</p>
     </a>
   </div>
 
@@ -360,6 +345,19 @@
         
           
             
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
 
           
         
@@ -376,257 +374,188 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/架构/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>架构</a>
-        
-          <a href="/tags/MVP/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>MVP</a>
-        
-      </div>
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p>进程保活对于作为Android开发的程序猿应该并不陌生，一些App对于进程保活有着很强烈的需求。比如一个IM类App对于信息接收就需要app进程一直存活才可以，否则对方好友发送了信息，如果app已经被干掉从而导致无法收到信息，这样的用户体验是很差的。用户很可能会直接卸载掉你的app，因为这样的app对于用户来说没什么使用价值。</p>
+<a id="more"></a>
+<p>我们都知道Android的App一般最少存在一个进程，或者多个进程。目前的主流App一般都会使用多进程的方案。多进程起到的作用可以增加进程存活的概率或者隔离危险代码（容易产生Crash）或者可以用来突破方法数65535的限制。</p>
+<p>##进程划分？<br>Android中的进程通常被划分了5级，我们按重要程度由高到低排列一下：</p>
+<p><strong>1、Foreground process——前台进程</strong><br>某个进程持有一个正在与用户交互的Activity并且该Activity正处于resume的状态。<br>某个进程持有一个Service，并且该Service与用户正在交互的Activity绑定。<br>某个进程持有一个Service，并且该Service调用startForeground()方法使之位于前台运行。<br>某个进程持有一个Service，并且该Service正在执行它的某个生命周期回调方法，比如onCreate()、 onStart()或onDestroy()。<br>某个进程持有一个BroadcastReceiver，并且该BroadcastReceiver正在执行其onReceive()方法。</p>
+<p><strong>2、Visible process——可见进程</strong><br>拥有不在前台、但仍对用户可见的 Activity（已调用 onPause()）。<br>拥有绑定到可见（或前台）Activity 的 Service</p>
+<p><strong>3、Service process——服务进程</strong><br>某个进程中运行着一个Service且该Service是通过startService()启动的，与用户看见的界面没有直接关联。</p>
+<p><strong>4、Background process——后台进程</strong><br>在用户按了”back”或者”home”后,程序本身看不到了,但是其实还在运行的程序，比如Activity调用了onPause方法</p>
+<p><strong>5、Empty process——空进程</strong><br>某个进程不包含任何活跃的组件时该进程就会被置为空进程，完全没用,杀了它只有好处没坏处。</p>
+<p>##什么是内存阀值？<br>我们知道Android的App退到后台时，系统并不会直接结束掉该app。而是将其缓存起来，当打开的app越来越多后导致内存不足，那么系统就开始结束不重要的进程从而释放其内存提供给优先级高的应用使用。<br>这套杀进程释放内存的机制，Android中被叫做Low Memory Killer。那么这个内存不足怎么来规定呢，我们知道不足一定有一个限定值，这个值就是<strong>内存阀值</strong>。<br>使用<em>cat /sys/module/lowmemorykiller/parameters/minfree</em>可以查看手机的内存阀值。</p>
+<p>内存不足时进程进行回收是按上面的重要程度有低到高进行回收。</p>
+<p>进程是有优先级的，adj来表示我们的优先级。<br>oom_adj的值越小，进程的优先级越高，普通进程oom_adj值是大于等于0的，而系统进程oom_adj的值是小于0的，我们可以通过cat /proc/进程id/oom_adj可以看到当前进程的adj值。<br><img src="/2019/07/15/processlive1/2019-07-15-11-46-55.png"><br>我们发现 设置 的进程优先级现在是10，我们现在没有启动 设置。下面我们来打开设置app并查看一下现在的优先级。<br><img src="/2019/07/15/processlive1/2019-07-15-11-48-52.png"><br>我们看当前 设置 的进程优先级已经变为了0。优先级有了提高。<br>oom_adj主要由一下几种，注意每个手机厂商可能不一样。<br><img src="/2019/07/15/processlive1/2019-07-15-11-50-58.png"></p>
+<p>从上面我们发现在系统内存紧张的情况下会优先杀时oom_adj值比较大的应用，反过来说我们将oom_adj的值变小也可以减少系统杀死我们应用的概率。</p>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/02/Componentization/">
-      Android 组件化开发
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-02</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/架构/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>架构</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p><strong>什么是组件化？</strong></p>
-<p>组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。<br>组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。</p>
-<p>————百度百科</p>
-      
-        <div class="readmore">
-          <a href="/2019/07/02/Componentization/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
         </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/组件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>组件化</a>
-        
-          <a href="/tags/架构/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>架构</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/02/mvvm/">
-      Mvvm架构
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
         
           
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
 
 
-          
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
         
-          
-            <div class="new-meta-item date">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-15T11:54:29+08:00">
   <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-02</p>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>last updated at Jul 15, 2019</p>
   </a>
 </div>
 
-          
+        
+      
         
           
-            
   
-  <div class='new-meta-item category'>
-    <a href='/categories/架构/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>架构</p>
-    </a>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>Android</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>进程保活</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/07/15/processlive1/&title=Android 进程保活（一）写在前面 | 哈哈镜的技术博客&summary=进程保活对于作为Android开发的程序猿应该并不陌生，一些App对于进程保活有着很强烈的需求。比如一个IM类App对于信息接收就需要app进程一直存活才可以，否则对方好友发送了信息，如果app已经被干掉从而导致无法收到信息，这样的用户体验是很差的。用户很可能会直接卸载掉你的app，因为这样的app对于用户来说没什么使用价值。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/07/15/processlive1/&title=Android 进程保活（一）写在前面 | 哈哈镜的技术博客&summary=进程保活对于作为Android开发的程序猿应该并不陌生，一些App对于进程保活有着很强烈的需求。比如一个IM类App对于信息接收就需要app进程一直存活才可以，否则对方好友发送了信息，如果app已经被干掉从而导致无法收到信息，这样的用户体验是很差的。用户很可能会直接卸载掉你的app，因为这样的app对于用户来说没什么使用价值。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/07/15/processlive1/&title=Android 进程保活（一）写在前面 | 哈哈镜的技术博客&summary=进程保活对于作为Android开发的程序猿应该并不陌生，一些App对于进程保活有着很强烈的需求。比如一个IM类App对于信息接收就需要app进程一直存活才可以，否则对方好友发送了信息，如果app已经被干掉从而导致无法收到信息，这样的用户体验是很差的。用户很可能会直接卸载掉你的app，因为这样的app对于用户来说没什么使用价值。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
   </div>
+</div>
 
 
-          
+
         
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
       
     </div>
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>MVVM是Model-View-ViewModel的简写。它本质上就是MVC 的改进版。MVVM 就是将其中的View 的状态和行为抽象化，让我们将视图 UI 和业务逻辑分开。当然这些事 ViewModel 已经帮我们做了，它可以取出 Model 的数据同时帮忙处理 View 中由于需要展示内容而涉及的业务逻辑。</p>
-<p>——百度百科</p>
-<hr>
-      
-        <div class="readmore">
-          <a href="/2019/07/02/mvvm/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
         
-          <a href="/tags/架构/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>架构</a>
         
-          <a href="/tags/Mvvm/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Mvvm</a>
+            <div class="prev-next">
+                
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
+                            <h4>
+                                <a href="/2019/07/15/hotupdate/" rel="prev" title="Android 热修复">
+                                  
+                                      Android 热修复
+                                  
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/Android/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android</a> <a class="tag" href="/tags/插件化/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>插件化</a> <a class="tag" href="/tags/热修复/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>热修复</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/2019/07/10/MVP/" rel="prev" title="MVP架构">
+                                    
+                                        MVP架构
+                                    
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/架构/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>架构</a> <a class="tag" href="/tags/MVP/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>MVP</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
+                
+            </div>
         
-      </div>
-    
-  </section>
-</article>
+      </section>
+    </article>
+  
 
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;Comments</h4>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
           </div>
-        
+        </section>
       
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+    </section>
+  </article>
+
 
   
 
 
-    
-  
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Android 进程保活（一）写在前面',
+      tools: true
+    }
+  </script>
+
 
 </div>
 <aside class='l_side'>
@@ -1049,6 +978,36 @@
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      <script src="https://cdn.jsdelivr.net/gh/xaoxuu/volantis@1.0/js/volantis.min.js"></script>
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'false' == true;
+  var verify = 'false' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "0KlAt3xallRhjOJMctQ9qURr-gzGzoHsz",
+    appKey: "hcMgWwpE6UOBDnHaEUV9wPcs",
+    placeholder: "来来帅哥美女聊聊吧~",
+    pageSize:'20',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'false'
+  })
+  </script>
 
 
 
