@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>哈哈镜的技术博客</title>
+  <title>进程保活（四）使用“前台服务”保活 | 哈哈镜的技术博客</title>
   
   
 
@@ -46,7 +46,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover  '>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>哈哈镜的技术博客</h1>
@@ -280,48 +280,10 @@
     <div class='body-wrapper'>
       <div class='l_main'>
   
-  <section class="post-list">
-    
-      
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
+
   
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -330,11 +292,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2019/07/16/processlive4/">
-      进程保活（四）使用“前台服务”保活
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2019/07/16/processlive4/">
+        进程保活（四）使用“前台服务”保活
+      </a>
+    </h1>
+  
 
 
       
@@ -381,6 +345,19 @@
         
           
             
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
 
           
         
@@ -397,997 +374,176 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>前台服务方式保活实际是利用了Android前台服务的一个漏洞。<br>即：<br>android api 在18之前的版本我们调用startForeground来提高应用程序的oom_adj值，在18版本后我们需要使用Service中启动一个InnerService两个服务同时startForeground并且绑定相同的ID，然后stop掉InnerService,这样做是将通知栏上的图标移除。</p>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p>前台服务方式保活实际是利用了Android前台服务的一个漏洞。<br>即：<br>android api 在18之前的版本我们调用startForeground来提高应用程序的oom_adj值，在18版本后我们需要使用Service中启动一个InnerService两个服务同时startForeground并且绑定相同的ID，然后stop掉InnerService,这样做是将通知栏上的图标移除。</p>
 <p>关于oom_adj可参考：</p>
 <p><a href="http://www.zydeveloper.com/2019/07/15/processlive1/">Android 进程保活（一）写在前面</a></p>
-      
-        <div class="readmore">
-          <a href="/2019/07/16/processlive4/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
+<a id="more"></a>
+
+<p><strong>用Demo来演示一下</strong></p>
+<p>首先创建一个Demo</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.mvvmdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Notification;</span><br><span class="line"><span class="keyword">import</span> android.app.NotificationManager;</span><br><span class="line"><span class="keyword">import</span> android.app.Service;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.os.Build;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.IBinder;</span><br><span class="line"><span class="keyword">import</span> android.support.annotation.RequiresApi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NOTIFICATION_ID=<span class="number">0x11</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">"Not yet implemented"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        <span class="comment">//API Version 18以下</span></span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt;Build.VERSION_CODES.JELLY_BEAN_MR2) &#123;</span><br><span class="line">            startForeground(NOTIFICATION_ID, <span class="keyword">new</span> Notification());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//API Version 18以上</span></span><br><span class="line">            Notification.Builder builder = <span class="keyword">new</span> Notification.Builder(<span class="keyword">this</span>);</span><br><span class="line">            builder.setSmallIcon(R.mipmap.ic_launcher);</span><br><span class="line">            startForeground(NOTIFICATION_ID, builder.build());</span><br><span class="line">            startService(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, InnerService.class));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span>  <span class="title">InnerService</span> <span class="keyword">extends</span> <span class="title">Service</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@RequiresApi</span>(api = Build.VERSION_CODES.JELLY_BEAN)</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.onCreate();</span><br><span class="line">            <span class="comment">//发送与上面服务中ID相同的Notification，然后将其取消并取消自己的前台显示</span></span><br><span class="line">            Notification.Builder builder = <span class="keyword">new</span> Notification.Builder(<span class="keyword">this</span>);</span><br><span class="line">            builder.setSmallIcon(R.mipmap.ic_launcher);</span><br><span class="line">            startForeground(NOTIFICATION_ID, builder.build());</span><br><span class="line">            <span class="keyword">new</span> Handler().postDelayed(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    stopForeground(<span class="keyword">true</span>);</span><br><span class="line">                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);</span><br><span class="line">                    manager.cancel(NOTIFICATION_ID);</span><br><span class="line">                    stopSelf();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在没有使用这个服务前我们看看oom_adj的值变化，首先直接启动App，我们看一下oom_adj的值，如：<br><img src="/2019/07/16/processlive4/2019-07-16-09-31-53.png"><br>我这里面进行了2次操作，分别为打开App 点击了Home键<br>我们发现打开App时我们的oom_adj值为0<br>点击Home键后我们的oom_adj的值为6</p>
+<p>下面我们开启上面的服务在来验证一下oom_adj值的变化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startService(<span class="keyword">new</span> Intent(<span class="keyword">this</span>,MyService.class));</span><br></pre></td></tr></table></figure>
+
+<img src="/2019/07/16/processlive4/2019-07-16-09-35-28.png">
+我们发现刚打开App时我们的oom_adj值是0，点击Home键后我们的oom_adj的值为1
+即使用这种方式确实提高了我们App的优先级提高了存活概率。
         </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>进程保活</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/16/processlive5/">
-      进程保活（五）JobSheduler进程重生
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
         
           
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
 
 
-          
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
         
-          
-            <div class="new-meta-item date">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-16T09:43:41+08:00">
   <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-16</p>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>last updated at Jul 16, 2019</p>
   </a>
 </div>
 
-          
+        
+      
         
           
-            
   
-  <div class='new-meta-item category'>
-    <a href='/categories/Android进程保活/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android进程保活</p>
-    </a>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>Android</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>进程保活</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/07/16/processlive4/&title=进程保活（四）使用“前台服务”保活 | 哈哈镜的技术博客&summary=前台服务方式保活实际是利用了Android前台服务的一个漏洞。即：android api 在18之前的版本我们调用startForeground来提高应用程序的oom_adj值，在18版本后我们需要使用Service中启动一个InnerService两个服务同时startForeground并且绑定相同的ID，然后stop掉InnerService,这样做是将通知栏上的图标移除。
+关于oom_adj可参考：
+Android 进程保活（一）写在前面"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/07/16/processlive4/&title=进程保活（四）使用“前台服务”保活 | 哈哈镜的技术博客&summary=前台服务方式保活实际是利用了Android前台服务的一个漏洞。即：android api 在18之前的版本我们调用startForeground来提高应用程序的oom_adj值，在18版本后我们需要使用Service中启动一个InnerService两个服务同时startForeground并且绑定相同的ID，然后stop掉InnerService,这样做是将通知栏上的图标移除。
+关于oom_adj可参考：
+Android 进程保活（一）写在前面"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/07/16/processlive4/&title=进程保活（四）使用“前台服务”保活 | 哈哈镜的技术博客&summary=前台服务方式保活实际是利用了Android前台服务的一个漏洞。即：android api 在18之前的版本我们调用startForeground来提高应用程序的oom_adj值，在18版本后我们需要使用Service中启动一个InnerService两个服务同时startForeground并且绑定相同的ID，然后stop掉InnerService,这样做是将通知栏上的图标移除。
+关于oom_adj可参考：
+Android 进程保活（一）写在前面"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
   </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>JobSheduler在android 5.0以上版本可用，所以该方案适合5.0以上的系统版本。</p>
-      
-        <div class="readmore">
-          <a href="/2019/07/16/processlive5/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>进程保活</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/15/processlive3/">
-      进程保活（三）1像素方案保活
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-15</p>
-  </a>
 </div>
 
-          
+
+
         
-          
-            
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/2019/07/16/processlive5/" rel="prev" title="进程保活（五）JobSheduler进程重生">
+                                    
+                                        进程保活（五）JobSheduler进程重生
+                                    
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/Android/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android</a> <a class="tag" href="/tags/进程保活/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>进程保活</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
   
-  <div class='new-meta-item category'>
-    <a href='/categories/Android进程保活/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android进程保活</p>
-    </a>
-  </div>
+
+  
+    <!-- 显示推荐文章和评论 -->
 
 
-          
-        
-          
-            
 
-          
-        
-          
-            
-
-          
-        
-      </div>
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;Comments</h4>
       
-        <hr>
       
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>1像素保活方案坊间流传是手机QQ的保活的方案。什么意思呢？就是我们在手机锁屏时开启一个Activity，为了不让用户有感知，让这个Activity大小为1像素并设置透明无切换动画。在开启屏幕时把这个Activity关掉。</p>
       
-        <div class="readmore">
-          <a href="/2019/07/15/processlive3/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
       
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>进程保活</a>
-        
-      </div>
-    
-  </section>
-</article>
-
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
           </div>
-        
+        </section>
       
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
+    </section>
+  </article>
+
+
   
 
 
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/15/hotupdate/">
-      Android 热修复
-    </a>
-  </h2>
 
 
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
 
 
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-15</p>
-  </a>
-</div>
 
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android插件化/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android插件化</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <img src="/2019/07/15/hotupdate/2019-07-15-18-06-52.png">
-      
-        <div class="readmore">
-          <a href="/2019/07/15/hotupdate/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
-        
-          <a href="/tags/热修复/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>热修复</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/15/processlive1/">
-      Android 进程保活（一）写在前面
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android进程保活/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android进程保活</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>进程保活对于作为Android开发的程序猿应该并不陌生，一些App对于进程保活有着很强烈的需求。比如一个IM类App对于信息接收就需要app进程一直存活才可以，否则对方好友发送了信息，如果app已经被干掉从而导致无法收到信息，这样的用户体验是很差的。用户很可能会直接卸载掉你的app，因为这样的app对于用户来说没什么使用价值。</p>
-      
-        <div class="readmore">
-          <a href="/2019/07/15/processlive1/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>进程保活</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/15/processlive2/">
-      Android 进程保活（二）双服务进程包活
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android进程保活/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android进程保活</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>1、双进程守护保活方案</p>
-      
-        <div class="readmore">
-          <a href="/2019/07/15/processlive2/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>进程保活</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/13/OKHttp/">
-      OKHttp使用
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-13</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android第三方框架/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android第三方框架</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/框架/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>框架</a>
-        
-          <a href="/tags/OKHttp/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>OKHttp</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/10/MVP/">
-      MVP架构
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-10</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/架构/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>架构</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/MVP/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>MVP</a>
-        
-          <a href="/tags/架构/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>架构</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/09/jetpack-viewmodel/">
-      Jetpack系列之ViewModel
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-09</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Jetpack/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Jetpack</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p><strong>ViewModel</strong>类旨在以生命周期的方式存储和管理ui相关的数据。ViewModel类允许数据在配置更改(如屏幕旋转)之后继续存活下来。</p>
-      
-        <div class="readmore">
-          <a href="/2019/07/09/jetpack-viewmodel/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
-        
-          <a href="/tags/ViewModel/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>ViewModel</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/02/jetpack-room/">
-      Jetpack系列之Room
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-02</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Jetpack/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Jetpack</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
-        
-          <a href="/tags/Room/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Room</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
-        <div class="prev-next">
-          
-          <p class="current">
-            1 / 2
-          </p>
-          
-            <a class="next" rel="next" href="/page/2/">
-              <section class="post next">
-                &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-              </section>
-            </a>
-          
-        </div>
-      </div>
-
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
+  <script>
+    window.subData = {
+      title: '进程保活（四）使用“前台服务”保活',
+      tools: true
+    }
+  </script>
 
 
 </div>
@@ -1813,6 +969,36 @@
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      <script src="https://cdn.jsdelivr.net/gh/xaoxuu/volantis@1.0/js/volantis.min.js"></script>
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'false' == true;
+  var verify = 'false' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "0KlAt3xallRhjOJMctQ9qURr-gzGzoHsz",
+    appKey: "hcMgWwpE6UOBDnHaEUV9wPcs",
+    placeholder: "来来帅哥美女聊聊吧~",
+    pageSize:'20',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'false'
+  })
+  </script>
 
 
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Jetpack系列之ViewModel | 哈哈镜的技术博客</title>
+  <title>进程保活（三）1像素方案保活 | 哈哈镜的技术博客</title>
   
   
 
@@ -294,8 +294,8 @@
         
   
     <h1 class="title">
-      <a href="/2019/07/09/jetpack-viewmodel/">
-        Jetpack系列之ViewModel
+      <a href="/2019/07/15/processlive3/">
+        进程保活（三）1像素方案保活
       </a>
     </h1>
   
@@ -324,7 +324,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-09</p>
+    <p>2019-07-15</p>
   </a>
 </div>
 
@@ -334,9 +334,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/Jetpack/' rel="nofollow">
+    <a href='/categories/Android进程保活/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Jetpack</p>
+      <p>Android进程保活</p>
     </a>
   </div>
 
@@ -376,56 +376,37 @@
 
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
-          <p><strong>ViewModel</strong>类旨在以生命周期的方式存储和管理ui相关的数据。ViewModel类允许数据在配置更改(如屏幕旋转)之后继续存活下来。</p>
+          <p>1像素保活方案坊间流传是手机QQ的保活的方案。什么意思呢？就是我们在手机锁屏时开启一个Activity，为了不让用户有感知，让这个Activity大小为1像素并设置透明无切换动画。在开启屏幕时把这个Activity关掉。</p>
 <a id="more"></a>
+<h2 id="一个Demo来演示一下"><a href="#一个Demo来演示一下" class="headerlink" title="一个Demo来演示一下"></a>一个Demo来演示一下</h2><p>创建一个Android工程，默认为我们生成一个MainActivity，这是我们程序的入口Activity。我们通过观察oom_adj值来看一下优先级。<br>首先启动App，我们看oom_adj的值<br><img src="/2019/07/15/processlive3/2019-07-15-19-18-00.png"><br>我们看oom_adj的值为0，所以当前优先级很高不会被系统杀死。<br>我们点击home键或者back键来观察一下oom_adj。<br><img src="/2019/07/15/processlive3/2019-07-15-19-19-59.png"><br>我们发现oom_adj的值已经变为了6，所以退到后台的app在资源紧张的情况下就有可能被杀死了。</p>
+<p>关于oom_adj可参考:</p>
+<p><a href="http://www.zydeveloper.com/2019/07/15/processlive1/">Android 进程保活（一）写在前面</a></p>
+<p>从而我们可通过提高oom_adj的值可以使我们的app被系统杀死的概率变低。</p>
+<p>我们使用的1像素保活方案就是应用了这点。</p>
+<p>创建一个1像素的Activity，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.mvvmdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.Gravity;</span><br><span class="line"><span class="keyword">import</span> android.view.Window;</span><br><span class="line"><span class="keyword">import</span> android.view.WindowManager;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OnePXActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_one_px);</span><br><span class="line"></span><br><span class="line">        Log.d(<span class="string">"123"</span>, <span class="string">"onCreate: OnePxActivity..."</span>);</span><br><span class="line">        createOnePxWindow();</span><br><span class="line"></span><br><span class="line">        OnePxManager.getInstance().setActivity(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建1像素窗体</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createOnePxWindow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Window window = getWindow();</span><br><span class="line">        <span class="comment">//放在左上角</span></span><br><span class="line">        window.setGravity(Gravity.START | Gravity.TOP);</span><br><span class="line">        WindowManager.LayoutParams attributes = window.getAttributes();</span><br><span class="line">        <span class="comment">//宽高为1个像素</span></span><br><span class="line">        attributes.width = <span class="number">1</span>;</span><br><span class="line">        attributes.height = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        attributes.x = <span class="number">0</span>;</span><br><span class="line">        attributes.y = <span class="number">0</span>;</span><br><span class="line">        window.setAttributes(attributes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>聊聊ViewModel主要作用？<br>1、应用于MVVM模式将UI层与Model业务层分离。<br>2、可以存储数据（如：fragment之间共享数据）<br>3、为UI提供数据</p>
-<hr>
-<p>Android Framwork管理UI控件的生命周期，比如Activity和Fragment。Framwork可能决定销毁或重新创建一个UI控件，以响应某些用户操作或设备事件。如果系统销毁或重新创建一个UI控件，您存储在其中的任何与UI相关的临时数据都将丢失。例如，您的应用程序可能在其中一个活动中包含一个用户列表。当为配置更改重新创建活动时，新活动必须重新获取用户列表。对于简单数据,活动可以使用方法在onCreate()中恢复数据,但这种方法只适用于少量的数据可以序列化反序列化,而不是潜在的大量数据的用户列表或位图。另一个问题是UI控制器经常需要进行异步调用，这可能需要一些时间才能返回。UI控制器需要管理这些调用，并确保系统在销毁这些调用后对其进行清理，以避免潜在的内存泄漏。这种管理需要大量的维护，并且在为配置更改重新创建对象的情况下，这是对资源的浪费，因为对象可能不得不重新发出它已经发出的调用。活动和片段等UI控件主要用于显示UI数据、响应用户操作或处理操作系统通信(如权限请求)。要求UI控制器也负责从数据库或网络加载数据，会使类膨胀。将过多的责任分配给UI控制器可能导致一个类试图独自处理应用程序的所有工作，而不是将工作委托给其他类。以这种方式将过多的责任分配给UI控制器也会使测试变得更加困难。将视图数据所有权从UI控制器逻辑中分离出来更容易也更有效。</p>
-<p>体系结构组件为负责UI准备数据的UI控制器提供ViewModel helper类。在配置更改期间自动保留ViewModel对象，以便它们所持有的数据可以立即用于下一个Activity或Fragment实例。例如，如果您需要在应用程序中显示用户列表，请确保将获取和保存用户列表的责任分配给ViewModel，而不是activity或fragment。</p>
-<p>ViewModel对象的作用域是在获取ViewModel时传递给ViewModelProvider的生命周期。视图模型一直保存在内存中，直到它的作用域永久消失:对于Activity，当它结束时，而对于Fragment，当它被分离时。下图说明了一个活动在进行旋转并完成时的各种生命周期状态。图中还显示了关联活动生命周期旁边的ViewModel的生命周期。这个图说明了活动的状态。同样的基本状态也适用于片段的生命周期。</p>
-<img src="/2019/07/09/jetpack-viewmodel/2019-07-09-19-28-59.png">
+<p>同时为了更好的隐藏，可以给这个1像素Activity设置样式如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"OnePxStyle"</span>&gt;</span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowIsTranslucent"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowBackground"</span>&gt;</span>@android:color/transparent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowAnimationStyle"</span>&gt;</span>@null<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowNoTitle"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>参考：<a href="https://developer.android.google.cn/topic/libraries/architecture/viewmodel" target="_blank" rel="noopener">https://developer.android.google.cn/topic/libraries/architecture/viewmodel</a></p>
-<hr>
-<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>首先导依赖：<br>implementation ‘android.arch.lifecycle:extensions:1.1.1’</p>
-<p>ViewModel类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.databindingjavademoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.MutableLiveData;</span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.ViewModel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MutableLiveData&lt;PersonBean&gt; personLiveData=<span class="keyword">new</span> MutableLiveData&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MutableLiveData&lt;PersonBean&gt; <span class="title">getPersonLiveData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> personLiveData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPersonLiveData</span><span class="params">(MutableLiveData&lt;PersonBean&gt; personLiveData)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.personLiveData = personLiveData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadPersonData</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                personLiveData.postValue(<span class="keyword">new</span> PersonBean(<span class="string">"小明"</span>,<span class="number">20</span>,<span class="string">"北京市海淀区"</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即设置了背景透明及没有切换效果，这样可以更好的隐藏自己。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".OnePXActivity"</span> <span class="attr">android:theme</span>=<span class="string">"@style/OnePxStyle"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>Activity中使用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(<span class="keyword">this</span>).get(MyViewModel.class).getPersonLiveData().observe(<span class="keyword">this</span>, <span class="keyword">new</span> Observer&lt;PersonBean&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable PersonBean personBean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>创建一个管理类来控制Activity的开启与关闭，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.mvvmdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.ref.WeakReference;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OnePxManager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> OnePxManager instance=<span class="keyword">new</span> OnePxManager();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> OnePxManager <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">OnePxManager</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> WeakReference&lt;Activity&gt; weakReference;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setActivity</span><span class="params">(Activity activity)</span></span>&#123;</span><br><span class="line">        weakReference=<span class="keyword">new</span> WeakReference&lt;Activity&gt;(activity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">startActivity</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(context, OnePXActivity.class);</span><br><span class="line">        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">        context.startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finishActivity</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (weakReference!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (weakReference.get()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                weakReference.get().finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>然后，可在Activity中观察数据变化。</p>
-<p>Fragment中共享数据</p>
-<p>由于ViewModel的生命周期一直在内存中存在知道被销毁，所以可以在Fragment间传递数据，如：<br>有两个Fragment</p>
-<p>Fragment1：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(getActivity()).get(MyViewModel.class).getPersonLiveData().observe(<span class="keyword">this</span>, <span class="keyword">new</span> Observer&lt;PersonBean&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable PersonBean personBean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们开启与关闭Activity的时机设计为屏幕锁屏时开启，屏幕解锁时关闭。所以编写如下广播：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.mvvmdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.BroadcastReceiver;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OnePxReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//开屏</span></span><br><span class="line">        <span class="keyword">if</span> (intent.getAction().equals(Intent.ACTION_SCREEN_ON))&#123;</span><br><span class="line">            Log.d(<span class="string">"123"</span>, <span class="string">"onReceive: user screen_on"</span>);</span><br><span class="line">            closeActivity();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//锁屏</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(intent.getAction().equals(Intent.ACTION_SCREEN_OFF))&#123;</span><br><span class="line">            Log.d(<span class="string">"123"</span>, <span class="string">"onReceive: user screen_off"</span>);</span><br><span class="line">            openActivity(context);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 开启1像素Activity</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">openActivity</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        OnePxManager.getInstance().startActivity(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 关闭Activity</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">closeActivity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        OnePxManager.getInstance().finishActivity();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Fragment2:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(getActivity()).get(MyViewModel.class).getPersonLiveData().observe(<span class="keyword">this</span>, <span class="keyword">new</span> Observer&lt;PersonBean&gt;() &#123;</span><br><span class="line">         <span class="meta">@Override</span></span><br><span class="line">         <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable PersonBean personBean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br></pre></td></tr></table></figure>
+<p>由于SCREEN_ON与SCREEN_OFF这两个广播不能使用静态方式注册，所以我们在MainActivity中动态注册广播。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.mvvmdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.content.IntentFilter;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        registerOnePxReceiver(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注册1像素广播</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> mainActivity</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">registerOnePxReceiver</span><span class="params">(MainActivity mainActivity)</span> </span>&#123;</span><br><span class="line">        IntentFilter intentFilter=<span class="keyword">new</span> IntentFilter();</span><br><span class="line">        intentFilter.addAction(Intent.ACTION_SCREEN_ON);</span><br><span class="line">        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);</span><br><span class="line">        registerReceiver(<span class="keyword">new</span> OnePxReceiver(),intentFilter);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Activity中更新数据：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(<span class="keyword">this</span>).get(MyViewModel.class).loadPersonData();</span><br></pre></td></tr></table></figure>
+<p>我们来运行一下看看效果。</p>
+<p>为了让我们的这种方法更加可靠，可以将广播注册过程放到服务中去，并将服务运行在另一个进程如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">".OnePxService"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:process</span>=<span class="string">":onepx_service"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>这样就实现了Fragment间的数据共享。</p>
-<hr>
-<p>ViewModelProviders 类提供了4个方法 of() 创建新的 ViewModelProvider 对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(Fragment)</span><br><span class="line">ViewModelProviders.of(FragmentActivity)</span><br><span class="line">ViewModelProviders.of(Fragment, Factory)</span><br><span class="line">ViewModelProviders.of(FragmentActivity, Factory)</span><br></pre></td></tr></table></figure>
-
-<p>我们发现方法中出现了一个Factory参数</p>
-<p>Factory 接口定义创建 ViewModel 的接口 create()。<br>public interface Factory {<br>    <t extends viewmodel> T create(@NonNull Class<t> modelClass);<br>}</t></t></p>
-<p>Android内置了2个 Factory 实现类，分别是：</p>
-<p>AndroidViewModelFactory 实现类，可以创建 ViewModel 和 AndroidViewModel 子类对象。<br>NewInstanceFactory 类，只可以创建 ViewModel 子类对象。</p>
-<p><strong>假设有种场景我们需要向ViewModel实现子类中传递参数该如何处理呢？</strong></p>
-<p>实现如上需求，如：</p>
-<p>原ViewModel实现类中加入有参构造如：<br><img src="/2019/07/09/jetpack-viewmodel/2019-07-10-10-12-43.png"></p>
-<p>我们可以使用新建Factory之类来进行参数传递，如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.databindingjavademoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.ViewModel;</span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.ViewModelProvider;</span><br><span class="line"><span class="keyword">import</span> android.support.annotation.NonNull;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFactory</span> <span class="keyword">extends</span> <span class="title">ViewModelProvider</span>.<span class="title">NewInstanceFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String params;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyFactory</span><span class="params">(String _params)</span></span>&#123;</span><br><span class="line">        params=_params;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T extends ViewModel&gt; <span class="function">T <span class="title">create</span><span class="params">(@NonNull Class&lt;T&gt; modelClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (T) <span class="keyword">new</span> MyViewModel(params);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后在activity中使用将原有代码修改为如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ViewModelProviders.of(<span class="keyword">this</span>,<span class="keyword">new</span> MyFactory(<span class="string">"我是参数"</span>)).get(MyViewModel.class).getPersonLiveData().observe(<span class="keyword">this</span>, <span class="keyword">new</span> Observer&lt;PersonBean&gt;() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable PersonBean personBean)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>我们发现在of中加入了我们的自定义工厂子类并传递了参数。</p>
+<p>同时提高存活概率可以使用双进程守护方案来进一步加强，可参考：</p>
+<p><a href="http://www.zydeveloper.com/2019/07/15/processlive2/">Android 进程保活（二）双服务进程包活</a></p>
 
         </div>
         
@@ -437,10 +418,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-11T14:44:41+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-16T09:44:33+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>last updated at Jul 11, 2019</p>
+    <p>last updated at Jul 16, 2019</p>
   </a>
 </div>
 
@@ -449,7 +430,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>Jetpack</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/ViewModel/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>ViewModel</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>Android</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>进程保活</p></a></div>
 
 
         
@@ -462,7 +443,7 @@
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/07/09/jetpack-viewmodel/&title=Jetpack系列之ViewModel | 哈哈镜的技术博客&summary=ViewModel类旨在以生命周期的方式存储和管理ui相关的数据。ViewModel类允许数据在配置更改(如屏幕旋转)之后继续存活下来。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/07/15/processlive3/&title=进程保活（三）1像素方案保活 | 哈哈镜的技术博客&summary=1像素保活方案坊间流传是手机QQ的保活的方案。什么意思呢？就是我们在手机锁屏时开启一个Activity，为了不让用户有感知，让这个Activity大小为1像素并设置透明无切换动画。在开启屏幕时把这个Activity关掉。"
           
           >
           
@@ -474,7 +455,7 @@
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/07/09/jetpack-viewmodel/&title=Jetpack系列之ViewModel | 哈哈镜的技术博客&summary=ViewModel类旨在以生命周期的方式存储和管理ui相关的数据。ViewModel类允许数据在配置更改(如屏幕旋转)之后继续存活下来。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/07/15/processlive3/&title=进程保活（三）1像素方案保活 | 哈哈镜的技术博客&summary=1像素保活方案坊间流传是手机QQ的保活的方案。什么意思呢？就是我们在手机锁屏时开启一个Activity，为了不让用户有感知，让这个Activity大小为1像素并设置透明无切换动画。在开启屏幕时把这个Activity关掉。"
           
           >
           
@@ -486,7 +467,7 @@
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/07/09/jetpack-viewmodel/&title=Jetpack系列之ViewModel | 哈哈镜的技术博客&summary=ViewModel类旨在以生命周期的方式存储和管理ui相关的数据。ViewModel类允许数据在配置更改(如屏幕旋转)之后继续存活下来。"
+          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/07/15/processlive3/&title=进程保活（三）1像素方案保活 | 哈哈镜的技术博客&summary=1像素保活方案坊间流传是手机QQ的保活的方案。什么意思呢？就是我们在手机锁屏时开启一个Activity，为了不让用户有感知，让这个Activity大小为1像素并设置透明无切换动画。在开启屏幕时把这个Activity关掉。"
           
           >
           
@@ -514,16 +495,16 @@
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
                             <h4>
-                                <a href="/2019/07/10/MVP/" rel="prev" title="MVP架构">
+                                <a href="/2019/07/16/processlive5/" rel="prev" title="进程保活（五）JobSheduler进程重生">
                                   
-                                      MVP架构
+                                      进程保活（五）JobSheduler进程重生
                                   
                                 </a>
                             </h4>
                             
                                 
                                 <h6 class="tags">
-                                    <a class="tag" href="/tags/MVP/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>MVP</a> <a class="tag" href="/tags/架构/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>架构</a>
+                                    <a class="tag" href="/tags/Android/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android</a> <a class="tag" href="/tags/进程保活/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>进程保活</a>
                                 </h6>
                             
                         </span>
@@ -534,16 +515,16 @@
                         <span class="art-item-right" aria-hidden="true">
                             <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2019/07/02/jetpack-room/" rel="prev" title="Jetpack系列之Room">
+                                <a href="/2019/07/15/hotupdate/" rel="prev" title="Android 热修复">
                                     
-                                        Jetpack系列之Room
+                                        Android 热修复
                                     
                                 </a>
                             </h4>
                             
                                 
                                 <h6 class="tags">
-                                    <a class="tag" href="/tags/Jetpack/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Jetpack</a> <a class="tag" href="/tags/Room/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Room</a>
+                                    <a class="tag" href="/tags/Android/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android</a> <a class="tag" href="/tags/插件化/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>插件化</a> <a class="tag" href="/tags/热修复/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>热修复</a>
                                 </h6>
                             
                         </span>
@@ -588,7 +569,7 @@
 
   <script>
     window.subData = {
-      title: 'Jetpack系列之ViewModel',
+      title: '进程保活（三）1像素方案保活',
       tools: true
     }
   </script>
@@ -668,7 +649,7 @@
 </header>
 
     <div class='content material'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本使用"><span class="toc-text">基本使用</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一个Demo来演示一下"><span class="toc-text">一个Demo来演示一下</span></a></li></ol>
     </div>
   </section>
 
