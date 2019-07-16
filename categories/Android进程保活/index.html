@@ -387,8 +387,6 @@
 <p><a href="https://developer.android.google.cn/reference/android/app/job/JobScheduler.html" target="_blank" rel="noopener">官网JobScheduler</a></p>
 <p>JobScheduler是用于计划基于应用进程的多种类型任务的api接口。当任务执行时，系统会为应用持有WakeLock，所以应用不需要做多余的确保设备唤醒的工作。</p>
 <p>JobService继承自Service，是用于处理JobScheduler中规划的异步请求的特殊Service</p>
-<p>使用JobService必须先在AndroidManifest.xml中声明service和权限</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">"MyJobService"</span> <span class="attr">android:permission</span>=<span class="string">"android.permission.BIND_JOB_SERVICE"</span>/ &gt;</span></span><br></pre></td></tr></table></figure>
       
         <div class="readmore">
           <a href="/2019/07/16/processlive5/" class="flat-box">
