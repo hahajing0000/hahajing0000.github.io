@@ -385,7 +385,7 @@
 <p><strong>3、Service process——服务进程</strong><br>某个进程中运行着一个Service且该Service是通过startService()启动的，与用户看见的界面没有直接关联。</p>
 <p><strong>4、Background process——后台进程</strong><br>在用户按了”back”或者”home”后,程序本身看不到了,但是其实还在运行的程序，比如Activity调用了onPause方法</p>
 <p><strong>5、Empty process——空进程</strong><br>某个进程不包含任何活跃的组件时该进程就会被置为空进程，完全没用,杀了它只有好处没坏处。</p>
-<p>##什么是内存阀值？<br>我们知道Android的App退到后台时，系统并不会直接结束掉该app。而是将其缓存起来，当打开的app越来越多后导致内存不足，那么系统就开始结束不重要的进程从而释放其内存提供给优先级高的应用使用。<br>这套杀进程释放内存的机制，Android中被叫做Low Memory Killer。那么这个内存不足怎么来规定呢，我们知道不足一定有一个限定值，这个值就是<strong>内存阀值</strong>。<br>使用<em>cat /sys/module/lowmemorykiller/parameters/minfree</em>可以查看手机的内存阀值。</p>
+<h2 id="什么是内存阀值？"><a href="#什么是内存阀值？" class="headerlink" title="什么是内存阀值？"></a>什么是内存阀值？</h2><p>我们知道Android的App退到后台时，系统并不会直接结束掉该app。而是将其缓存起来，当打开的app越来越多后导致内存不足，那么系统就开始结束不重要的进程从而释放其内存提供给优先级高的应用使用。<br>这套杀进程释放内存的机制，Android中被叫做Low Memory Killer。那么这个内存不足怎么来规定呢，我们知道不足一定有一个限定值，这个值就是<strong>内存阀值</strong>。<br>使用<em>cat /sys/module/lowmemorykiller/parameters/minfree</em>可以查看手机的内存阀值。</p>
 <p>内存不足时进程进行回收是按上面的重要程度有低到高进行回收。</p>
 <p>进程是有优先级的，adj来表示我们的优先级。<br>oom_adj的值越小，进程的优先级越高，普通进程oom_adj值是大于等于0的，而系统进程oom_adj的值是小于0的，我们可以通过cat /proc/进程id/oom_adj可以看到当前进程的adj值。<br><img src="/2019/07/15/processlive1/2019-07-15-11-46-55.png"><br>我们发现 设置 的进程优先级现在是10，我们现在没有启动 设置。下面我们来打开设置app并查看一下现在的优先级。<br><img src="/2019/07/15/processlive1/2019-07-15-11-48-52.png"><br>我们看当前 设置 的进程优先级已经变为了0。优先级有了提高。<br>oom_adj主要由一下几种，注意每个手机厂商可能不一样。<br><img src="/2019/07/15/processlive1/2019-07-15-11-50-58.png"></p>
 <p>从上面我们发现在系统内存紧张的情况下会优先杀时oom_adj值比较大的应用，反过来说我们将oom_adj的值变小也可以减少系统杀死我们应用的概率。</p>
@@ -402,7 +402,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-19T14:08:48+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-07-19T14:14:24+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>last updated at Jul 19, 2019</p>
@@ -479,9 +479,9 @@
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
                             <h4>
-                                <a href="/2019/07/15/processlive3/" rel="prev" title="Android 进程保活（三）1像素方案保活">
+                                <a href="/2019/07/16/processlive4/" rel="prev" title="Android 进程保活（四）使用“前台服务”保活">
                                   
-                                      Android 进程保活（三）1像素方案保活
+                                      Android 进程保活（四）使用“前台服务”保活
                                   
                                 </a>
                             </h4>
@@ -499,9 +499,9 @@
                         <span class="art-item-right" aria-hidden="true">
                             <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2019/07/15/processlive2/" rel="prev" title="Android 进程保活（二）双服务进程包活">
+                                <a href="/2019/07/15/processlive3/" rel="prev" title="Android 进程保活（三）1像素方案保活">
                                     
-                                        Android 进程保活（二）双服务进程包活
+                                        Android 进程保活（三）1像素方案保活
                                     
                                 </a>
                             </h4>
@@ -633,7 +633,7 @@
 </header>
 
     <div class='content material'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程划分？"><span class="toc-text">进程划分？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-进程保活系列："><span class="toc-text">Android 进程保活系列：</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程划分？"><span class="toc-text">进程划分？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是内存阀值？"><span class="toc-text">什么是内存阀值？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-进程保活系列："><span class="toc-text">Android 进程保活系列：</span></a></li></ol></li></ol>
     </div>
   </section>
 
