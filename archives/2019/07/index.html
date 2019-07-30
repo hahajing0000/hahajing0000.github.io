@@ -4,12 +4,14 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Archives: 2019/7 | 哈哈镜的技术博客</title>
+  <title>Archives: 2019/7 | 一个老程序猿</title>
   
+  
+  <meta name="description" content="记录技术点滴">
   
 
   
-  <link rel="alternate" href="/atom.xml" title="哈哈镜的技术博客">
+  <link rel="alternate" href="/atom.xml" title="一个老程序猿">
   
 
   <meta name="HandheldFriendly" content="True">
@@ -118,7 +120,7 @@
 		<div class="nav-main container container--flex">
       <a class="logo flat-box" href='/' >
         
-          哈哈镜的技术博客
+          一个老程序猿
         
       </a>
 			<div class='menu navgation'>
@@ -850,114 +852,6 @@
       
         
   <h2 class="title">
-    <a href="/2019/07/16/processlive4/">
-      Android 进程保活（四）使用“前台服务”保活
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-16</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android进程保活/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android进程保活</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>前台服务方式保活实际是利用了Android前台服务的一个漏洞。<br>即：<br>android api 在18之前的版本我们调用startForeground来提高应用程序的oom_adj值，在18版本后我们需要使用Service中启动一个InnerService两个服务同时startForeground并且绑定相同的ID，然后stop掉InnerService,这样做是将通知栏上的图标移除。</p>
-<p>关于oom_adj可参考：</p>
-<p><a href="http://www.zydeveloper.com/2019/07/15/processlive1/">Android 进程保活（一）写在前面</a></p>
-      
-        <div class="readmore">
-          <a href="/2019/07/16/processlive4/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>进程保活</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
     <a href="/2019/07/16/processlive5/">
       Android 进程保活（五）JobSheduler进程重生
     </a>
@@ -1068,8 +962,8 @@
       
         
   <h2 class="title">
-    <a href="/2019/07/15/hotupdate/">
-      Android 热修复
+    <a href="/2019/07/16/processlive4/">
+      Android 进程保活（四）使用“前台服务”保活
     </a>
   </h2>
 
@@ -1097,7 +991,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-15</p>
+    <p>2019-07-16</p>
   </a>
 </div>
 
@@ -1107,9 +1001,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/Android插件化/' rel="nofollow">
+    <a href='/categories/Android进程保活/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android插件化</p>
+      <p>Android进程保活</p>
     </a>
   </div>
 
@@ -1136,10 +1030,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <img src="/2019/07/15/hotupdate/2019-07-15-18-06-52.png">
+      <p>前台服务方式保活实际是利用了Android前台服务的一个漏洞。<br>即：<br>android api 在18之前的版本我们调用startForeground来提高应用程序的oom_adj值，在18版本后我们需要使用Service中启动一个InnerService两个服务同时startForeground并且绑定相同的ID，然后stop掉InnerService,这样做是将通知栏上的图标移除。</p>
+<p>关于oom_adj可参考：</p>
+<p><a href="http://www.zydeveloper.com/2019/07/15/processlive1/">Android 进程保活（一）写在前面</a></p>
       
         <div class="readmore">
-          <a href="/2019/07/15/hotupdate/" class="flat-box">
+          <a href="/2019/07/16/processlive4/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             Read More
           </a>
@@ -1151,9 +1047,7 @@
         
           <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
         
-          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
-        
-          <a href="/tags/热修复/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>热修复</a>
+          <a href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>进程保活</a>
         
       </div>
     
@@ -1176,8 +1070,8 @@
       
         
   <h2 class="title">
-    <a href="/2019/07/15/processlive2/">
-      Android 进程保活（二）双服务进程包活
+    <a href="/2019/07/15/processlive3/">
+      Android 进程保活（三）1像素方案保活
     </a>
   </h2>
 
@@ -1244,10 +1138,10 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>1、双进程守护保活方案</p>
+      <p>1像素保活方案坊间流传是手机QQ的保活的方案。什么意思呢？就是我们在手机锁屏时开启一个Activity，为了不让用户有感知，让这个Activity大小为1像素并设置透明无切换动画。在开启屏幕时把这个Activity关掉。</p>
       
         <div class="readmore">
-          <a href="/2019/07/15/processlive2/" class="flat-box">
+          <a href="/2019/07/15/processlive3/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             Read More
           </a>
@@ -1354,6 +1248,112 @@
       
         <div class="readmore">
           <a href="/2019/07/15/processlive1/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
+        
+          <a href="/tags/进程保活/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>进程保活</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/2019/07/15/processlive2/">
+      Android 进程保活（二）双服务进程包活
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-07-15</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Android进程保活/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Android进程保活</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>1、双进程守护保活方案</p>
+      
+        <div class="readmore">
+          <a href="/2019/07/15/processlive2/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             Read More
           </a>
