@@ -296,7 +296,7 @@
         
   
     <h1 class="title">
-      <a href="/2019/07/02/Componentization/">
+      <a href="/2019/07/30/Componentization/">
         Android 组件化开发
       </a>
     </h1>
@@ -326,7 +326,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-02</p>
+    <p>2019-07-30</p>
   </a>
 </div>
 
@@ -384,18 +384,18 @@
 <a id="more"></a>
 
 <p>本人对于组件化的理解为是一种架构思想，与传统项目（一般指模块化）相比各个业务组件相互隔离，使各个组件可以单独运行单独测试，使用“壳工程”将其组装到一起。这样带来的好处是业务模块单独开发维护降低耦合性，使项目可测试性及可维护性提升。</p>
-<img src="/2019/07/02/Componentization/2019-07-03-15-15-40.png">
+<img src="/2019/07/30/Componentization/2019-07-03-15-15-40.png">
 
 <p><em>（该图片来源于互联网）</em></p>
 <p>上图很形象的描述了组件化各层级的结构。</p>
 <p>对于之前我们的项目大多是将业务模块与基础模块都放到一个app工程中开发维护，这样做的缺点是不易测试，耦合度高等问题显而易见。有的朋友可能会说我们使用了MVC MVP 甚至 MVVM架构不可以解耦吗？使用架构当然可以解耦，但与组件化还不在一个层面上，组件化更偏向于将业务功能模块拆分。</p>
-<p><strong>下面我们通过一个Demo来具体演示一下组件化该如何搭建？</strong><br><img src="/2019/07/02/Componentization/2019-08-01-08-49-47.png"><br>例如我们要实现上图这样的一个咨询类app，我们的项目结构搭建如下：<br><img src="/2019/07/02/Componentization/2019-08-01-08-56-58.png"></p>
+<p><strong>下面我们通过一个Demo来具体演示一下组件化该如何搭建？</strong><br><img src="/2019/07/30/Componentization/2019-08-01-08-49-47.png"><br>例如我们要实现上图这样的一个咨询类app，我们的项目结构搭建如下：<br><img src="/2019/07/30/Componentization/2019-08-01-08-56-58.png"></p>
 <p>app——壳工程<br>mainmodule——欢迎页面 启动页面 主页面模块<br>videomodule——视频模块<br>funnymodule——段子业务模块<br>usermodule——用户模块对应“我的”<br>messagemodule——系统消息模块<br>commonmodule——通用模块，主要放一下BaseActivity BaseFragment 网络框架等<br>customviewmodule——自定义View模块</p>
 <p>如上是我们对应该app拆分出的业务模块，其中还包括一些基础模块。</p>
 <p>下面我们来建立一个config.gradle来统一配置工程信息。如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">ext&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 是否模块化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    isCommonModule = <span class="keyword">true</span></span><br><span class="line">    isCustomModule = <span class="keyword">true</span></span><br><span class="line">    isFunnyModule  = <span class="keyword">true</span></span><br><span class="line">    isMainModule   = <span class="keyword">true</span></span><br><span class="line">    isMessageModule = <span class="keyword">true</span></span><br><span class="line">    isUserModule =<span class="keyword">true</span></span><br><span class="line">    isVideoModule = <span class="keyword">true</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*defaultConfig*/</span></span><br><span class="line">    compile_sdk_version = <span class="number">28</span></span><br><span class="line">    min_sdk_version = <span class="number">15</span></span><br><span class="line">    target_sdk_version = <span class="number">28</span></span><br><span class="line">    version_code = <span class="number">1</span></span><br><span class="line">    version_name = <span class="string">"1.0.0"</span></span><br><span class="line">    multiDexEnabled = <span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*dependencies*/</span></span><br><span class="line">    android_support = <span class="string">"28.0.0"</span></span><br><span class="line">    retrofit = <span class="string">"2.4.0"</span></span><br><span class="line">    ok_http = <span class="string">"3.10.0"</span></span><br><span class="line">    rx_android = <span class="string">"2.0.2"</span></span><br><span class="line">    rx_java = <span class="string">"2.1.4"</span></span><br><span class="line">    dagger2 = <span class="string">"2.16"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>然后在project的build.gradle中引入config.gradle.<br><img src="/2019/07/02/Componentization/2019-08-01-09-12-43.png"></p>
+<p>然后在project的build.gradle中引入config.gradle.<br><img src="/2019/07/30/Componentization/2019-08-01-09-12-43.png"></p>
 <p>这样在我们的module中就可以使用我们的配置信息了。<br>使用app的module build.gradle</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion compile_sdk_version</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">"com.baweigame.componentdemoapplication"</span></span><br><span class="line">        minSdkVersion min_sdk_version</span><br><span class="line">        targetSdkVersion target_sdk_version</span><br><span class="line">        versionCode version_code</span><br><span class="line">        versionName version_name</span><br><span class="line">        testInstrumentationRunner <span class="string">"android.support.test.runner.AndroidJUnitRunner"</span></span><br><span class="line">    &#125;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="keyword">false</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android-optimize.txt'</span>)</span>, 'proguard-rules.pro'</span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">dependencies </span>&#123;</span><br><span class="line">    <span class="function">implementation <span class="title">fileTree</span><span class="params">(include: [<span class="string">'*.jar'</span>], dir: <span class="string">'libs'</span>)</span></span></span><br><span class="line"><span class="function">    implementation "com.android.support:appcompat-v7:$android_support"</span></span><br><span class="line"><span class="function">    implementation 'com.android.support.constraint:constraint-layout:1.1.3'</span></span><br><span class="line"><span class="function">    testImplementation 'junit:junit:4.12'</span></span><br><span class="line"><span class="function">    androidTestImplementation 'com.android.support.test:runner:1.0.2'</span></span><br><span class="line"><span class="function">    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':commonmodule'</span>)</span></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':customviewmodule'</span>)</span></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':funnymodule'</span>)</span></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':mainmodule'</span>)</span></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':messagemodule'</span>)</span></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':usermodule'</span>)</span></span></span><br><span class="line"><span class="function">    implementation <span class="title">project</span><span class="params">(<span class="string">':videomodule'</span>)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
 
@@ -421,7 +421,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!isMainModule.toBoolean())&#123;</span><br><span class="line">           applicationId <span class="string">"com.baweigame.mainmodule"</span></span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
 
 <p>如果不开启main模块模式就设置applicationId</p>
-<img src="/2019/07/02/Componentization/2019-08-01-10-36-19.png">
+<img src="/2019/07/30/Componentization/2019-08-01-10-36-19.png">
 当然还可以管理我们第三方的库版本。
 
 <p>关于Applicaton Context 获取问题？<br>我们知道一个APP有且只有一个Application，我们在APP工程中获取Application Context很容易就能获取到，但是如果使用组件化方案时各业务组件获取Application Context就比较麻烦了。<br>那么我们如何解决这个问题呢？<br>我们还就得模块中有个Common业务模块吗？这个模块就是用于存放BaseApplcation BaseActivity的地方，也就是说我们可以让壳APP与各业务模块都依赖这个Common模块，然后壳App工程application实现Common模块中的BaseApplication。<br>如：<br>Common 模块中的BaseApplication。</p>
@@ -453,7 +453,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-01T11:35:48+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-01T11:40:22+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>last updated at Aug 1, 2019</p>
@@ -465,7 +465,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>Android</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/组件化/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>组件化</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/架构/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>架构</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/架构/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>架构</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>Android</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/组件化/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>组件化</p></a></div>
 
 
         
@@ -478,7 +478,7 @@
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/07/02/Componentization/&title=Android 组件化开发 | 一个老程序猿&summary=什么是组件化？
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/07/30/Componentization/&title=Android 组件化开发 | 一个老程序猿&summary=什么是组件化？
 组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。
 ————百度百科"
           
@@ -492,7 +492,7 @@
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/07/02/Componentization/&title=Android 组件化开发 | 一个老程序猿&summary=什么是组件化？
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/07/30/Componentization/&title=Android 组件化开发 | 一个老程序猿&summary=什么是组件化？
 组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。
 ————百度百科"
           
@@ -506,7 +506,7 @@
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/07/02/Componentization/&title=Android 组件化开发 | 一个老程序猿&summary=什么是组件化？
+          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/07/30/Componentization/&title=Android 组件化开发 | 一个老程序猿&summary=什么是组件化？
 组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。
 ————百度百科"
           
@@ -536,21 +536,40 @@
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
                             <h4>
-                                <a href="/2019/07/02/jetpack-lifecycles/" rel="prev" title="Jetpack系列之Lifecycles">
+                                <a href="/2019/07/30/Tinker/" rel="prev" title="Android 插件化 Tinker">
                                   
-                                      Jetpack系列之Lifecycles
+                                      Android 插件化 Tinker
                                   
                                 </a>
                             </h4>
                             
                                 
                                 <h6 class="tags">
-                                    <a class="tag" href="/tags/Jetpack/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Jetpack</a> <a class="tag" href="/tags/Lifecycles/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Lifecycles</a>
+                                    <a class="tag" href="/tags/插件化/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>插件化</a> <a class="tag" href="/tags/Tinker/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Tinker</a>
                                 </h6>
                             
                         </span>
                     </section>
                 
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/2019/07/24/ResourceDynamicLoad/" rel="prev" title="Android插件化——动态资源加载">
+                                    
+                                        Android插件化——动态资源加载
+                                    
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/插件化/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>插件化</a> <a class="tag" href="/tags/Android/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
                 
             </div>
         
