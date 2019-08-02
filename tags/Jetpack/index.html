@@ -176,7 +176,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="Search" />
+						<input type="text" class="input u-search-input" placeholder="搜尋" />
 						<i class="icon fas fa-search fa-fw"></i>
 					</form>
 				</div>
@@ -389,7 +389,7 @@
         <div class="readmore">
           <a href="/2019/07/09/jetpack-viewmodel/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
+            閱讀全文
           </a>
         </div>
       
@@ -400,113 +400,6 @@
           <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
         
           <a href="/tags/ViewModel/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>ViewModel</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/02/jetpack-lifecycles/">
-      Jetpack系列之Lifecycles
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-02</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Jetpack/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Jetpack</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.</p>
-<p>A common pattern is to implement the actions of the dependent components in the lifecycle methods of activities and fragments. However, this pattern leads to a poor organization of the code and to the proliferation of errors. By using lifecycle-aware components, you can move the code of dependent components out of the lifecycle methods and into the components themselves.</p>
-      
-        <div class="readmore">
-          <a href="/2019/07/02/jetpack-lifecycles/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
-        
-          <a href="/tags/Lifecycles/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Lifecycles</a>
         
       </div>
     
@@ -628,8 +521,8 @@
       
         
   <h2 class="title">
-    <a href="/2019/07/02/jetpack-livedata/">
-      Jetpack系列之LiveData
+    <a href="/2019/07/02/jetpack-lifecycles/">
+      Jetpack系列之Lifecycles
     </a>
   </h2>
 
@@ -696,13 +589,13 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><strong>LiveData</strong>是一个可观察的数据持有者类。与常规的可观察对象不同，LiveData是生命周期感知的，这意味着它尊重其他应用程序组件的生命周期，比如Activity、Fragment或Service。这种意识确保LiveData只更新处于活动生命周期状态的应用程序组件观察者。</p>
-<p>LiveData认为，如果一个观察者的生命周期处于STARTED或RESUMED状态，那么这个观察者(由observer类表示)就处于活动状态。LiveData只将更新通知活动观察者。注册为监视LiveData对象的非活动观察者不会收到有关更改的通知。您可以注册一个与实现LifecycleOwner接口的对象配对的观察者。当相应的生命周期对象的状态更改为 DESTROYED时，此关系允许删除观察者。这对于Activity和Fragment尤其有用，因为它们可以安全地观察LiveData对象，而不用担心泄漏，当Activity和Fragment的生命周期被破坏时，它们会立即取消订阅。<br><img src="/2019/07/02/jetpack-livedata/2019-07-12-10-41-45.png"></p>
+      <p>Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.</p>
+<p>A common pattern is to implement the actions of the dependent components in the lifecycle methods of activities and fragments. However, this pattern leads to a poor organization of the code and to the proliferation of errors. By using lifecycle-aware components, you can move the code of dependent components out of the lifecycle methods and into the components themselves.</p>
       
         <div class="readmore">
-          <a href="/2019/07/02/jetpack-livedata/" class="flat-box">
+          <a href="/2019/07/02/jetpack-lifecycles/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
+            閱讀全文
           </a>
         </div>
       
@@ -712,7 +605,7 @@
         
           <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
         
-          <a href="/tags/LiveData/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>LiveData</a>
+          <a href="/tags/Lifecycles/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Lifecycles</a>
         
       </div>
     
@@ -808,7 +701,7 @@
         <div class="readmore">
           <a href="/2019/07/02/jetpack-databinding/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
+            閱讀全文
           </a>
         </div>
       
@@ -819,6 +712,113 @@
           <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
         
           <a href="/tags/Databinding/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Databinding</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/2019/07/02/jetpack-livedata/">
+      Jetpack系列之LiveData
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-07-02</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Jetpack/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Jetpack</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p><strong>LiveData</strong>是一个可观察的数据持有者类。与常规的可观察对象不同，LiveData是生命周期感知的，这意味着它尊重其他应用程序组件的生命周期，比如Activity、Fragment或Service。这种意识确保LiveData只更新处于活动生命周期状态的应用程序组件观察者。</p>
+<p>LiveData认为，如果一个观察者的生命周期处于STARTED或RESUMED状态，那么这个观察者(由observer类表示)就处于活动状态。LiveData只将更新通知活动观察者。注册为监视LiveData对象的非活动观察者不会收到有关更改的通知。您可以注册一个与实现LifecycleOwner接口的对象配对的观察者。当相应的生命周期对象的状态更改为 DESTROYED时，此关系允许删除观察者。这对于Activity和Fragment尤其有用，因为它们可以安全地观察LiveData对象，而不用担心泄漏，当Activity和Fragment的生命周期被破坏时，它们会立即取消订阅。<br><img src="/2019/07/02/jetpack-livedata/2019-07-12-10-41-45.png"></p>
+      
+        <div class="readmore">
+          <a href="/2019/07/02/jetpack-livedata/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            閱讀全文
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
+        
+          <a href="/tags/LiveData/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>LiveData</a>
         
       </div>
     
@@ -1004,7 +1004,7 @@
   <section class='widget category'>
     
 <header class='material'>
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分類</div>
   
     <a class="rightBtn"
     
@@ -1045,7 +1045,7 @@
   <section class='widget tagcloud'>
     
 <header class='material'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Hot Tags</div>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;熱門標籤</div>
   
     <a class="rightBtn"
     
@@ -1160,19 +1160,19 @@
     </div>
   
   <br>
-  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+  <div><p>博客內容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh_TW">姓名標示-非商業性-相同方式分享 4.0 國際 (CC BY-NC-SA 4.0) 協議</a></p>
 </div>
   <div>
-    Use
+    本站使用
     <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
-    as theme
+    作为主题
     
-      , 
-      total visits
+      ，
+      总访问量为
       <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
-      times
+      次
     
-    . 
+    。
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
@@ -1278,15 +1278,15 @@
 <!-- 复制 -->
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
-  let COPY_SUCCESS = "Copied";
-  let COPY_FAILURE = "Copy failed";
+  let COPY_SUCCESS = "複製成功";
+  let COPY_FAILURE = "複製失敗";
   /*页面载入完成后，创建复制按钮*/
   !function (e, t, a) {
     /* code */
     var initCopyCode = function(){
       var copyHtml = '';
       copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-      copyHtml += '  <i class="fa fa-copy"></i><span>Copy</span>';
+      copyHtml += '  <i class="fa fa-copy"></i><span>複製</span>';
       copyHtml += '</button>';
       $(".highlight .code pre").before(copyHtml);
       var clipboard = new ClipboardJS('.btn-copy', {
