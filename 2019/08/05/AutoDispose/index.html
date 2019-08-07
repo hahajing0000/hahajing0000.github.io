@@ -176,7 +176,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="搜尋" />
+						<input type="text" class="input u-search-input" placeholder="Search" />
 						<i class="icon fas fa-search fa-fw"></i>
 					</form>
 				</div>
@@ -380,8 +380,33 @@
         <div class="article-entry" itemprop="articleBody">
           <p><a href="https://github.com/uber/AutoDispose" target="_blank" rel="noopener">Auto Dispose GitHub地址</a></p>
 <p>前一篇我们介绍了RxLifecycle解决Rxjava可能发送的内存泄漏问题：</p>
-<p><a href="http://www.zydeveloper.com/2019/08/05/RxLifecycle/">RxLifecycle</a></p>
+<p><a href="http://www.zydeveloper.com/2019/08/05/RxLifecycle/">RxLifecycle 解决RxJava内存泄漏问题</a></p>
+<p>AutoDispose是一个RxJava2工具，用于解决Rxjava内存泄漏问题。</p>
 <a id="more"></a>
+
+<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用?"></a>如何使用?</h3><p>导入依赖：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">'com.uber.autodispose:autodispose-android-archcomponents:1.3.0'</span></span><br></pre></td></tr></table></figure>
+
+<p>手写一个RxJava的内存泄漏问题：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">    Observable.interval(<span class="number">1</span>,TimeUnit.SECONDS)</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(<span class="keyword">new</span> Observer&lt;Long&gt;() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(Long aLong)</span> </span>&#123;</span><br><span class="line">                    Log.d(<span class="string">"123"</span>, <span class="string">"onNext: "</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    Log.d(<span class="string">"123"</span>, <span class="string">"onComplete: "</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码我们在前一篇文章中已经验证了存在内存泄漏问题，即点击back键后onNext仍然被回调，log一直持续输出。</p>
+<p>下面我们通过使用AutoDispose来修复Rxjava内存泄漏问题。</p>
+<p>修改代码为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Observable.interval(<span class="number">1</span>,TimeUnit.SECONDS)</span><br><span class="line">               .subscribeOn(Schedulers.io())</span><br><span class="line">               .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">               .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(<span class="keyword">this</span>)))</span><br><span class="line">               .subscribe(<span class="keyword">new</span> Observer&lt;Long&gt;() &#123;</span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(Long aLong)</span> </span>&#123;</span><br><span class="line">                       Log.d(<span class="string">"123"</span>, <span class="string">"onNext: "</span>);</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                       Log.d(<span class="string">"123"</span>, <span class="string">"onComplete: "</span>);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>我们发现加入了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(<span class="keyword">this</span>)))</span><br></pre></td></tr></table></figure>
+
+<p>运行项目后，再次验证是否还存在内存泄漏。<br>查看log输出：<br><img src="/2019/08/05/AutoDispose/2019-08-07-17-03-58.png"><br>我们发现onNext不再被回调。</p>
+<p>我们来看看AndroidLifecycleScopeProvider.from 传入的参数为LifecycleOwner类型。该类型是Android中的生命周期类型，也就说实现了该接口的Activity及Fragment都可以使用AutoDispose。</p>
+<p>注：</p>
+<p>集成AutoDispose后如出现如下错误：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: Invoke-<span class="function">customs are only supported starting with Android <span class="title">O</span> <span class="params">(--min-api <span class="number">26</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解决方法:</strong></p>
+<p>app 的 build.gradle中android下加入如下配置:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">        compileOptions&#123;</span><br><span class="line">            sourceCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">            targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
         </div>
         
           
@@ -392,10 +417,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-07T16:13:26+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-07T17:11:44+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最後更新於 Aug 7, 2019</p>
+    <p>last updated at Aug 7, 2019</p>
   </a>
 </div>
 
@@ -419,7 +444,8 @@
           
           href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/08/05/AutoDispose/&title=AutoDispose 解决RxJava内存泄漏问题 | 一个老程序猿&summary=Auto Dispose GitHub地址
 前一篇我们介绍了RxLifecycle解决Rxjava可能发送的内存泄漏问题：
-RxLifecycle"
+RxLifecycle 解决RxJava内存泄漏问题
+AutoDispose是一个RxJava2工具，用于解决Rxjava内存泄漏问题。"
           
           >
           
@@ -433,7 +459,8 @@ RxLifecycle"
           
           href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/08/05/AutoDispose/&title=AutoDispose 解决RxJava内存泄漏问题 | 一个老程序猿&summary=Auto Dispose GitHub地址
 前一篇我们介绍了RxLifecycle解决Rxjava可能发送的内存泄漏问题：
-RxLifecycle"
+RxLifecycle 解决RxJava内存泄漏问题
+AutoDispose是一个RxJava2工具，用于解决Rxjava内存泄漏问题。"
           
           >
           
@@ -447,7 +474,8 @@ RxLifecycle"
           
           href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/08/05/AutoDispose/&title=AutoDispose 解决RxJava内存泄漏问题 | 一个老程序猿&summary=Auto Dispose GitHub地址
 前一篇我们介绍了RxLifecycle解决Rxjava可能发送的内存泄漏问题：
-RxLifecycle"
+RxLifecycle 解决RxJava内存泄漏问题
+AutoDispose是一个RxJava2工具，用于解决Rxjava内存泄漏问题。"
           
           >
           
@@ -471,10 +499,29 @@ RxLifecycle"
         
             <div class="prev-next">
                 
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
+                            <h4>
+                                <a href="/2019/08/05/RxJava2/" rel="prev" title="RxJava操作符">
+                                  
+                                      RxJava操作符
+                                  
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/框架/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>框架</a> <a class="tag" href="/tags/RxJava/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>RxJava</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
+                
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
-                            <h6>下一頁&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
                                 <a href="/2019/08/05/RxLifecycle/" rel="prev" title="RxLifecycle 解决RxJava内存泄漏问题">
                                     
@@ -504,7 +551,7 @@ RxLifecycle"
 
   <article class="post white-box comments">
     <section class="article typo">
-      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;評論</h4>
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;Comments</h4>
       
       
       
@@ -600,6 +647,20 @@ RxLifecycle"
           
           
             
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;TOC</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用"><span class="toc-text">如何使用?</span></a></li></ol>
+    </div>
+  </section>
+
 
           
         
@@ -699,7 +760,7 @@ RxLifecycle"
   <section class='widget category'>
     
 <header class='material'>
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分類</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
   
     <a class="rightBtn"
     
@@ -740,7 +801,7 @@ RxLifecycle"
   <section class='widget tagcloud'>
     
 <header class='material'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;熱門標籤</div>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Hot Tags</div>
   
     <a class="rightBtn"
     
@@ -855,19 +916,19 @@ RxLifecycle"
     </div>
   
   <br>
-  <div><p>博客內容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh_TW">姓名標示-非商業性-相同方式分享 4.0 國際 (CC BY-NC-SA 4.0) 協議</a></p>
+  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
   <div>
-    本站使用
+    Use
     <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
     as theme
     
-      ，
+      , 
       total visits
       <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
       times
     
-    。
+    . 
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
@@ -1003,15 +1064,15 @@ RxLifecycle"
 <!-- 复制 -->
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
-  let COPY_SUCCESS = "複製成功";
-  let COPY_FAILURE = "複製失敗";
+  let COPY_SUCCESS = "Copied";
+  let COPY_FAILURE = "Copy failed";
   /*页面载入完成后，创建复制按钮*/
   !function (e, t, a) {
     /* code */
     var initCopyCode = function(){
       var copyHtml = '';
       copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-      copyHtml += '  <i class="fa fa-copy"></i><span>複製</span>';
+      copyHtml += '  <i class="fa fa-copy"></i><span>Copy</span>';
       copyHtml += '</button>';
       $(".highlight .code pre").before(copyHtml);
       var clipboard = new ClipboardJS('.btn-copy', {
