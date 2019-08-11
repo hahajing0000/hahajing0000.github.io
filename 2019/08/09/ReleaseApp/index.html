@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Category: Android插件化 | 一个老程序猿</title>
+  <title>Android 多渠道打包 | 一个老程序猿</title>
   
   
   <meta name="description" content="记录技术点滴">
@@ -48,7 +48,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover  half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>积沙成塔，集腋成裘</h1>
@@ -280,33 +280,12 @@
 
   <div class="l_body">
     <div class='body-wrapper'>
-      
-<div class='l_main'>
+      <div class='l_main'>
   
-    
-      
-  <section class="post-list">
-    
-      
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
+
   
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -315,11 +294,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2019/07/31/ActivityDynamicLoad/">
-      Android 插件化 动态加载Activity
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2019/08/09/ReleaseApp/">
+        Android 多渠道打包
+      </a>
+    </h1>
+  
 
 
       
@@ -345,7 +326,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-31</p>
+    <p>2019-08-09</p>
   </a>
 </div>
 
@@ -355,9 +336,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/Android插件化/' rel="nofollow">
+    <a href='/categories/打包/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android插件化</p>
+      <p>打包</p>
     </a>
   </div>
 
@@ -366,6 +347,19 @@
         
           
             
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
 
           
         
@@ -382,473 +376,200 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>之前介绍了如何热更新如何动态加载资源，可参考：</p>
-<p><a href="http://www.zydeveloper.com/page/2/">Android 热修复</a></p>
-<p><a href="http://www.zydeveloper.com/2019/07/24/ResourceDynamicLoad/">Android插件化——动态资源加载</a></p>
-      
-        <div class="readmore">
-          <a href="/2019/07/31/ActivityDynamicLoad/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            閱讀全文
-          </a>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p>我们的产品上线后会发布到不同的应用商店供用户下载，对于不同的应用商店上线的APP版本进行跟踪统计。<br>这时我们对于不同的应用上线应用商店划分不同的渠道，也就是我们所说的多渠道打包。</p>
+<a id="more"></a>
+
+<p>下面我们来介绍如何使用Gradle进行多渠道打包。</p>
+<p>使用Gradle多渠道打包主要使用<strong>ProductFlavors</strong>。</p>
+<h3 id="ProductFlavors"><a href="#ProductFlavors" class="headerlink" title="ProductFlavors"></a>ProductFlavors</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">    flavorDimensions <span class="string">"channelpackage"</span></span><br><span class="line">    productFlavors&#123;</span><br><span class="line">        <span class="comment">//小米</span></span><br><span class="line">        xiaomi&#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//豌豆荚</span></span><br><span class="line">        wandoujia&#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//应用宝</span></span><br><span class="line">        yingyongbao&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现有3个渠道ChannelPackageA ChannelPackageB ChannelPackageC。<br>还有flavorDimensions 和 dimension,这两个是干嘛用的呢？<br>如果不加就会报：</p>
+<p>Error:All flavors must now belong to a named flavor dimension.Learn more at <a href="https://d.android.com/r/tools/flavorDimensions-missing-error-message.html" target="_blank" rel="noopener">https://d.android.com/r/tools/flavorDimensions-missing-error-message.html</a> </p>
+<p>大概意思是所有的flavors都要属于同一个规格。<br>点击链接地址后（要翻墙）：<br>Plugin 3.0.0 includes a new dependency mechanism that automatically matches variants when consuming a library. This means an app’s debug variant automatically consumes a library’s debug variant, and so on. It also works when using flavors—an app’s redDebug variant will consume a library’s redDebug variant. To make this work, the plugin now requires that all flavors belong to a named flavor dimension —even if you intend to use only a single dimension. Otherwise, you will get the following build error:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error:All flavors must now belong to a named flavor dimension.</span><br><span class="line">The flavor <span class="string">'flavor_name'</span> is not assigned to a flavor dimension.</span><br></pre></td></tr></table></figure>
+
+<p>To resolve this error, assign each flavor to a named dimension, as shown in the sample below. Because dependency matching is now taken care of by the plugin, you should name your flavor dimensions carefully. For example, if all your app and library modules use the foo dimension, you’ll have less control over which flavors are matched by the plugin.</p>
+<p>我们可以参考友盟的渠道包方式在清单文件中加入：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta-data</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">"MY_CHANNEL"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:value</span>=<span class="string">"$&#123;CHANNEL_VALUE&#125;"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时修改上面的Gradle为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">flavorDimensions <span class="string">"channelpackage"</span></span><br><span class="line">productFlavors&#123;</span><br><span class="line">    <span class="comment">//小米</span></span><br><span class="line">    xiaomi&#123;</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"xiaomi"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//豌豆荚</span></span><br><span class="line">    wandoujia&#123;</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"wandoujia"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//应用宝</span></span><br><span class="line">    yingyongbao&#123;</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"yingyongbao"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置好后到工程的跟目录下执行：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assemble</span><br></pre></td></tr></table></figure>
+
+<p>打包成功后：<br><img src="/2019/08/09/ReleaseApp/2019-08-11-18-31-11.png"><br>在app下的output下就可以看看我们刚刚打的渠道包了。<br><img src="/2019/08/09/ReleaseApp/2019-08-11-18-32-50.png"><br>我们看到已经打包好了不同渠道的debug与release版本的APK。</p>
+<p>当然也可以指定打包：</p>
+<p>只打release版本包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assembleRelease</span><br></pre></td></tr></table></figure>
+
+<p>只打debug版本包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assembleDebug</span><br></pre></td></tr></table></figure>
+
+<p>只打小米渠道包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assemblexiaomi</span><br></pre></td></tr></table></figure>
+
+<p>只打小米渠道Release包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assemblexiaomiRelease</span><br></pre></td></tr></table></figure>
+
+<h3 id="可能遇到的问题？"><a href="#可能遇到的问题？" class="headerlink" title="可能遇到的问题？"></a>可能遇到的问题？</h3><p>问题1：<br>Android studio Error occurred during initialization of VM 问题解决</p>
+<img src="/2019/08/09/ReleaseApp/2019-08-11-18-08-52.png">
+
+
+<p>问题2：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Execution failed <span class="keyword">for</span> task <span class="string">':app:compileWandoujiaDebugJavaWithJavac'</span>.</span><br><span class="line">&gt; Could not find tools.jar. Please check that C:\<span class="function">Program <span class="title">Files</span> <span class="params">(x86)</span>\Java\jre1.8.0_211 contains a valid JDK installation.</span></span><br></pre></td></tr></table></figure>
+
+<p>环境变量中配置JAVA_HOME 指向jdk所在目录，path中加入%JAVA_HOME%\bin </p>
+
         </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/31/ApkDynamicLoad/">
-      Android 插件化 动态加载Activity
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
         
           
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
 
 
-          
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
         
-          
-            <div class="new-meta-item date">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-11T18:37:50+08:00">
   <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-31</p>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最後更新於 Aug 11, 2019</p>
   </a>
 </div>
 
-          
+        
+      
         
           
-            
   
-  <div class='new-meta-item category'>
-    <a href='/categories/Android插件化/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android插件化</p>
-    </a>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/多渠道打包/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>多渠道打包</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/08/09/ReleaseApp/&title=Android 多渠道打包 | 一个老程序猿&summary=我们的产品上线后会发布到不同的应用商店供用户下载，对于不同的应用商店上线的APP版本进行跟踪统计。这时我们对于不同的应用上线应用商店划分不同的渠道，也就是我们所说的多渠道打包。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/08/09/ReleaseApp/&title=Android 多渠道打包 | 一个老程序猿&summary=我们的产品上线后会发布到不同的应用商店供用户下载，对于不同的应用商店上线的APP版本进行跟踪统计。这时我们对于不同的应用上线应用商店划分不同的渠道，也就是我们所说的多渠道打包。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/08/09/ReleaseApp/&title=Android 多渠道打包 | 一个老程序猿&summary=我们的产品上线后会发布到不同的应用商店供用户下载，对于不同的应用商店上线的APP版本进行跟踪统计。这时我们对于不同的应用上线应用商店划分不同的渠道，也就是我们所说的多渠道打包。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
   </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>之前介绍了如何热更新如何动态加载资源，可参考：</p>
-<p><a href="http://www.zydeveloper.com/page/2/">Android 热修复</a></p>
-<p><a href="http://www.zydeveloper.com/2019/07/24/ResourceDynamicLoad/">Android插件化——动态资源加载</a></p>
-      
-        <div class="readmore">
-          <a href="/2019/07/31/ApkDynamicLoad/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            閱讀全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/30/Tinker/">
-      Android 插件化 Tinker
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-30</p>
-  </a>
 </div>
 
-          
+
+
         
-          
-            
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一頁&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/2019/08/08/Event/" rel="prev" title="事件分发">
+                                    
+                                        事件分发
+                                    
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/Android基础/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android基础</a> <a class="tag" href="/tags/事件/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>事件</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
   
-  <div class='new-meta-item category'>
-    <a href='/categories/Android插件化/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android插件化</p>
-    </a>
-  </div>
+
+  
+    <!-- 显示推荐文章和评论 -->
 
 
-          
-        
-          
-            
 
-          
-        
-          
-            
-
-          
-        
-      </div>
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;評論</h4>
       
-        <hr>
       
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p><a href="http://www.tinkerpatch.com/" target="_blank" rel="noopener">Tinker 官网</a></p>
-<h3 id="什么是-Tinker？"><a href="#什么是-Tinker？" class="headerlink" title="什么是 Tinker？"></a>什么是 Tinker？</h3><p>Tinker 是一个开源项目(<a href="https://github.com/Tencent/tinker" target="_blank" rel="noopener">Github链接</a>)，它是微信官方的 Android 热补丁解决方案，它支持动态下发代码、So 库以及资源，让应用能够在不需要重新安装的情况下实现更新。</p>
       
-        <div class="readmore">
-          <a href="/2019/07/30/Tinker/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            閱讀全文
-          </a>
-        </div>
       
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
-        
-          <a href="/tags/Tinker/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Tinker</a>
-        
-      </div>
-    
-  </section>
-</article>
-
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
           </div>
-        
+        </section>
       
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
+    </section>
+  </article>
 
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/24/ResourceDynamicLoad/">
-      Android插件化——动态资源加载
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-24</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android插件化/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android插件化</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>之前我们聊了一下Android插件化中的热修复，参考：（<a href="http://www.zydeveloper.com/2019/07/15/hotupdate/">Android 热修复</a>），现在我们聊聊资源的动态加载。</p>
-      
-        <div class="readmore">
-          <a href="/2019/07/24/ResourceDynamicLoad/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            閱讀全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/15/hotupdate/">
-      Android 热修复
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android插件化/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android插件化</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <img src="/2019/07/15/hotupdate/2019-07-15-18-06-52.png">
-      
-        <div class="readmore">
-          <a href="/2019/07/15/hotupdate/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            閱讀全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
-          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
-        
-          <a href="/tags/热修复/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>热修复</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
 
   
 
 
-    
-  
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Android 多渠道打包',
+      tools: true
+    }
+  </script>
+
 
 </div>
 <aside class='l_side'>
@@ -914,6 +635,20 @@
           
           
             
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目錄</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ProductFlavors"><span class="toc-text">ProductFlavors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可能遇到的问题？"><span class="toc-text">可能遇到的问题？</span></a></li></ol>
+    </div>
+  </section>
+
 
           
         
@@ -1277,6 +1012,36 @@
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      <script src="https://cdn.jsdelivr.net/gh/xaoxuu/volantis@1.0/js/volantis.min.js"></script>
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'false' == true;
+  var verify = 'false' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "0KlAt3xallRhjOJMctQ9qURr-gzGzoHsz",
+    appKey: "hcMgWwpE6UOBDnHaEUV9wPcs",
+    placeholder: "来来帅哥美女聊聊吧~",
+    pageSize:'20',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'false'
+  })
+  </script>
 
 
 
