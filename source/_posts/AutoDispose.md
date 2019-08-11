@@ -8,7 +8,7 @@ toc: true
 
 [Auto Dispose GitHub地址](https://github.com/uber/AutoDispose)
 
-前一篇我们介绍了RxLifecycle解决Rxjava可能发送的内存泄漏问题：
+前一篇我们介绍了RxLifecycle解决Rxjava可能发生的内存泄漏问题：
 
 [RxLifecycle 解决RxJava内存泄漏问题](http://www.zydeveloper.com/2019/08/05/RxLifecycle/)
 
