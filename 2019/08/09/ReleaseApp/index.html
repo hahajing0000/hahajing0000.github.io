@@ -176,7 +176,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<input type="text" class="input u-search-input" placeholder="Search" />
 						<i class="icon fas fa-search fa-fw"></i>
 					</form>
 				</div>
@@ -423,7 +423,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"wandoujia"</span>,BaiduMapAPPKEY:<span class="string">"s9s87d7f9s6df6s78sd"</span>]</span><br></pre></td></tr></table></figure>
 
 <p><strong>还可以不同的渠道引入不同的jar包</strong>：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    ...</span><br><span class="line">    implementation <span class="string">'com.github.leifzhang:IjkLib:0.4.3'</span></span><br><span class="line">    xiaomiImplementation <span class="string">'com.github.leifzhang:IjkLib:0.4.3'</span></span><br><span class="line">    wandoujiaImplementation <span class="string">'com.github.leifzhang:IjkLib:0.4.3'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    ...</span><br><span class="line">    implementation <span class="string">'com.github.leifzhang:IjkLib:0.4.3'</span></span><br><span class="line">    xiaomiImplementation <span class="string">'io.reactivex.rxjava2:rxandroid:2.1.1'</span></span><br><span class="line">    xiaomiImplementation <span class="string">'io.reactivex.rxjava2:rxjava:2.2.11'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>使用BuildConfig传递配置一些参数</strong>：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">flavorDimensions <span class="string">"channelpackage"</span></span><br><span class="line">productFlavors&#123;</span><br><span class="line">    <span class="comment">//小米</span></span><br><span class="line">    xiaomi&#123;</span><br><span class="line">        ...</span><br><span class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"buildparam"</span>,<span class="string">"\"xiaomi\""</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//豌豆荚</span></span><br><span class="line">    wandoujia&#123;</span><br><span class="line">        ...</span><br><span class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"buildparam"</span>,<span class="string">"\"wandoujia\""</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//应用宝</span></span><br><span class="line">    yingyongbao&#123;</span><br><span class="line">        ...</span><br><span class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"buildparam"</span>,<span class="string">"\"yingyongbao\""</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">代码中获取：</span><br><span class="line"><span class="keyword">if</span> (BuildConfig.buildparam.equals(<span class="string">"xiaomi"</span>))&#123;</span><br><span class="line">            </span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (BuildConfig.buildparam.equals(<span class="string">"wandoujia"</span>))&#123;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (BuildConfig.buildparam.equals(<span class="string">"yingyongbao"</span>))&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -451,10 +451,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-13T08:51:03+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-13T09:15:33+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最后更新于 Aug 13, 2019</p>
+    <p>last updated at Aug 13, 2019</p>
   </a>
 </div>
 
@@ -527,18 +527,18 @@
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
-                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2019/08/08/CustomView3/" rel="prev" title="自定义View绘制一些基本图形">
+                                <a href="/2019/08/08/CustomAnnFramwork/" rel="prev" title="自实现页面注解框架">
                                     
-                                        自定义View绘制一些基本图形
+                                        自实现页面注解框架
                                     
                                 </a>
                             </h4>
                             
                                 
                                 <h6 class="tags">
-                                    <a class="tag" href="/tags/Android基础/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>Android基础</a> <a class="tag" href="/tags/自定义View/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>自定义View</a>
+                                    <a class="tag" href="/tags/框架/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>框架</a> <a class="tag" href="/tags/页面框架/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>页面框架</a>
                                 </h6>
                             
                         </span>
@@ -557,7 +557,7 @@
 
   <article class="post white-box comments">
     <section class="article typo">
-      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论</h4>
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;Comments</h4>
       
       
       
@@ -656,7 +656,7 @@
   <section class='widget toc-wrapper'>
     
 <header class='material'>
-  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;TOC</div>
   
     <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
   
@@ -766,7 +766,7 @@
   <section class='widget category'>
     
 <header class='material'>
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
   
     <a class="rightBtn"
     
@@ -811,7 +811,7 @@
   <section class='widget tagcloud'>
     
 <header class='material'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Hot Tags</div>
   
     <a class="rightBtn"
     
@@ -926,19 +926,19 @@
     </div>
   
   <br>
-  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
   <div>
-    本站使用
+    Use
     <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
-    作为主题
+    as theme
     
-      ，
-      总访问量为
+      , 
+      total visits
       <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
-      次
+      times
     
-    。
+    . 
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
@@ -1074,15 +1074,15 @@
 <!-- 复制 -->
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
-  let COPY_SUCCESS = "复制成功";
-  let COPY_FAILURE = "复制失败";
+  let COPY_SUCCESS = "Copied";
+  let COPY_FAILURE = "Copy failed";
   /*页面载入完成后，创建复制按钮*/
   !function (e, t, a) {
     /* code */
     var initCopyCode = function(){
       var copyHtml = '';
       copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '  <i class="fa fa-copy"></i><span>Copy</span>';
       copyHtml += '</button>';
       $(".highlight .code pre").before(copyHtml);
       var clipboard = new ClipboardJS('.btn-copy', {
