@@ -417,7 +417,19 @@
 <p>task 构建补丁包，补丁包将位于 build/outputs/tinkerPatch下。</p>
 <img src="/2019/07/30/Tinker/2019-08-14-08-45-46.png">
 
-<p>patch_signed.apk就是我们的补丁包了。</p>
+<p>patch_signed_7zip.apk就是我们的补丁包了。</p>
+<p>在Tinker后台下发补丁包：<br><img src="/2019/07/30/Tinker/2019-08-14-09-31-43.png"></p>
+<p>测试使用“开发预览”方式下发，不会对线上版本直接更新。我们用一个简单的界面为例：</p>
+<img src="/2019/07/30/Tinker/2019-08-14-09-57-34.png">
+
+<p>修改部分代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tvTest.setText(<span class="string">"123456"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>使用上面方式制作出补丁包，然后发布到Tinker后台。更新后如下：</p>
+<img src="/2019/07/30/Tinker/2019-08-14-09-55-55.png">
+
+
+<p>更多功能请参见 —— <a href="http://www.tinkerpatch.com/Docs/SDK" target="_blank" rel="noopener">Tinker 官方文档</a></p>
 <h3 id="可能遇到的问题？"><a href="#可能遇到的问题？" class="headerlink" title="可能遇到的问题？"></a>可能遇到的问题？</h3><p>问题1：<br><img src="/2019/07/30/Tinker/2019-08-14-09-06-28.png"></p>
 <p>解决方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">"com.baweigame.umengdemoapplication"</span></span><br><span class="line">        minSdkVersion <span class="number">15</span></span><br><span class="line">        targetSdkVersion <span class="number">28</span></span><br><span class="line">        versionCode <span class="number">1</span></span><br><span class="line">        versionName <span class="string">"1.0"</span></span><br><span class="line">        testInstrumentationRunner <span class="string">"android.support.test.runner.AndroidJUnitRunner"</span></span><br><span class="line"></span><br><span class="line">        javaCompileOptions &#123;</span><br><span class="line">            annotationProcessorOptions &#123;</span><br><span class="line">                includeCompileClasspath = <span class="keyword">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -438,7 +450,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-14T09:15:32+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-14T09:58:37+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>last updated at Aug 14, 2019</p>
