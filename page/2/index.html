@@ -234,115 +234,6 @@
       
         
   <h2 class="title">
-    <a href="/2019/08/05/AutoDispose/">
-      AutoDispose 解决RxJava内存泄漏问题
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-05</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android第三方框架/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android第三方框架</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p><a href="https://github.com/uber/AutoDispose" target="_blank" rel="noopener">Auto Dispose GitHub地址</a></p>
-<p>前一篇我们介绍了RxLifecycle解决Rxjava可能发生的内存泄漏问题：</p>
-<p><a href="http://www.zydeveloper.com/2019/08/05/RxLifecycle/">RxLifecycle 解决RxJava内存泄漏问题</a></p>
-<p>AutoDispose是一个RxJava2工具，用于解决Rxjava内存泄漏问题。</p>
-      
-        <div class="readmore">
-          <a href="/2019/08/05/AutoDispose/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/框架/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>框架</a>
-        
-          <a href="/tags/AutoDispose/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>AutoDispose</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
     <a href="/2019/08/05/RxJava2/">
       RxJava操作符
     </a>
@@ -428,6 +319,114 @@
           <a href="/tags/框架/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>框架</a>
         
           <a href="/tags/RxJava/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>RxJava</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/2019/08/05/RxLifecycle/">
+      RxLifecycle 解决RxJava内存泄漏问题
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-05</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Android第三方框架/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Android第三方框架</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p><a href="https://github.com/trello/RxLifecycle" target="_blank" rel="noopener">RxLifecycle官网</a></p>
+<p>RxLifecycle的出现是为了解决RxJava的内存泄漏问题，RxJava什么时候会出现内存泄漏？</p>
+<p>当使用RxJava订阅执行耗时操作，这是Activity被finish了，如果任务还未执行完成没有取消订阅，这时导致Activity无法回收进而导致内存泄漏问题。</p>
+      
+        <div class="readmore">
+          <a href="/2019/08/05/RxLifecycle/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/框架/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>框架</a>
+        
+          <a href="/tags/RxLifecycle/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>RxLifecycle</a>
         
       </div>
     
@@ -559,6 +558,112 @@
       
         
   <h2 class="title">
+    <a href="/2019/07/31/ApkDynamicLoad/">
+      Android 插件化 动态加载Activity
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-07-31</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Android插件化/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Android插件化</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>之前介绍了如何热更新如何动态加载资源，可参考：</p>
+<p><a href="http://www.zydeveloper.com/page/2/">Android 热修复</a></p>
+<p><a href="http://www.zydeveloper.com/2019/07/24/ResourceDynamicLoad/">Android插件化——动态资源加载</a></p>
+      
+        <div class="readmore">
+          <a href="/2019/07/31/ApkDynamicLoad/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
     <a href="/2019/07/31/ActivityDynamicLoad/">
       Android 插件化 动态加载Activity
     </a>
@@ -665,8 +770,8 @@
       
         
   <h2 class="title">
-    <a href="/2019/07/31/ApkDynamicLoad/">
-      Android 插件化 动态加载Activity
+    <a href="/2019/07/30/Tinker/">
+      Android 插件化 Tinker
     </a>
   </h2>
 
@@ -694,7 +799,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-31</p>
+    <p>2019-07-30</p>
   </a>
 </div>
 
@@ -733,12 +838,11 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>之前介绍了如何热更新如何动态加载资源，可参考：</p>
-<p><a href="http://www.zydeveloper.com/page/2/">Android 热修复</a></p>
-<p><a href="http://www.zydeveloper.com/2019/07/24/ResourceDynamicLoad/">Android插件化——动态资源加载</a></p>
+      <p><a href="http://www.tinkerpatch.com/" target="_blank" rel="noopener">Tinker 官网</a></p>
+<h3 id="什么是-Tinker？"><a href="#什么是-Tinker？" class="headerlink" title="什么是 Tinker？"></a>什么是 Tinker？</h3><p>Tinker 是一个开源项目(<a href="https://github.com/Tencent/tinker" target="_blank" rel="noopener">Github链接</a>)，它是微信官方的 Android 热补丁解决方案，它支持动态下发代码、So 库以及资源，让应用能够在不需要重新安装的情况下实现更新。</p>
       
         <div class="readmore">
-          <a href="/2019/07/31/ApkDynamicLoad/" class="flat-box">
+          <a href="/2019/07/30/Tinker/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             Read More
           </a>
@@ -749,6 +853,8 @@
       <div class="full-width auto-padding tags">
         
           <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
+        
+          <a href="/tags/Tinker/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Tinker</a>
         
       </div>
     
@@ -858,113 +964,6 @@
           <a href="/tags/组件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>组件化</a>
         
           <a href="/tags/架构/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>架构</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/07/30/Tinker/">
-      Android 插件化 Tinker
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-07-30</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android插件化/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android插件化</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p><a href="http://www.tinkerpatch.com/" target="_blank" rel="noopener">Tinker 官网</a></p>
-<h3 id="什么是-Tinker？"><a href="#什么是-Tinker？" class="headerlink" title="什么是 Tinker？"></a>什么是 Tinker？</h3><p>Tinker 是一个开源项目(<a href="https://github.com/Tencent/tinker" target="_blank" rel="noopener">Github链接</a>)，它是微信官方的 Android 热补丁解决方案，它支持动态下发代码、So 库以及资源，让应用能够在不需要重新安装的情况下实现更新。</p>
-      
-        <div class="readmore">
-          <a href="/2019/07/30/Tinker/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
-        
-          <a href="/tags/Tinker/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Tinker</a>
         
       </div>
     
@@ -1282,9 +1281,9 @@
     
       <div class="full-width auto-padding tags">
         
-          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
-        
           <a href="/tags/插件化/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>插件化</a>
+        
+          <a href="/tags/Android/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android</a>
         
       </div>
     
