@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Tag: 自定义View | 一个老程序猿</title>
+  <title>Tag: 启动流程 | 一个老程序猿</title>
   
   
   <meta name="description" content="记录技术点滴">
@@ -291,10 +291,6 @@
         
           
         
-          
-        
-          
-        
       
     
     
@@ -312,8 +308,8 @@
       
         
   <h2 class="title">
-    <a href="/2019/08/08/CustomView1/">
-      自定义View使用
+    <a href="/2019/08/15/activitystart/">
+      Activity启动流程
     </a>
   </h2>
 
@@ -341,7 +337,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-08</p>
+    <p>2019-08-15</p>
   </a>
 </div>
 
@@ -351,9 +347,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/Android基础/' rel="nofollow">
+    <a href='/categories/Android进阶/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android基础</p>
+      <p>Android进阶</p>
     </a>
   </div>
 
@@ -380,213 +376,26 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      
+      <p>Activity.startActivity()<br>Activity.startActivityForResult<br>Instrumentation.execStartActivty<br>ActivityManagerNative.getDefault().startActivityAsUser() </p>
+<hr>
+<p>ActivityManagerService.startActivity()<br>ActivityManagerService.startActivityAsUser()<br>ActivityStackSupervisor.startActivityMayWait()<br>ActivityStackSupervisor.startActivityLocked()<br>ActivityStackSupervisor.startActivityUncheckedLocked()<br>ActivityStackSupervisor.startActivityLocked()<br>ActivityStackSupervisor.resumeTopActivitiesLocked()<br>ActivityStackSupervisor.resumeTopActivityInnerLocked() </p>
+<hr>
+<p>ActivityStack.startPausingLocked()<br>IApplicationThread.schudulePauseActivity()<br>ActivityThread.sendMessage()<br>ActivityThread.H.sendMessage();<br>ActivityThread.H.handleMessage()<br>ActivityThread.handlePauseActivity()<br>ActivityThread.performPauseActivity()<br>Activity.performPause()<br>Activity.onPause()</p>
+<p>？？</p>
+<p>ActivityManagerNative.getDefault().activityPaused(token)<br>ActivityManagerService.activityPaused()<br>ActivityStack.activityPausedLocked()<br>ActivityStack.completePauseLocked()<br>ActivityStack.resumeTopActivitiesLocked()<br>ActivityStack.resumeTopActivityLocked()<br>ActivityStack.resumeTopActivityInnerLocked()<br>ActivityStack.startSpecificActivityLocked </p>
+<hr>
+<p>ActivityManagerService.startProcessLocked()<br>Process.start()<br>ActivityThread.main()<br>ActivityThread.attach()<br>ActivityManagerNative.getDefault().attachApplication()<br>ActivityManagerService.attachApplication() </p>
+<hr>
+<p>ActivityStackSupervisor.attachApplicationLocked()<br>ActivityStackSupervisor.realStartActivityLocked()<br>IApplicationThread.scheduleLauncherActivity()<br>ActivityThread.sendMessage()<br>ActivityThread.H.sendMessage()<br>ActivityThread.H.handleMessage()<br>ActivityThread.handleLauncherActivity()<br>ActivityThread.performLauncherActivity()<br>Instrumentation.callActivityOnCreate()<br>Activity.onCreate()<br>ActivityThread.handleResumeActivity()<br>ActivityThread.performResumeActivity()<br>Activity.performResume()<br>Instrumentation.callActivityOnResume()<br>Activity.onResume()<br>ActivityManagerNative.getDefault().activityResumed(token) </p>
+<hr>
+<p>Looper.myQueue().addIdleHandler(new Idler())<br>Idler.queueIdle()<br>ActivityManagerNative.getDefault().activityIdle()<br>ActivityManagerService.activityIdle()<br>ActivityStackSupervisor.activityIdleInternalLocked()<br>ActivityStack.stopActivityLocked()<br>IApplicationThread.scheduleStopActivity()<br>ActivityThread.scheduleStopActivity()<br>ActivityThread.sendMessage()<br>ActivityThread.H.sendMessage()<br>ActivityThread.H.handleMessage()<br>ActivityThread.handleStopActivity()<br>ActivityThread.performStopActivityInner()<br>ActivityThread.callCallActivityOnSaveInstanceState()<br>Instrumentation.callActivityOnSaveInstanceState()<br>Activity.performSaveInstanceState()<br>Activity.onSaveInstanceState()<br>Activity.performStop()<br>Instrumentation.callActivityOnStop()<br>Activity.onStop() </p>
+
       
     </div>
     
       <div class="full-width auto-padding tags">
         
-          <a href="/tags/Android基础/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android基础</a>
-        
-          <a href="/tags/自定义View/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>自定义View</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/08/08/CustomView2/">
-      组合View和自定义属性
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-08</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android基础/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android基础</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android基础/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android基础</a>
-        
-          <a href="/tags/自定义View/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>自定义View</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/08/08/CustomView3/">
-      自定义View绘制一些基本图形
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://www.zydeveloper.com" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>Zhangyue</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-08</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Android基础/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Android基础</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/Android基础/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Android基础</a>
-        
-          <a href="/tags/自定义View/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>自定义View</a>
+          <a href="/tags/启动流程/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>启动流程</a>
         
       </div>
     
