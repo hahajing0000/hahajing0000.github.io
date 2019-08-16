@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <title>三次握手与四次挥手及Http协议 | 一个老程序猿</title>
+  
+  
+  <meta name="description" content="记录技术点滴">
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="一个老程序猿">
+  
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.6.3/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/css/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>积沙成塔，集腋成裘</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/projects/"
+            
+            
+            id="projects">
+            <i class='fas fa-code-branch fa-fw'></i>&nbsp;项目
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/friends/"
+            
+              rel="nofollow"
+            
+            
+            id="friends">
+            <i class='fas fa-link fa-fw'></i>&nbsp;友链
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/about/"
+            
+              rel="nofollow"
+            
+            
+            id="about">
+            <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          一个老程序猿
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;文章列表
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogcategories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogtags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/friends/"
+                
+                  rel="nofollow"
+                
+                
+                id="friends">
+								<i class='fas fa-link fa-fw'></i>&nbsp;我的友链
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="https://xaoxuu.com/wiki/material-x/"
+                
+                  rel="nofollow"
+                
+                
+                id="https:xaoxuu.comwikimaterial-x">
+								<i class='fas fa-book fa-fw'></i>&nbsp;主题文档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2019/08/16/networkprotocol/">
+        三次握手与四次挥手及Http协议
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-16</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/网络协议/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>网络协议</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p><strong>以下内容摘录自《Android进阶之光》——刘望舒</strong></p>
+<h3 id="TCP的三次握手与四次挥手"><a href="#TCP的三次握手与四次挥手" class="headerlink" title="TCP的三次握手与四次挥手"></a>TCP的三次握手与四次挥手</h3><p>为什么这里要插入TCP的三次握手与四次挥手的知识呢？ 因为在后面章节分析OkHttp源码的时候会涉及。 通常我们进行HTTP连接网络的时候会进行TCP的三次握手， 然后传输数据， 之后再释放连接。<br><img src="/2019/08/16/networkprotocol/2019-08-16-16-03-06.png"></p>
+<a id="more"></a>
+
+<h4 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h4><p>TCP三次握手的过程如下。</p>
+<p>• 第一次握手： 建立连接。 客户端发送连接请求报文段， 将 SYN 设置为 1、 Sequence Number（seq） 为x； 接下来客户端进入SYN_SENT状态， 等待服务端的确认。</p>
+<p>• 第二次握手： 服务器收到客户端的 SYN 报文段， 对 SYN 报文段进行确认， 设置AcknowledgmentNumber（ACK） 为 x+1（seq+1） ； 同时自己还要发送 SYN 请求信息， 将SYN设置为1、 seq为y。 服务端将上述所有信息放到SYN+ACK报文段中， 一并发送给客户端， 此时服务端进入SYN_RCVD状态。</p>
+<p>• 第三次握手： 客户端收到服务端的SYN+ACK报文段； 然后将ACK设置为y+1， 向服务端发送ACK报文段， 这个报文段发送完毕后， 客户端和服务端都进入ESTABLISHED （TCP连接成功）状态， 完成TCP的三次握手。</p>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><p>当客户端和服务端通过三次握手建立了TCP连接以后， 当数据传送完毕， 断开连接时就需要进行TCP的四次挥手。 其四次挥手如下所示。</p>
+<p>• 第一次挥手： 客户端设置seq和ACK， 向服务端发送一个FIN报文段。 此时， 客户端进入FIN_WAIT_1状态， 表示客户端没有数据要发送给服务端了。</p>
+<p>• 第二次挥手： 服务端收到了客户端发送的FIN报文段， 向客户端回了一个ACK报文段。</p>
+<p>• 第三次挥手： 服务端向客户端发送 FIN 报文段， 请求关闭连接， 同时服务端进LAST_ACK状态。</p>
+<p>• 第四次挥手： 客户端收到服务端发送的FIN报文段， 向服务端发送ACK报文段， 然后客户端进入TIME_WAIT状态。 服务端收到客户端的ACK报文段以后， 就关闭连接。 此时， 客户端等待2MSL（最大报文段生存时间） 后依然没有收到回复， 则说明服务端已正常关闭， 这样客户端也可以关闭连接了。<br><img src="/2019/08/16/networkprotocol/2019-08-16-16-05-25.png"><br>如果有大量的连接， 每次在连接、 关闭时都要经历三次握手、 四次挥手， 这很显然会造成性能低下。<br>因此， HTTP有一种叫作keepalive connections的机制， 它可以在传输数据后仍然保持连接， 当客户端需要再次获取数据时， 直接使用刚刚空闲下来的连接而无须再次握手.<br><img src="/2019/08/16/networkprotocol/2019-08-16-16-06-28.png"></p>
+<h3 id="HTTP协议原理"><a href="#HTTP协议原理" class="headerlink" title="HTTP协议原理"></a>HTTP协议原理</h3><p>作为移动开发者， 开发的应用不免会对网络进行访问。 虽然现在已经有很多开源库帮助我们可以轻而易举地访问网络， 但是我们仍需要去了解网络访问的原理， 这也是一个优秀开发人员所必备的知识点。 </p>
+<h4 id="HTTP简介"><a href="#HTTP简介" class="headerlink" title="HTTP简介"></a>HTTP简介</h4><p>HTTP 是一个属于应用层的面向对象的协议， 由于其简捷、 快速的方式， 适用于分布式超媒体信息系统。 它于1990年被提出， 经过几年的使用与发展， 得到不断的完善和扩展。</p>
+<h5 id="1-HTTP的历史版本"><a href="#1-HTTP的历史版本" class="headerlink" title="1.HTTP的历史版本"></a>1.HTTP的历史版本</h5><p>• HTTP 0.9： 1991年发布的第一个版本， 只有一个命令GET， 服务器只能回应HTML格式的字符串。<br>• HTTP 1.0： 1996年发布的版本， 内容量大大增加。 除了GET命令外， 还引入了POST命令和HEAD命令。 HTTP请求和回应的格式除了数据部分， 每次通信都必须包括头信息， 用来描述一些元数据。<br>• HTTP 1.1： 1997发布的版本， 进一步完善了HTTP协议， 直到现在还是最流行的版本。<br>• SPDY协议： 2009年谷歌为了解决 HTTP 1.1效率不高的问题而自行研发的协议。<br>• HTTP 2： 2015年新发布的版本， SPDY 协议的主要特性也在此版本中。</p>
+<h5 id="2-HTTP协议的主要特点"><a href="#2-HTTP协议的主要特点" class="headerlink" title="2.HTTP协议的主要特点"></a>2.HTTP协议的主要特点</h5><p>HTTP协议的主要特点如下。<br>• 支持C/S（客户/服务器） 模式。<br>• 简单快速： 客户向服务器请求服务时， 只需传送请求方法和路径。 请求方法常用的有GET、 HEAD、POST， 每种方法规定了客户与服务器联系的类型不同。 由于 HTTP 协议简单，使得HTTP服务器的程序规模小， 因而通信速度很快。<br>• 灵活： HTTP允许传输任意类型的数据对象。 正在传输的类型由Content-Type加以标记。 • 无连接： 无连接的含义是限制每次连接只处理一个请求。 服务器处理完客户的请求， 并收到客户的应答后， 即断开连接。 采用这种方式可以节省传输时间。<br>• 无状态： HTTP协议是无状态协议， 无状态是指协议对于事务处理没有记忆能力。 缺少状态意味着如果后续处理需要前面的信息， 则它必须重传， 这样可能导致每次连接传送的数据量增大； 而另一方面， 在服务器不需要先前信息时它的应答速度就较快。</p>
+<p>HTTP URL的格式如下所示：</p>
+<p><a href="http://host[＂:＂port][abs_path]" target="_blank" rel="noopener">http://host[＂:＂port][abs_path]</a></p>
+<p>http表示要通过HTTP协议来定位网络资源； host表示合法的Internet主机域名或者IP地址； port指定一个端口号， 为空则使用默认端口80； abs_path指定请求资源的URI（Web上任意的可用资源） 。 HTTP有两种报文， 分别是请求报文和响应报文， 下面先来查看请求报文。</p>
+<h4 id="HTTP请求报文"><a href="#HTTP请求报文" class="headerlink" title="HTTP请求报文"></a>HTTP请求报文</h4><p>HTTP 报文是面向文本的， 报文中的每一个字段都是一些ASCII码串， 各个字段的长度是不确定的。 一般一个HTTP请求报文由请求行、 请求报头、 空行和请求数据4个部分组成<br><img src="/2019/08/16/networkprotocol/2019-08-16-16-09-23.png"></p>
+<h5 id="1-请求行"><a href="#1-请求行" class="headerlink" title="1.请求行"></a>1.请求行</h5><p>请求行由请求方法、 URL字段和HTTP协议的版本组成， 格式如下：</p>
+<p>Method Request-URI HTTP-Version CRLF</p>
+<p>其中 Method表示请求方法； Request-URI是一个统一资源标识符； HTTP-Version表示请求的HTTP协议版本； CRLF表示回车和换行（除了作为结尾的CRLF外， 不允许出现单独的CR或LF字符） 。</p>
+<p>HTTP请求方法有8种， 分别是GET、 POST、 HEAD、 PUT、 DELETE、 TRACE、CONNECT、OPTIONS。</p>
+<p> 对于移动开发最常用的就是GET和POST了。</p>
+<p>• GET： 请求获取Request-URI所标识的资源。<br>• POST： 在Request-URI所标识的资源后附加新的数据。<br>• HEAD： 请求获取由Request-URI所标识的资源的响应消息报头。<br>• PUT： 请求服务器存储一个资源， 并用Request-URI作为其标识。<br>• DELETE： 请求服务器删除Request-URI所标识的资源。<br>• TRACE： 请求服务器回送收到的请求信息， 主要用于测试或诊断。<br>• CONNECT： HTTP 1.1协议中预留给能够将连接改为管道方式的代理服务器。<br>• OPTIONS： 请求查询服务器的性能， 或者查询与资源相关的选项和需求。</p>
+<p>例如， 访问我的CSDN博客地址的请求行：<br>GET <a href="http://zydeveloper.com" target="_blank" rel="noopener">http://zydeveloper.com</a></p>
+<h5 id="2-请求报头"><a href="#2-请求报头" class="headerlink" title="2.请求报头"></a>2.请求报头</h5><p>在请求行之后会有0个或者多个请求报头， 每个请求报头都包含一个名字和一个值， 它们之间用英文冒号“： ”分割。 关于请求报头， 我们会在后面做统一解释。</p>
+<h5 id="3-请求数据"><a href="#3-请求数据" class="headerlink" title="3.请求数据"></a>3.请求数据</h5><p>请求数据不在GET方法中使用， 而在POST方法中使用。 POST方法适用于需要客户填写表单的场合，与请求数据相关的最常用的请求报头是Content-Type和Content-Length。</p>
+<h4 id="HTTP响应报文"><a href="#HTTP响应报文" class="headerlink" title="HTTP响应报文"></a>HTTP响应报文</h4><img src="/2019/08/16/networkprotocol/2019-08-16-16-11-37.png">
+HTTP 的响应报文由状态行、 响应报头、 空行、 响应正文组成。 关于响应报头， 我们会在后面做统一解释。 响应正文是服务器返回的资源的内容。 我们先来看看状态行。
+状态行格式如下所示：
+
+<p>HTTP-Version Status-Code Reason-Phrase CRLF</p>
+<p>其中， HTTP-Version表示服务器HTTP协议的版本； Status-Code表示服务器发回的响应状态码； ReasonPhrase表示状态码的文本描述。 状态码由3位数字组成， 第一个数字定义了响应的类别， 且有以下5种可能取值。</p>
+<p>• 100～199： 指示信息， 收到请求， 需要请求者继续执行操作。<br>• 200～299： 请求成功， 请求已被成功接收并处理。<br>• 300～399： 重定向， 要完成请求必须进行更进一步的操作。<br>• 400～499： 客户端错误， 请求有语法错误或请求无法实现。<br>• 500～599： 服务器错误， 服务器不能实现合法的请求。</p>
+<p>常见的状态码如下。<br>• 200 OK： 客户端请求成功。<br>• 400 Bad Request： 客户端请求有语法错误， 服务器无法理解。<br>• 401 Unauthorized： 请求未经授权， 这个状态码必须和WWW-Authenticate报头域一起使用。<br>• 403 Forbidden： 服务器收到请求， 但是拒绝提供服务。<br>• 500 Internal Server Error： 服务器内部错误， 无法完成请求。<br>• 503 Server Unavailable： 服务器当前不能处理客户端的请求， 一段时间后可能恢复正常。</p>
+<p>例如， 访问我的CSDN博客地址， 响应的状态行如下所示：</p>
+<p>HTTP/1.1 200 OK</p>
+<h4 id="HTTP的消息报头"><a href="#HTTP的消息报头" class="headerlink" title="HTTP的消息报头"></a>HTTP的消息报头</h4><p>消息报头分为通用报头、 请求报头、 响应报头、 实体报头等。 消息报头由键值对组成， 每行一对， 关键字和值用英文冒号“： ”分隔。</p>
+<h5 id="1-通用报头"><a href="#1-通用报头" class="headerlink" title="1.通用报头"></a>1.通用报头</h5><p>它既可以出现在请求报头， 也可以出现在响应报头中， 如下所示。<br>• Date： 表示消息产生的日期和时间。<br>• Connection： 允许发送指定连接的选项。 例如指定连接是连续的； 或者指定“close”选项， 通知服务器， 在响应完成后， 关闭连接。<br>• Cache-Control： 用于指定缓存指令， 缓存指令是单向的（响应中出现的缓存指令在请求中未必会出现） ， 且是独立的（一个消息的缓存指令不会影响另一个消息处理的缓存机制） 。</p>
+<h5 id="2-请求报头-1"><a href="#2-请求报头-1" class="headerlink" title="2.请求报头"></a>2.请求报头</h5><p>请求报头通知服务器关于客户端请求的信息。 典型的请求报头如下所示。<br>• Host： 请求的主机名， 允许多个域名同处一个IP地址， 即虚拟主机。<br>• User-Agent： 发送请求的浏览器类型、 操作系统等信息。<br>• Accept： 客户端可识别的内容类型列表， 用于指定客户端接收哪些类型的信息。<br>• Accept-Encoding： 客户端可识别的数据编码。<br>• Accept-Language： 表示浏览器所支持的语言类型。<br>• Connection： 允许客户端和服务器指定与请求/响应连接有关的选项。 例如， 这时为Keep-Alive则表示保持连接。<br>• Transfer-Encoding： 告知接收端为了保证报文的可靠传输， 对报文采用了什么编码方式。</p>
+<h5 id="3-响应报头"><a href="#3-响应报头" class="headerlink" title="3.响应报头"></a>3.响应报头</h5><p>用于服务器传递自身信息的响应。 常见的响应报头如下所示。<br>• Location： 用于重定向接收者到一个新的位置， 常用在更换域名的时候。<br>• Server： 包含服务器用来处理请求的系统信息， 与User-Agent请求报头是相对应的。</p>
+<h5 id="4-实体报头"><a href="#4-实体报头" class="headerlink" title="4.实体报头"></a>4.实体报头</h5><p>实体报头用来定义被传送资源的信息， 其既可用于请求也可用于响应。 请求和响应消息都可以传送一个实体。 常见的实体报头如下所示。<br>• Content-Type： 发送给接收者的实体正文的媒体类型。<br>• Content-Lenght： 实体正文的长度。<br>• Content-Language： 描述资源所用的自然语言。<br>• Content-Encoding： 实体报头被用作媒体类型的修饰符。 它的值指示了已经被应用到实体正文的附加内容的编码， 因而要获得Content-Type报头域中所引用的媒体类型， 必须采用相应的解码机制。<br>• Last-Modified： 实体报头用于指示资源的最后修改日期和时间。<br>• Expires： 实体报头给出响应过期的日期和时间。</p>
+
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-16T16:20:39+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最后更新于 Aug 16, 2019</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/其他/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>其他</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/08/16/networkprotocol/&title=三次握手与四次挥手及Http协议 | 一个老程序猿&summary=以下内容摘录自《Android进阶之光》——刘望舒
+TCP的三次握手与四次挥手为什么这里要插入TCP的三次握手与四次挥手的知识呢？ 因为在后面章节分析OkHttp源码的时候会涉及。 通常我们进行HTTP连接网络的时候会进行TCP的三次握手， 然后传输数据， 之后再释放连接。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/08/16/networkprotocol/&title=三次握手与四次挥手及Http协议 | 一个老程序猿&summary=以下内容摘录自《Android进阶之光》——刘望舒
+TCP的三次握手与四次挥手为什么这里要插入TCP的三次握手与四次挥手的知识呢？ 因为在后面章节分析OkHttp源码的时候会涉及。 通常我们进行HTTP连接网络的时候会进行TCP的三次握手， 然后传输数据， 之后再释放连接。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/08/16/networkprotocol/&title=三次握手与四次挥手及Http协议 | 一个老程序猿&summary=以下内容摘录自《Android进阶之光》——刘望舒
+TCP的三次握手与四次挥手为什么这里要插入TCP的三次握手与四次挥手的知识呢？ 因为在后面章节分析OkHttp源码的时候会涉及。 通常我们进行HTTP连接网络的时候会进行TCP的三次握手， 然后传输数据， 之后再释放连接。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/2019/08/15/activitystart/" rel="prev" title="Activity启动流程">
+                                    
+                                        Activity启动流程
+                                    
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/启动流程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>启动流程</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论</h4>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '三次握手与四次挥手及Http协议',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+        
+          
+          
+            <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562089947815&di=e6fdf8f06dcf38e9bf91335b213037ed&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F16%2F09%2F01%2F1757c7f85175380.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:me@xaoxuu.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/xaoxuu"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP的三次握手与四次挥手"><span class="toc-text">TCP的三次握手与四次挥手</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP三次握手"><span class="toc-text">TCP三次握手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四次挥手"><span class="toc-text">四次挥手</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP协议原理"><span class="toc-text">HTTP协议原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP简介"><span class="toc-text">HTTP简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-HTTP的历史版本"><span class="toc-text">1.HTTP的历史版本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-HTTP协议的主要特点"><span class="toc-text">2.HTTP协议的主要特点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP请求报文"><span class="toc-text">HTTP请求报文</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-请求行"><span class="toc-text">1.请求行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-请求报头"><span class="toc-text">2.请求报头</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-请求数据"><span class="toc-text">3.请求数据</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP响应报文"><span class="toc-text">HTTP响应报文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP的消息报头"><span class="toc-text">HTTP的消息报头</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-通用报头"><span class="toc-text">1.通用报头</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-请求报头-1"><span class="toc-text">2.请求报头</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-响应报头"><span class="toc-text">3.响应报头</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-实体报头"><span class="toc-text">4.实体报头</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/blog/archives/" href="/blog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="blogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/projects/" href="/projects/"
+          
+          
+          id="projects">
+          
+            <i class="fas fa-code-branch fa-fw" aria-hidden="true"></i>
+          
+          开源项目
+        </a></li>
+      
+        <li><a class="flat-box" title="/friends/" href="/friends/"
+          
+            rel="nofollow"
+          
+          
+          id="friends">
+          
+            <i class="fas fa-link fa-fw" aria-hidden="true"></i>
+          
+          我的友链
+        </a></li>
+      
+        <li><a class="flat-box" title="https://xaoxuu.com/wiki/material-x/" href="https://xaoxuu.com/wiki/material-x/"
+          
+            rel="nofollow"
+          
+          
+          id="https:xaoxuu.comwikimaterial-x">
+          
+            <i class="fas fa-book fa-fw" aria-hidden="true"></i>
+          
+          主题文档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/categories/"
+    title="blog/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/Android基础/" href="/categories/Android基础/"><div class='name'>Android基础</div><div class='badge'>(6)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/Android插件化/" href="/categories/Android插件化/"><div class='name'>Android插件化</div><div class='badge'>(5)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/Android第三方框架/" href="/categories/Android第三方框架/"><div class='name'>Android第三方框架</div><div class='badge'>(7)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/Android进程保活/" href="/categories/Android进程保活/"><div class='name'>Android进程保活</div><div class='badge'>(5)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/Android进阶/" href="/categories/Android进阶/"><div class='name'>Android进阶</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/Jetpack/" href="/categories/Jetpack/"><div class='name'>Jetpack</div><div class='badge'>(5)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/打包/" href="/categories/打包/"><div class='name'>打包</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/架构/" href="/categories/架构/"><div class='name'>架构</div><div class='badge'>(5)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/网络协议/" href="/categories/网络协议/"><div class='name'>网络协议</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/tags/"
+    title="blog/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/ARouter/" style="font-size: 15.67px; color: #8e8e8e">ARouter</a> <a href="/tags/Android/" style="font-size: 24px; color: #555">Android</a> <a href="/tags/Android基础/" style="font-size: 20.67px; color: #6c6c6c">Android基础</a> <a href="/tags/AutoDispose/" style="font-size: 14px; color: #999">AutoDispose</a> <a href="/tags/Dagger2/" style="font-size: 14px; color: #999">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 14px; color: #999">Databinding</a> <a href="/tags/Jetpack/" style="font-size: 19px; color: #777">Jetpack</a> <a href="/tags/Lifecycles/" style="font-size: 14px; color: #999">Lifecycles</a> <a href="/tags/LiveData/" style="font-size: 14px; color: #999">LiveData</a> <a href="/tags/MVP/" style="font-size: 14px; color: #999">MVP</a> <a href="/tags/Mvvm/" style="font-size: 14px; color: #999">Mvvm</a> <a href="/tags/OKHttp/" style="font-size: 14px; color: #999">OKHttp</a> <a href="/tags/Room/" style="font-size: 14px; color: #999">Room</a> <a href="/tags/RxJava/" style="font-size: 15.67px; color: #8e8e8e">RxJava</a> <a href="/tags/RxLifecycle/" style="font-size: 14px; color: #999">RxLifecycle</a> <a href="/tags/Tinker/" style="font-size: 14px; color: #999">Tinker</a> <a href="/tags/ViewModel/" style="font-size: 14px; color: #999">ViewModel</a> <a href="/tags/事件/" style="font-size: 14px; color: #999">事件</a> <a href="/tags/其他/" style="font-size: 14px; color: #999">其他</a> <a href="/tags/动画/" style="font-size: 15.67px; color: #8e8e8e">动画</a> <a href="/tags/启动流程/" style="font-size: 14px; color: #999">启动流程</a> <a href="/tags/多渠道打包/" style="font-size: 14px; color: #999">多渠道打包</a> <a href="/tags/插件化/" style="font-size: 19px; color: #777">插件化</a> <a href="/tags/架构/" style="font-size: 17.33px; color: #828282">架构</a> <a href="/tags/框架/" style="font-size: 22.33px; color: #606060">框架</a> <a href="/tags/热修复/" style="font-size: 14px; color: #999">热修复</a> <a href="/tags/组件化/" style="font-size: 17.33px; color: #828282">组件化</a> <a href="/tags/自定义View/" style="font-size: 17.33px; color: #828282">自定义View</a> <a href="/tags/进程保活/" style="font-size: 19px; color: #777">进程保活</a> <a href="/tags/页面框架/" style="font-size: 14px; color: #999">页面框架</a>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+
+
+  <section class='widget music'>
+    
+<header class='material'>
+  <div><i class="fas fa-compact-disc fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;最近在听</div>
+  
+    <a class="rightBtn"
+    
+      rel="external nofollow noopener noreferrer"
+    
+    
+      target="_blank"
+    
+    href="https://music.163.com/#/user/home?id=63035382"
+    title="https://music.163.com/#/user/home?id=63035382">
+    <i class="far fa-heart fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
+  <div class="aplayer"
+    data-theme="#1BCDFC"
+    
+    
+    data-mode="circulation"
+    data-server="netease"
+    data-type="playlist"
+    data-id="2615636388"
+    data-volume="0.7">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
+
+
+    </div>
+  </section>
+
+
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:me@xaoxuu.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/xaoxuu"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      <script src="https://cdn.jsdelivr.net/gh/xaoxuu/volantis@1.0/js/volantis.min.js"></script>
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'false' == true;
+  var verify = 'false' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "0KlAt3xallRhjOJMctQ9qURr-gzGzoHsz",
+    appKey: "hcMgWwpE6UOBDnHaEUV9wPcs",
+    placeholder: "来来帅哥美女聊聊吧~",
+    pageSize:'20',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'false'
+  })
+  </script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/js/app.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
