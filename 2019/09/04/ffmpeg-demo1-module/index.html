@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>FFmpeg系列 三、音乐APP（添加Module） | 一个老程序猿</title>
+  <title>FFmpeg系列 三、音乐APP（添加Module并添加FFmpeg动态库） | 一个老程序猿</title>
   
   
   <meta name="description" content="记录技术点滴">
@@ -176,7 +176,7 @@
 			
 				<div class="m_search">
 					<form name="searchform" class="form u-search-form">
-						<input type="text" class="input u-search-input" placeholder="Search" />
+						<input type="text" class="input u-search-input" placeholder="搜尋" />
 						<i class="icon fas fa-search fa-fw"></i>
 					</form>
 				</div>
@@ -297,7 +297,7 @@
   
     <h1 class="title">
       <a href="/2019/09/04/ffmpeg-demo1-module/">
-        FFmpeg系列 三、音乐APP（添加Module）
+        FFmpeg系列 三、音乐APP（添加Module并添加FFmpeg动态库）
       </a>
     </h1>
   
@@ -380,6 +380,59 @@
         <div class="article-entry" itemprop="articleBody">
           <p>基于之前的工程来添加Module工程。</p>
 <a id="more"></a>
+
+<h2 id="创建Module工程"><a href="#创建Module工程" class="headerlink" title="创建Module工程"></a>创建Module工程</h2><img src="/2019/09/04/ffmpeg-demo1-module/2019-09-04-20-08-12.png">
+<img src="/2019/09/04/ffmpeg-demo1-module/2019-09-04-20-09-07.png">
+将新建的Module工程添加到APP工程中。
+<img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-08-25-30.png">
+
+<h2 id="Module添加C-支持"><a href="#Module添加C-支持" class="headerlink" title="Module添加C++支持"></a>Module添加C++支持</h2><h3 id="将app-gradle中的配置移植到module-gradle中"><a href="#将app-gradle中的配置移植到module-gradle中" class="headerlink" title="将app gradle中的配置移植到module gradle中"></a>将app gradle中的配置移植到module gradle中</h3><p>将app gradle中的如下配置移植到module gradle中。<br><img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-08-29-46.png"><br><img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-08-30-55.png"></p>
+<h3 id="将app中的CMakeLists-txt移植到module中"><a href="#将app中的CMakeLists-txt移植到module中" class="headerlink" title="将app中的CMakeLists.txt移植到module中"></a>将app中的CMakeLists.txt移植到module中</h3><p>注意我们要移植到module工程的根目录中，如：</p>
+<img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-11-51-06.png">
+
+<h3 id="module工程中创建类文件添加native方法"><a href="#module工程中创建类文件添加native方法" class="headerlink" title="module工程中创建类文件添加native方法"></a>module工程中创建类文件添加native方法</h3><img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-08-39-00.png">
+有报红的是因为我们移植过来的cpp文件jni 方法包名不对引起的。
+修正为：
+<img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-08-41-55.png">
+
+<h3 id="修改app的MainActivity代码用于测试验证结果"><a href="#修改app的MainActivity代码用于测试验证结果" class="headerlink" title="修改app的MainActivity代码用于测试验证结果"></a>修改app的MainActivity代码用于测试验证结果</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.music.app;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> *;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Example of a call to a native method</span></span><br><span class="line">        TextView tv = findViewById(R.id.sample_text);</span><br><span class="line">        tv.setText(<span class="keyword">new</span> Demo().stringFromJNI());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-08-49-29.png">
+
+<p>我们看到上面已经正常输出了c++的运算结果。</p>
+<h2 id="添加FFmpeg动态库"><a href="#添加FFmpeg动态库" class="headerlink" title="添加FFmpeg动态库"></a>添加FFmpeg动态库</h2><p>这里面提到的资源如果给位没有，请参考：</p>
+<p><a href="http://www.zydeveloper.com/2019/09/04/ffmpeg-build/">FFmpeg系列 一、编译FFmpeg</a></p>
+<h4 id="module-cpp文件夹中创建include文件夹，并添加ffmpeg中include中所有文件"><a href="#module-cpp文件夹中创建include文件夹，并添加ffmpeg中include中所有文件" class="headerlink" title="module cpp文件夹中创建include文件夹，并添加ffmpeg中include中所有文件"></a>module cpp文件夹中创建include文件夹，并添加ffmpeg中include中所有文件</h4><img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-11-43-29.png">
+
+<h4 id="module-main文件夹中创建jniLibs-复制arm-和-x86的-so库到jinLibs中"><a href="#module-main文件夹中创建jniLibs-复制arm-和-x86的-so库到jinLibs中" class="headerlink" title="module main文件夹中创建jniLibs,复制arm 和 x86的.so库到jinLibs中"></a>module main文件夹中创建jniLibs,复制arm 和 x86的.so库到jinLibs中</h4><p>创建jniLibs目录<br>将arm和x86动态库拷贝到jinLibs目录下。<br><img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-09-02-58.png"></p>
+<h4 id="配置module-gradle文件"><a href="#配置module-gradle文件" class="headerlink" title="配置module gradle文件"></a>配置module gradle文件</h4><img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-11-41-31.png">
+
+<img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-11-42-19.png">
+
+<h4 id="cmakelists-txt-配置FFmpeg"><a href="#cmakelists-txt-配置FFmpeg" class="headerlink" title="cmakelists.txt 配置FFmpeg"></a>cmakelists.txt 配置FFmpeg</h4><h5 id="导入include路径"><a href="#导入include路径" class="headerlink" title="导入include路径"></a>导入include路径</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#导入头文件路径</span><br><span class="line">include_directories(src/main/cpp/include)</span><br></pre></td></tr></table></figure>
+
+<h5 id="添加动态库"><a href="#添加动态库" class="headerlink" title="添加动态库"></a>添加动态库</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#导入动态库</span><br><span class="line">add_library(avcodec-57 SHARED IMPORTED)</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置动态库路径"><a href="#设置动态库路径" class="headerlink" title="设置动态库路径"></a>设置动态库路径</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(avcodec-57 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libavcodec-57.so)</span><br></pre></td></tr></table></figure>
+
+<h5 id="链接动态库"><a href="#链接动态库" class="headerlink" title="链接动态库"></a>链接动态库</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">target_link_libraries( # Specifies the target library.</span><br><span class="line">                       native-lib</span><br><span class="line"></span><br><span class="line">                       avcodec-57</span><br><span class="line"></span><br><span class="line">                       $&#123;log-lib&#125; )</span><br></pre></td></tr></table></figure>
+
+<h4 id="最终CMake"><a href="#最终CMake" class="headerlink" title="最终CMake"></a>最终CMake</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cmake_minimum_required(VERSION 3.4.1)</span><br><span class="line"></span><br><span class="line">#导入头文件路径</span><br><span class="line">include_directories(include)</span><br><span class="line"></span><br><span class="line">#导入动态库</span><br><span class="line">add_library(avcodec-57 SHARED IMPORTED)</span><br><span class="line"></span><br><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(avcodec-57 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libavcodec-57.so)</span><br><span class="line"></span><br><span class="line">#导入动态库</span><br><span class="line">add_library(avdevice-57 SHARED IMPORTED)</span><br><span class="line"></span><br><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(avdevice-57 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libavdevice-57.so)</span><br><span class="line"></span><br><span class="line">#导入动态库</span><br><span class="line">add_library(avfilter-6 SHARED IMPORTED)</span><br><span class="line"></span><br><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(avfilter-6 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libavfilter-6.so)</span><br><span class="line"></span><br><span class="line">#导入动态库</span><br><span class="line">add_library(avformat-57 SHARED IMPORTED)</span><br><span class="line"></span><br><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(avformat-57 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libavformat-57.so)</span><br><span class="line"></span><br><span class="line">#导入动态库</span><br><span class="line">add_library(avutil-55 SHARED IMPORTED)</span><br><span class="line"></span><br><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(avutil-55 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libavutil-55.so)</span><br><span class="line"></span><br><span class="line">#导入动态库</span><br><span class="line">add_library(postproc-54 SHARED IMPORTED)</span><br><span class="line"></span><br><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(postproc-54 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libpostproc-54.so)</span><br><span class="line"></span><br><span class="line">#导入动态库</span><br><span class="line">add_library(swresample-2 SHARED IMPORTED)</span><br><span class="line"></span><br><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(swresample-2 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libswresample-2.so)</span><br><span class="line"></span><br><span class="line">#导入动态库</span><br><span class="line">add_library(swscale-4 SHARED IMPORTED)</span><br><span class="line"></span><br><span class="line">#设置动态库路径</span><br><span class="line">set_target_properties(swscale-4 PROPERTIES IMPORTED_LOCATION $&#123;CMAKE_SOURCE_DIR&#125;/src/main/jniLibs/$&#123;ANDROID_ABI&#125;/libswscale-4.so)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">add_library(native-lib</span><br><span class="line">            SHARED</span><br><span class="line">            native-lib.cpp)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">find_library(log-lib</span><br><span class="line">              log )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">target_link_libraries(native-lib</span><br><span class="line">        $&#123;log-lib&#125;</span><br><span class="line"></span><br><span class="line">                       avcodec-57</span><br><span class="line">                        avdevice-57</span><br><span class="line">                        avfilter-6</span><br><span class="line">                        avformat-57</span><br><span class="line">                        avutil-55</span><br><span class="line">                        postproc-54</span><br><span class="line">                        swresample-2</span><br><span class="line">                        swscale-4</span><br><span class="line"></span><br><span class="line">                        )</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：CMakeLists.txt文件需要放到项目跟目录，否则会出现路径不对引发的错误。</strong></p>
+<h2 id="Demo验证FFmpeg是否集成成功"><a href="#Demo验证FFmpeg是否集成成功" class="headerlink" title="Demo验证FFmpeg是否集成成功"></a>Demo验证FFmpeg是否集成成功</h2><p>在module 工程 Demo中导入动态库并加入native方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package com.music.mplayer;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line"></span><br><span class="line">    // Used to load the &apos;native-lib&apos; library on application startup.</span><br><span class="line">    static &#123;</span><br><span class="line">        System.loadLibrary(&quot;native-lib&quot;);</span><br><span class="line"></span><br><span class="line">        System.loadLibrary(&quot;avcodec-57&quot;);</span><br><span class="line">        System.loadLibrary(&quot;avdevice-57&quot;);</span><br><span class="line">        System.loadLibrary(&quot;avfilter-6&quot;);</span><br><span class="line">        System.loadLibrary(&quot;avformat-57&quot;);</span><br><span class="line">        System.loadLibrary(&quot;avutil-55&quot;);</span><br><span class="line">        System.loadLibrary(&quot;postproc-54&quot;);</span><br><span class="line">        System.loadLibrary(&quot;swresample-2&quot;);</span><br><span class="line">        System.loadLibrary(&quot;swscale-4&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * A native method that is implemented by the &apos;native-lib&apos; native library,</span><br><span class="line">     * which is packaged with this application.</span><br><span class="line">     */</span><br><span class="line">    public native String stringFromJNI();</span><br><span class="line"></span><br><span class="line">    public native void testFFmpeg();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>报红的部分 alt+enter 搞定。</p>
+<p>native-lib.cpp代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;android/log.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;libavformat/avformat.h&gt;</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOGI(FORMAT,...) __android_log_print(ANDROID_LOG_INFO,<span class="meta-string">"zhangyue"</span>,FORMAT,##__VA_ARGS__);</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT jstring</span><br><span class="line">JNICALL</span><br><span class="line">Java_com_music_mplayer_Demo_stringFromJNI(</span><br><span class="line">        JNIEnv* env,</span><br><span class="line">        jobject <span class="comment">/* this */</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> hello = <span class="string">"Welcome to"</span>;</span><br><span class="line">    <span class="keyword">return</span> env-&gt;NewStringUTF(hello.c_str());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT <span class="keyword">void</span> JNICALL</span><br><span class="line">Java_com_music_mplayer_Demo_testFFmpeg(JNIEnv *env, jobject instance) &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// TODO</span></span><br><span class="line">    av_register_all();</span><br><span class="line">    AVCodec *c_temp = av_codec_next(<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">while</span> (c_temp != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">switch</span> (c_temp-&gt;type)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">case</span> AVMEDIA_TYPE_VIDEO:</span><br><span class="line">                LOGI(<span class="string">"[Video]:%s"</span>, c_temp-&gt;name);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> AVMEDIA_TYPE_AUDIO:</span><br><span class="line">                LOGI(<span class="string">"[Audio]:%s"</span>, c_temp-&gt;name);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                LOGI(<span class="string">"[Other]:%s"</span>, c_temp-&gt;name);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        c_temp = c_temp-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>MainActivity代码修改为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.music.app;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> ****;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">new</span> Demo().testFFmpeg();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行程序后，logcat输出如下log：<br><img src="/2019/09/04/ffmpeg-demo1-module/2019-09-05-11-48-24.png"></p>
+<p>打印了ffmpeg支持的视频格式，说明我们已经集成成功了！</p>
+
         </div>
         
           
@@ -390,10 +443,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-09-04T20:05:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-09-05T11:51:22+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>last updated at Sep 4, 2019</p>
+    <p>最後更新於 Sep 5, 2019</p>
   </a>
 </div>
 
@@ -415,7 +468,7 @@
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/09/04/ffmpeg-demo1-module/&title=FFmpeg系列 三、音乐APP（添加Module） | 一个老程序猿&summary=基于之前的工程来添加Module工程。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.zydeveloper.com/2019/09/04/ffmpeg-demo1-module/&title=FFmpeg系列 三、音乐APP（添加Module并添加FFmpeg动态库） | 一个老程序猿&summary=基于之前的工程来添加Module工程。"
           
           >
           
@@ -427,7 +480,7 @@
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/09/04/ffmpeg-demo1-module/&title=FFmpeg系列 三、音乐APP（添加Module） | 一个老程序猿&summary=基于之前的工程来添加Module工程。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.zydeveloper.com/2019/09/04/ffmpeg-demo1-module/&title=FFmpeg系列 三、音乐APP（添加Module并添加FFmpeg动态库） | 一个老程序猿&summary=基于之前的工程来添加Module工程。"
           
           >
           
@@ -439,7 +492,7 @@
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/09/04/ffmpeg-demo1-module/&title=FFmpeg系列 三、音乐APP（添加Module） | 一个老程序猿&summary=基于之前的工程来添加Module工程。"
+          href="http://service.weibo.com/share/share.php?url=http://www.zydeveloper.com/2019/09/04/ffmpeg-demo1-module/&title=FFmpeg系列 三、音乐APP（添加Module并添加FFmpeg动态库） | 一个老程序猿&summary=基于之前的工程来添加Module工程。"
           
           >
           
@@ -465,7 +518,7 @@
                 
                     <section class="prev">
                         <span class="art-item-left">
-                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一頁</h6>
                             <h4>
                                 <a href="/2019/09/04/ffmpeg-build/" rel="prev" title="FFmpeg系列 一、编译FFmpeg">
                                   
@@ -485,7 +538,7 @@
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
-                            <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h6>下一頁&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
                                 <a href="/2019/09/04/ffmpeg-demo/" rel="prev" title="FFmpeg系列 二、音乐APP（创建工程）">
                                     
@@ -515,7 +568,7 @@
 
   <article class="post white-box comments">
     <section class="article typo">
-      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;Comments</h4>
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;評論</h4>
       
       
       
@@ -541,7 +594,7 @@
 
   <script>
     window.subData = {
-      title: 'FFmpeg系列 三、音乐APP（添加Module）',
+      title: 'FFmpeg系列 三、音乐APP（添加Module并添加FFmpeg动态库）',
       tools: true
     }
   </script>
@@ -611,6 +664,20 @@
           
           
             
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目錄</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建Module工程"><span class="toc-text">创建Module工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Module添加C-支持"><span class="toc-text">Module添加C++支持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#将app-gradle中的配置移植到module-gradle中"><span class="toc-text">将app gradle中的配置移植到module gradle中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将app中的CMakeLists-txt移植到module中"><span class="toc-text">将app中的CMakeLists.txt移植到module中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#module工程中创建类文件添加native方法"><span class="toc-text">module工程中创建类文件添加native方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改app的MainActivity代码用于测试验证结果"><span class="toc-text">修改app的MainActivity代码用于测试验证结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加FFmpeg动态库"><span class="toc-text">添加FFmpeg动态库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#module-cpp文件夹中创建include文件夹，并添加ffmpeg中include中所有文件"><span class="toc-text">module cpp文件夹中创建include文件夹，并添加ffmpeg中include中所有文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#module-main文件夹中创建jniLibs-复制arm-和-x86的-so库到jinLibs中"><span class="toc-text">module main文件夹中创建jniLibs,复制arm 和 x86的.so库到jinLibs中</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置module-gradle文件"><span class="toc-text">配置module gradle文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cmakelists-txt-配置FFmpeg"><span class="toc-text">cmakelists.txt 配置FFmpeg</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#导入include路径"><span class="toc-text">导入include路径</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#添加动态库"><span class="toc-text">添加动态库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#设置动态库路径"><span class="toc-text">设置动态库路径</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#链接动态库"><span class="toc-text">链接动态库</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最终CMake"><span class="toc-text">最终CMake</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demo验证FFmpeg是否集成成功"><span class="toc-text">Demo验证FFmpeg是否集成成功</span></a></li></ol>
+    </div>
+  </section>
+
 
           
         
@@ -710,7 +777,7 @@
   <section class='widget category'>
     
 <header class='material'>
-  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Categories</div>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分類</div>
   
     <a class="rightBtn"
     
@@ -761,7 +828,7 @@
   <section class='widget tagcloud'>
     
 <header class='material'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Hot Tags</div>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;熱門標籤</div>
   
     <a class="rightBtn"
     
@@ -876,19 +943,19 @@
     </div>
   
   <br>
-  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+  <div><p>博客內容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh_TW">姓名標示-非商業性-相同方式分享 4.0 國際 (CC BY-NC-SA 4.0) 協議</a></p>
 </div>
   <div>
-    Use
+    本站使用
     <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
-    as theme
+    作為主題
     
-      , 
-      total visits
+      ，
+      總訪問量為
       <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
-      times
+      次
     
-    . 
+    。
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
@@ -1024,15 +1091,15 @@
 <!-- 复制 -->
 <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
-  let COPY_SUCCESS = "Copied";
-  let COPY_FAILURE = "Copy failed";
+  let COPY_SUCCESS = "複製成功";
+  let COPY_FAILURE = "複製失敗";
   /*页面载入完成后，创建复制按钮*/
   !function (e, t, a) {
     /* code */
     var initCopyCode = function(){
       var copyHtml = '';
       copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-      copyHtml += '  <i class="fa fa-copy"></i><span>Copy</span>';
+      copyHtml += '  <i class="fa fa-copy"></i><span>複製</span>';
       copyHtml += '</button>';
       $(".highlight .code pre").before(copyHtml);
       var clipboard = new ClipboardJS('.btn-copy', {
