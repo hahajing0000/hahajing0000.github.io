@@ -826,62 +826,14 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <a id="more"></a>
-
-<p>创建Retrofit实例方法，参考：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 初始化Retrofit</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initRetrofit</span><span class="params">()</span></span>&#123;</span><br><span class="line"> retrofit = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line"> .baseUrl(Config.SERVER_URL)</span><br><span class="line"> .addCallAdapterFactory(RxJava2CallAdapterFactory.create())</span><br><span class="line"> .addCallAdapterFactory(LiveDataCallAdapterFactory.create())</span><br><span class="line"> .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line"> .client(createOkHttpClient())</span><br><span class="line"> .build();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>1、Retrofit.Builder()<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-09-44.png"></p>
-<p>platform 进行设置 -&gt; Platform.get()</p>
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-10-04.png ">
-
-<p>PLATFORM 变量由 findPlatform();初始化。</p>
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-10-20.png">
-
-<p>首先 试着加载 android.os.Build，如果加载成功 SDK_INT!=0 认为是Android平台 返回 new Android（）；<br>                                                    如果加载失败 吃掉ClassNotFoundException异常 让代码继续顺序执行；</p>
-<p>其后 试着加载 java.util.optional 如果加载成功，认为是Java8平台 返回 new Java8（）；<br>                                                  如果加载失败，吃掉ClassNotFoundException异常，让代码继续顺序执行；</p>
-<p>最后，返回 new Platform（）；</p>
-<p>Builder()执行完确定了Platform。</p>
-<p>2、.baseUrl(Config.SERVER_URL)</p>
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-10-57.png">
-
-<p>通过checkNotNull判断传入是否为空</p>
-<p>Utils.java</p>
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-11-17.png">
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-11-34.png">
-
-<p>3、.addCallAdapterFactory(RxJava2CallAdapterFactory.create())<br>添加回调适配器工厂<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-12-17.png"></p>
-<p>向callAdapterFactories集合中加入传入进来的factory。</p>
-<p>callAdapterFactories——Retrofit中存放CallAdapter.Factory的集合。</p>
-<p>4、.addConverterFactory(GsonConverterFactory.create())<br>添加格式化的适配器工厂<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-12-39.png"><br>向converterFactories集合中加入传入进来的factory。</p>
-<p>converterFactories——Retrofit中存放Converter.Factory的集合。</p>
-<p>5、.client(createOkHttpClient())<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-13-00.png"><br>传入参数类型OkHttpClient，说明Retrofit只能支持OkHttp</p>
-<p>callFactory逻辑代码如下：<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-13-20.png"></p>
-<p>6、.build();<br>————————————————————————————————————</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Create the &#123;<span class="doctag">@link</span> Retrofit&#125; instance using the configured values.</span></span><br><span class="line"><span class="comment">* &lt;p&gt;</span></span><br><span class="line"><span class="comment">* Note: If neither &#123;<span class="doctag">@link</span> #client&#125; nor &#123;<span class="doctag">@link</span> #callFactory&#125; is called a default &#123;<span class="doctag">@link</span></span></span><br><span class="line"><span class="comment">* OkHttpClient&#125; will be created and used.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Retrofit <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (baseUrl == <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Base URL required."</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">okhttp3.Call.Factory callFactory = <span class="keyword">this</span>.callFactory;</span><br><span class="line"><span class="keyword">if</span> (callFactory == <span class="keyword">null</span>) &#123;</span><br><span class="line">callFactory = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Executor callbackExecutor = <span class="keyword">this</span>.callbackExecutor;</span><br><span class="line"><span class="keyword">if</span> (callbackExecutor == <span class="keyword">null</span>) &#123;</span><br><span class="line">callbackExecutor = platform.defaultCallbackExecutor();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Make a defensive copy of the adapters and add the default Call adapter.</span></span><br><span class="line">List&lt;CallAdapter.Factory&gt; callAdapterFactories = <span class="keyword">new</span> ArrayList&lt;&gt;(<span class="keyword">this</span>.callAdapterFactories);</span><br><span class="line">callAdapterFactories.addAll(platform.defaultCallAdapterFactories(callbackExecutor));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Make a defensive copy of the converters.</span></span><br><span class="line">List&lt;Converter.Factory&gt; converterFactories = <span class="keyword">new</span> ArrayList&lt;&gt;(</span><br><span class="line"><span class="number">1</span> + <span class="keyword">this</span>.converterFactories.size() + platform.defaultConverterFactoriesSize());</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add the built-in converter factory first. This prevents overriding its behavior but also</span></span><br><span class="line"><span class="comment">// ensures correct behavior when using converters that consume all types.</span></span><br><span class="line">converterFactories.add(<span class="keyword">new</span> BuiltInConverters());</span><br><span class="line">converterFactories.addAll(<span class="keyword">this</span>.converterFactories);</span><br><span class="line">converterFactories.addAll(platform.defaultConverterFactories());</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> Retrofit(callFactory, baseUrl, unmodifiableList(converterFactories),</span><br><span class="line">unmodifiableList(callAdapterFactories), callbackExecutor, validateEagerly);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>————————————————————————————————————————————————————————<br>分析如下：<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-14-00.png"></p>
-<p>第一步、BaseUrl检查 如果为空也就是没有设置，直接抛异常<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-14-18.png"></p>
-<p>第二步、判断有没有通过外部设置Client，如果有直接用外部传入的OkHttpClient，如果没有就new OkHttpClient（）<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-14-35.png"></p>
-<p>第三步、判断有没有通过外部设置线程池，如果有直接用，如果没有就platform.defaultCallbackExecutor（）<br>platform进行选择，因为我们是android系统 所有platform就是 Android（）实例，所以defaultCallbackExecutor就是（retorfit）Android 的内部实现方法</p>
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-14-52.png">
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-15-09.png">
-
-
-<p>第四步、整合所有的CallAdapter.Factory ,<br>                            <img src="/2019/07/30/retrofitsource1/2020-03-21-21-16-39.png "></p>
-<p>具体整合代码如下：<br><img src="/2019/07/30/retrofitsource1/2020-03-21-21-17-01.png"></p>
-<p>第五步、整合所有的Converter.Factory</p>
-<p>首先，它依据外面设置的this.converterFactories.size()（如：GsonConverterFactory）;platform（platform、defaultConverterFactoriesSize（））下的converter（</p>
-<pre><code>return Build.VERSION.SDK_INT &gt;= 24
-? singletonList(OptionalConverterFactory.INSTANCE)
-: Collections.&lt;Converter.Factory&gt;emptyList();
-
-        ）</code></pre><p>;+1。 初始化我们的ArrayList大小。</p>
-<p>最后、将各个Convert.Factory 添加到我们刚初始化好的ArrayList中。</p>
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-17-33.png">
-
-<p>第六步、更加我们上前5步设置的业务属性来构建真正的Retrofit实例</p>
-<img src="/2019/07/30/retrofitsource1/2020-03-21-21-17-48.png">
+      <p>Retrofit 实现原理与源码分析（上）</p>
+      
+        <div class="readmore">
+          <a href="/2019/07/30/retrofitsource1/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            Read More
+          </a>
+        </div>
       
     </div>
     
@@ -980,7 +932,7 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>Retrofit 实现原理与源码分析</p>
+      <p>Retrofit 实现原理与源码分析（下）</p>
       
         <div class="readmore">
           <a href="/2019/07/30/retrofitsource2/" class="flat-box">

@@ -212,26 +212,6 @@
   </entry>
   
   <entry>
-    <title>自定义View使用</title>
-    <link href="http://www.zydeveloper.com/2019/08/08/CustomView1/"/>
-    <id>http://www.zydeveloper.com/2019/08/08/CustomView1/</id>
-    <published>2019-08-07T16:00:00.000Z</published>
-    <updated>2019-08-08T09:47:51.204Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Android基础" scheme="http://www.zydeveloper.com/categories/Android%E5%9F%BA%E7%A1%80/"/>
-    
-    
-      <category term="Android基础" scheme="http://www.zydeveloper.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
-    
-      <category term="自定义View" scheme="http://www.zydeveloper.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/"/>
-    
-  </entry>
-  
-  <entry>
     <title>自实现页面注解框架</title>
     <link href="http://www.zydeveloper.com/2019/08/08/CustomAnnFramwork/"/>
     <id>http://www.zydeveloper.com/2019/08/08/CustomAnnFramwork/</id>
@@ -252,6 +232,26 @@
       <category term="框架" scheme="http://www.zydeveloper.com/tags/%E6%A1%86%E6%9E%B6/"/>
     
       <category term="页面框架" scheme="http://www.zydeveloper.com/tags/%E9%A1%B5%E9%9D%A2%E6%A1%86%E6%9E%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自定义View使用</title>
+    <link href="http://www.zydeveloper.com/2019/08/08/CustomView1/"/>
+    <id>http://www.zydeveloper.com/2019/08/08/CustomView1/</id>
+    <published>2019-08-07T16:00:00.000Z</published>
+    <updated>2019-08-08T09:47:51.204Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Android基础" scheme="http://www.zydeveloper.com/categories/Android%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="Android基础" scheme="http://www.zydeveloper.com/tags/Android%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="自定义View" scheme="http://www.zydeveloper.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/"/>
     
   </entry>
   
