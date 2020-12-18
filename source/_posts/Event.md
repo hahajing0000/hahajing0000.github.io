@@ -4,6 +4,7 @@ date: 2019-08-08
 tags: [Android基础,事件]
 categories: Android基础
 toc: true
+typora-copy-images-to: upload
 ---
 
 # 事件分发机制
@@ -336,24 +337,24 @@ public boolean dispatchTouchEvent(MotionEvent event) {
 
 ### Activity事件分发流程
 
-![Activity](D:\zyblog\ZYBlog\source\_posts\Event\Activity.png)
+![Activity](https://i.loli.net/2020/12/18/PzvpdXhye2DkUln.png)
 
 <font color="red">该图来这互联网，如果侵权请告之删除</font>
 
 ### ViewGroup事件分发
 
-![viewgroup](D:\zyblog\ZYBlog\source\_posts\Event\viewgroup.png)
+![viewgroup](https://i.loli.net/2020/12/18/srbqkmYM6IUip5H.png)
 
 <font color="red">该图来这互联网，如果侵权请告之删除</font>
 
 ### View事件分发
 
-![View](D:\zyblog\ZYBlog\source\_posts\Event\View.png)
+![View](https://i.loli.net/2020/12/18/KkHWt81niy6zXSm.png)
 
 <font color="red">该图来这互联网，如果侵权请告之删除</font>
 
 ### 事件分发总流程
 
-![20190823194222623](D:\zyblog\ZYBlog\source\_posts\Event\20190823194222623.png)
+![20190823194222623](https://i.loli.net/2020/12/18/iy98LjQYPEKbrgT.png)
 
 <font color="red">该图来这互联网，如果侵权请告之删除</font>
