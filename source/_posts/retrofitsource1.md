@@ -156,7 +156,7 @@ platform进行选择，因为我们是android系统 所有platform就是 Android
     return Build.VERSION.SDK_INT >= 24
     ? singletonList(OptionalConverterFactory.INSTANCE)
     : Collections.<Converter.Factory>emptyList();
-
+    
             ）
 ;+1。 初始化我们的ArrayList大小。
 
