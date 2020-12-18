@@ -14,6 +14,8 @@ toc: true
 
 ​	Android的事件机制如果从头开始说是Android获取到用户触屏操作后利用socket进行跨进程通信，使用InputDispatcher将事件发送给APP进程使用android的消息机制将事件发送给主线程，由ActivityThread的Looper去取出消息进行处理。
 
+<!--more-->
+
 
 
 ## 从Activity  ViewGroup View三个角度来分析事件分发机制
