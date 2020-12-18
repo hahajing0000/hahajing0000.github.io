@@ -420,13 +420,13 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Call this view's OnClickListener, if it is defined.  Performs all normal</span></span><br><span class="line"><span class="comment"> * actions associated with clicking: reporting accessibility event, playing</span></span><br><span class="line"><span class="comment"> * a sound, etc.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> True there was an assigned OnClickListener that was called, false</span></span><br><span class="line"><span class="comment"> *         otherwise is returned.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">performClick</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> result;</span><br><span class="line">    <span class="keyword">final</span> ListenerInfo li = mListenerInfo;</span><br><span class="line">    <span class="keyword">if</span> (li != <span class="keyword">null</span> &amp;&amp; li.mOnClickListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">        playSoundEffect(SoundEffectConstants.CLICK);</span><br><span class="line">        li.mOnClickListener.onClick(<span class="keyword">this</span>);</span><br><span class="line">        result = <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>如上代码处理了如果view被注册了onClickListener监听，该onClick方法将被执行。</p>
-<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><h3 id="Activity事件分发流程"><a href="#Activity事件分发流程" class="headerlink" title="Activity事件分发流程"></a>Activity事件分发流程</h3><p><img src="/2019/08/08/Event/D:%5Czyblog%5CZYBlog%5Csource_posts%5CEvent%5CActivity.png" alt="Activity"></p>
+<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><h3 id="Activity事件分发流程"><a href="#Activity事件分发流程" class="headerlink" title="Activity事件分发流程"></a>Activity事件分发流程</h3><p><img src="https://i.loli.net/2020/12/18/PzvpdXhye2DkUln.png" alt="Activity"></p>
 <p><font color="red">该图来这互联网，如果侵权请告之删除</font></p>
-<h3 id="ViewGroup事件分发-1"><a href="#ViewGroup事件分发-1" class="headerlink" title="ViewGroup事件分发"></a>ViewGroup事件分发</h3><p><img src="/2019/08/08/Event/D:%5Czyblog%5CZYBlog%5Csource_posts%5CEvent%5Cviewgroup.png" alt="viewgroup"></p>
+<h3 id="ViewGroup事件分发-1"><a href="#ViewGroup事件分发-1" class="headerlink" title="ViewGroup事件分发"></a>ViewGroup事件分发</h3><p><img src="https://i.loli.net/2020/12/18/srbqkmYM6IUip5H.png" alt="viewgroup"></p>
 <p><font color="red">该图来这互联网，如果侵权请告之删除</font></p>
-<h3 id="View事件分发"><a href="#View事件分发" class="headerlink" title="View事件分发"></a>View事件分发</h3><p><img src="/2019/08/08/Event/D:%5Czyblog%5CZYBlog%5Csource_posts%5CEvent%5CView.png" alt="View"></p>
+<h3 id="View事件分发"><a href="#View事件分发" class="headerlink" title="View事件分发"></a>View事件分发</h3><p><img src="https://i.loli.net/2020/12/18/KkHWt81niy6zXSm.png" alt="View"></p>
 <p><font color="red">该图来这互联网，如果侵权请告之删除</font></p>
-<h3 id="事件分发总流程"><a href="#事件分发总流程" class="headerlink" title="事件分发总流程"></a>事件分发总流程</h3><p><img src="/2019/08/08/Event/D:%5Czyblog%5CZYBlog%5Csource_posts%5CEvent%5C20190823194222623.png" alt="20190823194222623"></p>
+<h3 id="事件分发总流程"><a href="#事件分发总流程" class="headerlink" title="事件分发总流程"></a>事件分发总流程</h3><p><img src="https://i.loli.net/2020/12/18/iy98LjQYPEKbrgT.png" alt="20190823194222623"></p>
 <p><font color="red">该图来这互联网，如果侵权请告之删除</font></p>
 
         </div>
@@ -439,7 +439,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-18T13:12:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-18T13:28:01+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>last updated at Dec 18, 2020</p>
