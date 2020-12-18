@@ -12,6 +12,8 @@ toc: true
 
 [如上信息来源](http://m.xiuchuang.com/question/5486.html)
 
+<!--more-->
+
 ## Android如何实现DeepLink
 
 ### 创建用于DeepLink拉起的Activity
