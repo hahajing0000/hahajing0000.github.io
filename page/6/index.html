@@ -234,6 +234,553 @@
       
         
   <h2 class="title">
+    <a href="/2019/07/10/meituanpackage/">
+      美团多渠道打包方案
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-07-10</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Android进阶/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Android进阶</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <h2 id="美团多渠道环境准备"><a href="#美团多渠道环境准备" class="headerlink" title="美团多渠道环境准备"></a>美团多渠道环境准备</h2><h3 id="准备Python环境"><a href="#准备Python环境" class="headerlink" title="准备Python环境"></a>准备Python环境</h3><blockquote>
+<p>因为美团多渠道打包方案需要依赖到Python环境，所以第一步下载Python</p>
+</blockquote>
+<p><a href="https://www.python.org/downloads/" target="_blank" rel="noopener">Pthon官网下载地址</a></p>
+<p>下载后自行安装即可。</p>
+<h3 id="下载美团多渠道打包工具"><a href="#下载美团多渠道打包工具" class="headerlink" title="下载美团多渠道打包工具"></a>下载美团多渠道打包工具</h3><p><a href="https://github.com/GavinCT/AndroidMultiChannelBuildTool" target="_blank" rel="noopener">Github地址</a></p>
+<blockquote>
+<p>git下载：</p>
+<p>git clone <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:GavinCT/AndroidMultiChannelBuildTool.git</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/12/18/7ClV5uwt6L4rJi9.png" alt="image-20201125100306961"></p>
+<h3 id="配置渠道"><a href="#配置渠道" class="headerlink" title="配置渠道"></a>配置渠道</h3><p><img src="https://i.loli.net/2020/12/18/g1KYcWBybvkMn5o.png" alt="image-20201125100417582"></p>
+<blockquote>
+<p>我们要打包的渠道在channel.txt中进行维护，每一个渠道用\r\n进行隔离，例如：</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/12/18/aFN8bdfqcPg4pwy.png" alt="image-20201125100505649"></p>
+<h3 id="打包apk进而打包多渠道apk"><a href="#打包apk进而打包多渠道apk" class="headerlink" title="打包apk进而打包多渠道apk"></a>打包apk进而打包多渠道apk</h3><h4 id="打包我们自己的apk"><a href="#打包我们自己的apk" class="headerlink" title="打包我们自己的apk"></a>打包我们自己的apk</h4><p><img src="https://i.loli.net/2020/12/18/XwCbBkSlN5quPT7.png" alt="image-20201125100607355"></p>
+<p>等待打包结束，接下来获取到打好的包。</p>
+<h4 id="打包多渠道包"><a href="#打包多渠道包" class="headerlink" title="打包多渠道包"></a>打包多渠道包</h4><p>将这个apk拷贝到PythonTool目录下，然后执行MultiChannelBuildTool.py</p>
+<p>执行如下命令：</p>
+<p><img src="https://i.loli.net/2020/12/18/Y73dSqipeP1QyDB.png" alt="image-20201125100932247"></p>
+<p>然后再在output-XX目录中就可以看到打好的多渠道包</p>
+<p><img src="https://i.loli.net/2020/12/18/rtkdlhgXpLe7Vw1.png" alt="image-20201125101021463"></p>
+<h3 id="获取美团打包后的渠道"><a href="#获取美团打包后的渠道" class="headerlink" title="获取美团打包后的渠道"></a>获取美团打包后的渠道</h3><p><img src="https://i.loli.net/2020/12/18/ZMk7QnqcPCjguBf.png" alt="image-20201125101921917"></p>
+<p>集成如上红框处的类到工程代码中</p>
+<p>然后通过如下代码获取渠道：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String channel = ChannelUtil.getChannel(MainActivity.<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+
+<p>然后打包运行测试</p>
+<p>到此结束！！！</p>
+
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/多渠道/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>多渠道</a>
+        
+          <a href="/tags/打包/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>打包</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/2019/07/09/jetpack-viewmodel/">
+      Jetpack系列之ViewModel
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-07-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Jetpack/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Jetpack</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p><strong>ViewModel</strong>类旨在以生命周期的方式存储和管理ui相关的数据。ViewModel类允许数据在配置更改(如屏幕旋转)之后继续存活下来。</p>
+      
+        <div class="readmore">
+          <a href="/2019/07/09/jetpack-viewmodel/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
+        
+          <a href="/tags/ViewModel/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>ViewModel</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/2019/07/02/jetpack-databinding/">
+      Jetpack系列之Databinding
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-07-02</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Jetpack/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Jetpack</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>jetpack databinding<br><strong>数据绑定库</strong>是一种支持库，借助该库，您可以使用声明性格式（而非程序化地）将布局中的界面组件绑定到应用中的数据源。</p>
+      
+        <div class="readmore">
+          <a href="/2019/07/02/jetpack-databinding/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
+        
+          <a href="/tags/Databinding/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Databinding</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/2019/07/02/jetpack-lifecycles/">
+      Jetpack系列之Lifecycles
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-07-02</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Jetpack/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Jetpack</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.</p>
+<p>A common pattern is to implement the actions of the dependent components in the lifecycle methods of activities and fragments. However, this pattern leads to a poor organization of the code and to the proliferation of errors. By using lifecycle-aware components, you can move the code of dependent components out of the lifecycle methods and into the components themselves.</p>
+      
+        <div class="readmore">
+          <a href="/2019/07/02/jetpack-lifecycles/" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
+        
+          <a href="/tags/Lifecycles/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Lifecycles</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/2019/07/02/jetpack-room/">
+      Jetpack系列之Room
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://www.zydeveloper.com" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>Zhangyue</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-07-02</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Jetpack/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Jetpack</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+    </div>
+    
+      <div class="full-width auto-padding tags">
+        
+          <a href="/tags/Jetpack/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Jetpack</a>
+        
+          <a href="/tags/Room/" rel="nofollow"><i class="fas fa-hashtag fa-fw"></i>Room</a>
+        
+      </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
     <a href="/2019/07/02/mvvm/">
       Mvvm架构
     </a>
@@ -652,9 +1199,11 @@
         
           <li><a class="flat-box" title="/categories/Android进程保活/" href="/categories/Android进程保活/"><div class='name'>Android进程保活</div><div class='badge'>(5)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/Android进阶/" href="/categories/Android进阶/"><div class='name'>Android进阶</div><div class='badge'>(1)</div></a></li>
+          <li><a class="flat-box" title="/categories/Android进阶/" href="/categories/Android进阶/"><div class='name'>Android进阶</div><div class='badge'>(4)</div></a></li>
         
           <li><a class="flat-box" title="/categories/FFmpeg/" href="/categories/FFmpeg/"><div class='name'>FFmpeg</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/Java进阶/" href="/categories/Java进阶/"><div class='name'>Java进阶</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box" title="/categories/Jetpack/" href="/categories/Jetpack/"><div class='name'>Jetpack</div><div class='badge'>(5)</div></a></li>
         
@@ -665,6 +1214,8 @@
           <li><a class="flat-box" title="/categories/源码分析/" href="/categories/源码分析/"><div class='name'>源码分析</div><div class='badge'>(12)</div></a></li>
         
           <li><a class="flat-box" title="/categories/网络协议/" href="/categories/网络协议/"><div class='name'>网络协议</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/音视频/" href="/categories/音视频/"><div class='name'>音视频</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -695,7 +1246,7 @@
 </header>
 
     <div class='content material'>
-      <a href="/tags/ARouter/" style="font-size: 15.25px; color: #919191">ARouter</a> <a href="/tags/Android/" style="font-size: 24px; color: #555">Android</a> <a href="/tags/Android基础/" style="font-size: 20.25px; color: #6f6f6f">Android基础</a> <a href="/tags/AutoDispose/" style="font-size: 14px; color: #999">AutoDispose</a> <a href="/tags/Dagger2/" style="font-size: 14px; color: #999">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 14px; color: #999">Databinding</a> <a href="/tags/FFmpeg/" style="font-size: 17.75px; color: #808080">FFmpeg</a> <a href="/tags/Jetpack/" style="font-size: 19px; color: #777">Jetpack</a> <a href="/tags/Lifecycles/" style="font-size: 14px; color: #999">Lifecycles</a> <a href="/tags/LiveData/" style="font-size: 14px; color: #999">LiveData</a> <a href="/tags/MVP/" style="font-size: 14px; color: #999">MVP</a> <a href="/tags/Mvvm/" style="font-size: 14px; color: #999">Mvvm</a> <a href="/tags/OKHttp/" style="font-size: 14px; color: #999">OKHttp</a> <a href="/tags/Room/" style="font-size: 14px; color: #999">Room</a> <a href="/tags/RxJava/" style="font-size: 15.25px; color: #919191">RxJava</a> <a href="/tags/RxLifecycle/" style="font-size: 14px; color: #999">RxLifecycle</a> <a href="/tags/Tinker/" style="font-size: 14px; color: #999">Tinker</a> <a href="/tags/ViewModel/" style="font-size: 14px; color: #999">ViewModel</a> <a href="/tags/事件/" style="font-size: 14px; color: #999">事件</a> <a href="/tags/其他/" style="font-size: 14px; color: #999">其他</a> <a href="/tags/动画/" style="font-size: 15.25px; color: #919191">动画</a> <a href="/tags/启动流程/" style="font-size: 14px; color: #999">启动流程</a> <a href="/tags/多渠道打包/" style="font-size: 14px; color: #999">多渠道打包</a> <a href="/tags/插件化/" style="font-size: 19px; color: #777">插件化</a> <a href="/tags/架构/" style="font-size: 16.5px; color: #888">架构</a> <a href="/tags/框架/" style="font-size: 21.5px; color: #666">框架</a> <a href="/tags/源码分析/" style="font-size: 22.75px; color: #5e5e5e">源码分析</a> <a href="/tags/热修复/" style="font-size: 14px; color: #999">热修复</a> <a href="/tags/组件化/" style="font-size: 16.5px; color: #888">组件化</a> <a href="/tags/自定义View/" style="font-size: 16.5px; color: #888">自定义View</a> <a href="/tags/进程保活/" style="font-size: 19px; color: #777">进程保活</a> <a href="/tags/页面框架/" style="font-size: 14px; color: #999">页面框架</a>
+      <a href="/tags/ARouter/" style="font-size: 15.25px; color: #919191">ARouter</a> <a href="/tags/Android/" style="font-size: 24px; color: #555">Android</a> <a href="/tags/Android基础/" style="font-size: 20.25px; color: #6f6f6f">Android基础</a> <a href="/tags/Artifactory/" style="font-size: 14px; color: #999">Artifactory</a> <a href="/tags/AutoDispose/" style="font-size: 14px; color: #999">AutoDispose</a> <a href="/tags/Dagger2/" style="font-size: 14px; color: #999">Dagger2</a> <a href="/tags/Databinding/" style="font-size: 14px; color: #999">Databinding</a> <a href="/tags/FFmpeg/" style="font-size: 17.75px; color: #808080">FFmpeg</a> <a href="/tags/Jetpack/" style="font-size: 19px; color: #777">Jetpack</a> <a href="/tags/LAME/" style="font-size: 14px; color: #999">LAME</a> <a href="/tags/Lifecycles/" style="font-size: 14px; color: #999">Lifecycles</a> <a href="/tags/LiveData/" style="font-size: 14px; color: #999">LiveData</a> <a href="/tags/MVP/" style="font-size: 14px; color: #999">MVP</a> <a href="/tags/Mvvm/" style="font-size: 14px; color: #999">Mvvm</a> <a href="/tags/OKHttp/" style="font-size: 14px; color: #999">OKHttp</a> <a href="/tags/Room/" style="font-size: 14px; color: #999">Room</a> <a href="/tags/RxJava/" style="font-size: 15.25px; color: #919191">RxJava</a> <a href="/tags/RxLifecycle/" style="font-size: 14px; color: #999">RxLifecycle</a> <a href="/tags/SPI/" style="font-size: 14px; color: #999">SPI</a> <a href="/tags/Tinker/" style="font-size: 14px; color: #999">Tinker</a> <a href="/tags/ViewModel/" style="font-size: 14px; color: #999">ViewModel</a> <a href="/tags/事件/" style="font-size: 14px; color: #999">事件</a> <a href="/tags/其他/" style="font-size: 14px; color: #999">其他</a> <a href="/tags/动画/" style="font-size: 15.25px; color: #919191">动画</a> <a href="/tags/升级/" style="font-size: 14px; color: #999">升级</a> <a href="/tags/启动流程/" style="font-size: 14px; color: #999">启动流程</a> <a href="/tags/多渠道/" style="font-size: 14px; color: #999">多渠道</a> <a href="/tags/多渠道打包/" style="font-size: 14px; color: #999">多渠道打包</a> <a href="/tags/打包/" style="font-size: 14px; color: #999">打包</a> <a href="/tags/插件化/" style="font-size: 19px; color: #777">插件化</a> <a href="/tags/数据仓库/" style="font-size: 14px; color: #999">数据仓库</a> <a href="/tags/架构/" style="font-size: 16.5px; color: #888">架构</a> <a href="/tags/框架/" style="font-size: 21.5px; color: #666">框架</a> <a href="/tags/源码分析/" style="font-size: 22.75px; color: #5e5e5e">源码分析</a> <a href="/tags/热修复/" style="font-size: 14px; color: #999">热修复</a> <a href="/tags/组件化/" style="font-size: 16.5px; color: #888">组件化</a> <a href="/tags/自定义View/" style="font-size: 16.5px; color: #888">自定义View</a> <a href="/tags/进程保活/" style="font-size: 19px; color: #777">进程保活</a> <a href="/tags/音视频/" style="font-size: 14px; color: #999">音视频</a> <a href="/tags/页面框架/" style="font-size: 14px; color: #999">页面框架</a>
     </div>
   </section>
 
