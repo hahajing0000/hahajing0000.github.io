@@ -12,28 +12,28 @@ OkHttp的原理及源码分析（下）
 
 接下来我们来分析OkHttp的真正的网络请求是如何发送的？
 
-<img src="okhttpsource2/2020-03-21-21-41-55.png"/>
+<img src="https://i.loli.net/2021/01/05/yzOPBEg2utcid98.png"/>
 
 client.newCall(request) 的源码分析如下：
 
-<img src="okhttpsource2/2020-03-21-21-42-21.png"/>
+<img src="https://i.loli.net/2021/01/05/DoxYOKdVCj1fTwk.png"/>
 
 newCall实际是调用了RealCall.newRealCall 然后 把okhttpclient（this） 还有构建的get请求的Request对象  还有一个forWebSocket 传递进去。
 
-<img src="okhttpsource2/2020-03-21-21-42-45.png"/>
+<img src="https://i.loli.net/2021/01/05/vc7GzOoQDJHfk9a.png"/>
 
 我们发现newRealCall方法里面首创建了一个RealCall的实例，然后设置了一下eventListener。
 
 
-<img src="okhttpsource2/2020-03-21-21-43-06.png"/>
+<img src="https://i.loli.net/2021/01/05/5bx2wBCAnFWgjre.png"/>
 
 如果是RealCall的构造函数，其中很容易发现对入口参数传递过来的值给予RealCall对应属性。重试拦截器的创建就超时处理，超时是在timeout.timeout设置的，其实也就是通过我们OkHttpClient的Builder来进行设置的，如：
 
-<img src="okhttpsource2/2020-03-21-21-43-37.png"/>
+<img src="https://i.loli.net/2021/01/05/6G3KbLvAQDcdhwt.png"/>
 
 然后，如果超时就调用了timedOut方法，最后执行了cancel（）；方法，如下是cancel方法的源码
 
-<img src="okhttpsource2/2020-03-21-21-44-06.png"/>
+<img src="https://i.loli.net/2021/01/05/evOBDxtrlUcJWCu.png"/>
 
 其实就是调用了重试拦截器的cancel方法。
 如上就是client.newCall(request)代码的执行逻辑。
@@ -47,7 +47,7 @@ newCall实际是调用了RealCall.newRealCall 然后 把okhttpclient（this） �
 整个设计思路我们可以理解为使用了原型设计模式来进行的处理。
 
 接下来我们将分析enqueue方法，注意入口参数Callback
-<img src="okhttpsource2/2020-03-21-21-45-54.png"/>
+<img src="https://i.loli.net/2021/01/05/ZS3rgq5pi9Nvkex.png"/>
 实际是调用了RealCall的enqueue方法，源码如下：
 <img src="okhttpsource2/2020-03-21-21-46-21.png"/>
 判断是否当前任务已经在执行，直接就抛一个异常。
@@ -56,10 +56,11 @@ newCall实际是调用了RealCall.newRealCall 然后 把okhttpclient（this） �
 
 下面我们来看AsyncCall，源码如下：
 构造函数如下，很简单就是把外面的responseCallback进行复制给它的对应属性。
-<img src="okhttpsource2/2020-03-21-21-47-13.png"/>
+<img src="https://i.loli.net/2021/01/05/XVU4cWbmYM8ysGZ.png"/>
 下面来看一下AsyncCall它的继承关系。
 <img src="okhttpsource2/2020-03-21-21-47-34.png"/>
 我们发现继承了NamedRunnable，如下是NamedRunnable的源码：
+
 ```java
 //继承了Runnable接口 并且实现了Runnable的run方法
 public abstract class NamedRunnable implements Runnable {
@@ -84,10 +85,11 @@ public abstract class NamedRunnable implements Runnable {
 下面我们来继续分享 client.dispather().enqueue(...)方法。
 
 Dispather.java 类中enqueue方法如下：
-<img src="okhttpsource2/2020-03-21-21-50-07.png"/>
+<img src="https://i.loli.net/2021/01/05/QI7WzfDV2XjwsYN.png"/>
 首先将传递过来的call加入到readyAsyncCalls队列中，如下是readyAsyncCalls的初始化代码：
-<img src="okhttpsource2/2020-03-21-21-50-32.png"/>
+<img src="https://i.loli.net/2021/01/05/X8ezcJjK4VFAbnY.png"/>
 下面是promoteAndExecute代码的执行逻辑
+
 ```java
 private boolean promoteAndExecute() {
   assert (!Thread.holdsLock(this));

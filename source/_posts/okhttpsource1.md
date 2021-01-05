@@ -12,9 +12,8 @@ OkHttp的原理及源码分析（上）
 
 注：我们的OkHttp源码分析是在3.12.0版本
 
-
 如下是OkHttp的流程图（来源于网络）
-<img src="okhttpsource1/2020-03-21-21-35-41.png"/>
+<img src="https://i.loli.net/2021/01/05/VLtSkAqzrPKQYsG.png"/>
 
 
 如下是我们经常使用的OkHttp的使用场景或者方法，下面我们用一个简单Get请求连进一步分析Okhttp的原理以及源码。
@@ -172,34 +171,34 @@ public Request build() {
 }
 ```
 如下是对Post请求的一些代码跟踪
-<img src="okhttpsource1/2020-03-21-21-38-01.png"/>
+<img src="https://i.loli.net/2021/01/05/eh9OsoGQTVRqAXK.png"/>
 
 如下是requestBody的创建，同样这些核心的对象都是通过建造者模式创建的。
-<img src="okhttpsource1/2020-03-21-21-38-15.png"/>
+<img src="https://i.loli.net/2021/01/05/IA1WJy9xiQGhaMF.png"/>
 
 
 RequestBody有如下三个子类：
-<img src="okhttpsource1/2020-03-21-21-38-30.png"/>
+<img src="https://i.loli.net/2021/01/05/EcemzJwxn5bqBTj.png"/>
 FormBody一般就是表单提交方式的Post
 MultipartBody 一般文件上传/提交
 ...
 
 FormBody.Builder()的源码如下：
-<img src="okhttpsource1/2020-03-21-21-38-51.png"/>
+<img src="https://i.loli.net/2021/01/05/uex92EVDUoYTztr.png"/>
 大家能看到Builder（）内部调用了一个构造重载函数，入口参数设置了null 该入口参数是字段字符编码。
 
 接下来add方法，源码如下：
-<img src="okhttpsource1/2020-03-21-21-39-07.png"/>
+<img src="https://i.loli.net/2021/01/05/t7v3BQhFAongwxC.png"/>
 
 这里值得我们注意的是 names  values 是两个ArrayList数据结构（不像我们平时经常使用的Map）。
 
 如下是build（）的源码：
-<img src="okhttpsource1/2020-03-21-21-39-22.png"/>
+<img src="https://i.loli.net/2021/01/05/Pam2Z3GIwpxrtzd.png"/>
 我们发现创建了FormBody然后把上面的names values传递进去，然后给FormBody的对应属性赋值。
 如上就是FormBody的构建构成。
 
 接下来.post(requestBody)
-<img src="okhttpsource1/2020-03-21-21-39-40.png"/>
+<img src="https://i.loli.net/2021/01/05/pPUEs6LA3neyxOR.png"/>
 我们发现与GET请求调用了一样的方法 method（xx,xx）
 入口参数 method 传递的是“POST”
 第二个参数就是我们刚刚构建的FormBody实例
