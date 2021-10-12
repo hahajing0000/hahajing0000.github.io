@@ -171,14 +171,13 @@ public Request build() {
 }
 ```
 如下是对Post请求的一些代码跟踪
-<img src="https://i.loli.net/2021/01/05/eh9OsoGQTVRqAXK.png"/>
+<img src="https://i.loli.net/2021/01/05/qW3r6lMIo2NPah5.png"/>
 
 如下是requestBody的创建，同样这些核心的对象都是通过建造者模式创建的。
-<img src="https://i.loli.net/2021/01/05/IA1WJy9xiQGhaMF.png"/>
-
+<img src="https://i.loli.net/2021/01/05/f8taTuiLYHnVqOM.png"/>
 
 RequestBody有如下三个子类：
-<img src="https://i.loli.net/2021/01/05/EcemzJwxn5bqBTj.png"/>
+<img src="https://i.loli.net/2021/01/05/dxZIjcRvzXeKtSo.png"/>
 FormBody一般就是表单提交方式的Post
 MultipartBody 一般文件上传/提交
 ...

@@ -164,6 +164,7 @@ void executeOn(ExecutorService executorService) {
 为什么会走到下面的execute（）？
 原因是因为执行 executorService.execute(this);
 this=AsyncCall的实例，AsyncCall继承NamedRunnable，NamedRunnable的run方法里面执行了execute（）方法，这个方法是必须由子类来实现的一个方法，也就AsyncCall的execute方法。
+
 ```java
 @Override protected void execute() {
   boolean signalledCallback = false;
@@ -290,7 +291,7 @@ public Response proceed(Request request, StreamAllocation streamAllocation, Http
 这样设计的一个优点是，责任链中每个拦截器都会执行chain.proceed()方法之前的代码，等责任链最后一个拦截器执行完毕后会返回最终的响应数据。
 
 如上源码中我们发现具体的拦截器以及顺序如下：
-  自定义的拦截器
+自定义的拦截器
 RetryAndFollowUpInterceptor
 BridgeInterceptor
 CacheInterceptor
